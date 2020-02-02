@@ -1,0 +1,290 @@
+@font-face {
+	font-family: Regular;
+	src: url("../font/DISTInking-Regular.otf");
+}
+
+@font-face {
+	font-family: Simboli;
+	src: url("../font/Musha_Shugyo_Symbols.ttf");
+}
+
+@font-face {
+	font-family: Rodeo;
+	src: url("../font/RODEK___.TTF");
+}
+
+div {
+	position: relative;
+	float: left;
+	z-index: 1;
+}
+
+div#page {
+	float: none;
+	width: 378px;
+	height: 567px;
+	margin: auto;
+	background-image: url("../img/bg/image/Background_11.jpg");
+	background-size: 100% 100%;
+}
+
+div#nome {
+	width: 370px;
+	height: 45px;
+	padding: 35px 4px 0px 4px;
+}
+
+div#nome svg {
+	display: none;
+}
+
+div#nome input {
+	display: block;
+	width: 370px;
+	height: 30px;
+	color: #fe6307;
+	font-family: "Regular";
+	font-size: 20pt;
+	text-align: center;
+	border: none;
+	background: none;
+	/*background: -webkit-linear-gradient(#ffc81a 30%, #fe6307);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;*/
+}
+
+div#content {
+	width: 378px;
+	height: 487px;
+}
+
+div#content > img {
+	position: absolute;
+	right: 0;
+	height: 487px;
+	z-index: 0;
+}
+
+div#info {
+	width: 144px;
+	height: 387px;
+	padding: 50px 30px 50px 45px;
+	background-image: url("../img/Colonna.png");
+	background-size: 100% 100%;
+}
+
+div#stat {
+	width: 62px;
+	height: 41px;
+	padding-top: 9px;
+	padding-left: 18px;
+}
+
+div#stat div {
+	width: 60px;
+	height: 8px;
+	margin-bottom: 5px;
+}
+
+div#stat label input[type=checkbox] {
+	display: none;
+}
+
+div#stat label span {
+	display: block;
+	float: left;
+	width: 6px;
+	height: 6px;
+	margin: 0px 1px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+}
+
+div#stat label input:checked + span {
+	background: #000000;
+}
+
+div#exp {
+	width: 39px;
+	height: 41px;
+	padding: 9px 0px 0px 25px;
+	z-index: 8;
+}
+
+div#exp div#simboloSP {
+	width: 10px;
+	height: 10px;
+	overflow: hidden;
+}
+
+div#exp div#simboloSP img {
+	display: block;
+}
+
+/*div#exp img {
+	opacity: .5;
+	cursor: pointer;
+}
+
+div#exp img.selected {
+	width: 12px;
+	height: 12px;
+	vertical-align: middle;
+	opacity: 1;
+}
+
+div#exp img.unselected {
+	width: 3px;
+	height: 3px;
+}*/
+
+div#tecniche {
+	width: 144px;
+	height: 289px;
+	padding-top: 48px;
+}
+
+div#tecniche div.tecnica {
+	width: 144px;
+	height: 30px;
+}
+
+div#tecniche div.tecnica:first-of-type {
+	padding-bottom: 5px;
+	z-index: 7;
+}
+
+div#tecniche div.tecnica:nth-of-type(2) {
+	padding-bottom: 6px;
+	z-index: 6;
+}
+
+div#tecniche div.tecnica:nth-of-type(3) {
+	padding-bottom: 8px;
+	z-index: 5;
+}
+
+div#tecniche div.tecnica:nth-of-type(4) {
+	padding-bottom: 6px;
+	z-index: 4;
+}
+
+div#tecniche div.tecnica:nth-of-type(5) {
+	z-index: 3;
+}
+
+div#tecniche div.tecnica:nth-of-type(7) {
+	padding-bottom: 6px;
+	z-index: 2;
+}
+
+div#tecniche div.tecnica input.nome {
+	display: block;
+	width: 144px;
+	height: 14px;
+	font-family: "Regular";
+	font-size: 8pt;
+	background: none;
+	border: none;
+}
+
+div#tecniche div.tecnica input.pa {
+	display: block;
+	float: left;
+	height: 14px;
+	font-family: "Rodeo";
+	font-size: 8pt;
+	background: none;
+	border: none;
+}
+
+div#tecniche div.tecnica input.bonus {
+	display: block;
+	float: left;
+	height: 14px;
+	color: #ff0000;
+	font-family: "Rodeo";
+	font-size: 8pt;
+	background: none;
+	border: none;
+}
+
+div#tecniche div.tecnica div {
+	display: none;
+	width: 10px;
+	height: 10px;
+	padding-top: 4px;
+	color: #ff0000;
+	font-family: "Simboli";
+	font-size: 10pt;
+	text-align: center;
+	overflow: hidden;
+}
+
+div#tecniche div.tecnica div:first-of-type {
+	display: block;
+}
+
+div#tecniche div.tecnica div span:first-of-type {
+	background: none;
+}
+
+div#tecniche div.tecnica div span {
+	display: block;
+	width: 10px;
+	height: 10px;
+	background: rgba(0,0,0,0.5);
+	cursor: pointer;
+}
+
+div#tecniche div.spacer {
+	width: 144px;
+	height: 43px;
+}
+
+div#background {
+	width: 159px;
+	height: 487px;
+}
+
+div#background div#bgImage {
+	width: 139px;
+	height: 30px;
+	padding-top: 457px;
+}
+
+div#background div#bgImage input {
+	font-size: 5pt;
+}
+
+div#background div#bgColor {
+	width: 20px;
+	height: 237px;
+	padding-top: 250px;
+}
+
+div#background div#bgColor img {
+	cursor: pointer;
+}
+
+@media print {
+	/*div#nome svg {
+		display: block;
+	}
+
+	div#nome input {
+		display: none;
+	}*/
+
+	div#background {
+		visibility: hidden;
+	}
+
+	div#exp img.unselected {
+		display: none;
+	}
+
+	input.empty {
+		visibility: hidden;
+	}
+}

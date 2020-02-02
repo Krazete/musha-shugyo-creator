@@ -1,0 +1,139 @@
+@font-face {
+	font-family: Regular;
+	src: url("../font/DISTInking-Regular.otf");
+}
+
+@font-face {
+	font-family: Rodeo;
+	src: url("../font/RODEK___.TTF");
+}
+
+div {
+	position: relative;
+	float: left;
+}
+
+div#page {
+	float: none;
+	margin: auto;
+	background-image: url("../img/bg/large/Background_01.jpg");
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+div#bkgImage {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-size: auto 50%;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+div#pgImage {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-size: auto 50%;
+	background-repeat: no-repeat;
+	background-position: right bottom;
+}
+
+div#pgImage.armor {
+	background-position: left bottom;
+}
+
+div#nome {
+	background-image: url("../img/Nome.png");
+	background-size: 100%;
+	background-origin: content-box;
+	background-clip: content-box;
+}
+
+div#nome canvas {
+	font-family: "Regular";
+}
+
+div#info {
+	background-image: url("../img/Colonna.png");
+	background-size: 100% 100%;
+}
+
+div#info.armor {
+	background-image: url("../img/Armor.png");
+}
+
+div#info.agon {
+	background-image: url("../img/Agon.png");
+}
+
+div#info input[type=text] {
+	display: block;
+	background: none;
+	border: none;
+}
+
+div#type input {
+	color: #ff0000;
+	font-family: "Regular";
+}
+
+div#stat label span {
+	display: block;
+	float: left;
+}
+
+div#stat label input:checked + span {
+	background: #000000;
+}
+
+div#exp div#simboloSP {
+	overflow: hidden;
+}
+
+div#exp div#simboloSP span {
+	display: block;
+}
+
+div#armorstat label span {
+	display: block;
+	float: left;
+}
+
+div#armorstat label input:checked + span {
+	background: #000000;
+}
+
+div#tecniche div.tecnica input.nome {
+	font-family: "Regular";
+}
+
+div#tecniche div.tecnica input.pa {
+	float: left;
+	font-family: "Rodeo";
+}
+
+div#tecniche div.tecnica input.bonus {
+	float: left;
+	color: #ff0000;
+	font-family: "Rodeo";
+}
+
+div#tecniche div.tecnica div {
+	display: none;
+	text-align: center;
+	overflow: hidden;
+}
+
+div#tecniche div.tecnica div:first-of-type {
+	display: block;
+}
+
+div#tecniche div.tecnica div span:first-of-type {
+	background: none;
+}
+
+div#tecniche div.tecnica div span {
+	display: block;
+}

@@ -1,0 +1,237 @@
+.sys { display: none; }
+
+div#page {
+	float: left;
+	width: 378px;
+	height: 567px;
+}
+
+div#nome {
+	width: 370px;
+	height: 60px;
+	padding: 20px 4px 0px 4px;
+}
+
+div#nome canvas {
+	width: 378px;
+	height: 60px;
+	margin-top: 15px;
+}
+
+div#content {
+	width: 378px;
+	height: 487px;
+}
+
+div#info {
+	width: 144px;
+	height: 387px;
+	padding: 50px 30px 50px 45px;
+}
+
+div#info.armor {
+	float: right;
+	height: 402px;
+	padding: 35px 30px 50px 45px;
+}
+
+div#info.agon {
+	height: 402px;
+	padding: 35px 30px 50px 45px;
+}
+
+div#type {
+	width: 74px;
+	height: 14px;
+	padding: 5px 0px 5px 70px;
+}
+
+div#stat {
+	width: 62px;
+	height: 41px;
+	padding-top: 9px;
+	padding-left: 18px;
+}
+
+div.armor div#stat {
+	width: 60px;
+	height: 41px;
+	padding-top: 14px;
+	padding-left: 20px;
+}
+
+div.agon div#stat {
+	width: 62px;
+	height: 62px;
+	padding-top: 12px;
+	padding-left: 13px;
+}
+
+div#stat div {
+	width: 60px;
+	height: 8px;
+	margin-bottom: 5px;
+}
+
+div.agon div#stat div {
+	margin-bottom: 5px;
+}
+
+div#stat label span {
+	width: 6px;
+	height: 6px;
+	margin: 0px 1px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+}
+
+div#exp {
+	width: 39px;
+	height: 41px;
+	padding: 9px 0px 0px 25px;
+}
+
+div.agon div#exp {
+	width: 10px;
+	height: 10px;
+	padding: 11px 0px 0px 32px;
+}
+
+div#exp div#simboloSP {
+	width: 10px;
+	height: 10px !important;
+}
+
+div#exp div#simboloSP span {
+	width: 10px;
+	height: 10px;
+}
+
+div#exp div#simboloSP img {
+	display: block;
+	width: 10px;
+	height: 10px;
+}
+
+div#armorstat {
+	width: 74px;
+	height: 26px;
+	padding: 16px 0px 0px 60px;
+}
+
+div#armorstat div {
+	width: 74px;
+	height: 8px;
+	margin-bottom: 5px;
+}
+
+div#armorstat label span {
+	width: 6px;
+	height: 6px;
+	margin: 0px 1px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+}
+
+div#tecniche {
+	width: 144px;
+	height: 289px;
+	padding-top: 48px;
+}
+
+div.armor div#tecniche {
+	height: 224px;
+	padding-top: 41px;
+}
+
+div#tecniche div.tecnica {
+	width: 144px;
+	height: 30px;
+}
+
+div#tecniche div.tecnica:first-of-type {
+	padding-bottom: 5px;
+}
+
+div.armor div#tecniche div.tecnica:first-of-type {
+	padding-bottom: 7px;
+}
+
+div#tecniche div.tecnica:nth-of-type(2) {
+	padding-bottom: 6px;
+}
+
+div.armor div#tecniche div.tecnica:nth-of-type(2) {
+	padding-bottom: 9px;
+}
+
+div#tecniche div.tecnica:nth-of-type(3) {
+	padding-bottom: 8px;
+}
+
+div.armor div#tecniche div.tecnica:nth-of-type(3) {
+	padding-bottom: 7px;
+}
+
+div#tecniche div.tecnica:nth-of-type(4) {
+	padding-bottom: 6px;
+}
+
+div.armor div#tecniche div.tecnica:nth-of-type(4) {
+	padding-bottom: 7px;
+}
+
+div.armor div#tecniche div.tecnica:nth-of-type(5) {
+	padding-bottom: 8px;
+}
+
+div#tecniche div.tecnica:nth-of-type(7) {
+	padding-bottom: 6px;
+}
+
+div#tecniche div.tecnica input.nome {
+	width: 144px;
+	height: 14px;
+	font-size: 8pt;
+}
+
+div#tecniche div.tecnica input.pa {
+	height: 14px;
+	font-size: 8pt;
+}
+
+div#tecniche div.tecnica input.bonus {
+	height: 14px;
+	font-size: 8pt;
+}
+
+div#tecniche div.tecnica div {
+	width: 10px;
+	height: 10px !important;
+	padding-top: 4px;
+}
+
+div#tecniche div.tecnica div span {
+	width: 10px;
+	height: 10px;
+}
+
+div#tecniche div.tecnica div span img {
+	display: block;
+	width: 10px;
+	height: 10px;
+}
+
+div#tecniche div.spacer {
+	width: 144px;
+	height: 43px;
+}
+
+div.agon div#tecniche div.spacer {
+	width: 144px;
+	height: 47px;
+}
+
+input.empty {
+	visibility: hidden;
+}
