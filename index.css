@@ -1,0 +1,88 @@
+@font-face {
+	font-family: Regular;
+	src: url("../font/DISTInking-Regular.otf");
+}
+
+@font-face {
+	font-family: Rodeo;
+	src: url("../font/RODEK___.TTF");
+}
+
+#card {
+    position: relative;
+    width: 756px;
+	height: 1134px;
+    margin: auto;
+}
+
+#bkgImage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#nomeImage {
+    position: absolute;
+    left: 1%;
+    top: 4%;
+    width: 98%;
+}
+
+#nome {
+    position: absolute;
+    top: 6%;
+    width: 100%;
+    background: none;
+    color: white;
+    font-family: Regular;
+    font-size: 50px;
+    text-align: center;
+    display: block;
+    padding: 0;
+    border: none;
+    outline: none;
+    margin: auto;
+}
+#nome:hover::placeholder {
+    color: darkcyan;
+}
+#nome:hover {
+    color: cyan;
+}
+
+#info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 86%;
+    background-image: url(img/Colonna.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#info.colonna {
+
+}
+
+#stat {
+    position: relative;
+    top: 12%;
+    left: 17%;
+}
+
+#stat div {
+    margin-bottom: 1%;
+}
+
+#stat input {
+    display: none;
+}
+
+#stat label {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border: 2px solid black;
+    border-radius: 50%;
+}
