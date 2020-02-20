@@ -8,34 +8,43 @@
 	src: url("../font/RODEK___.TTF");
 }
 
+#card-render {
+	display: none;
+}
+
 #card {
+	font-size: 56px;
     position: relative;
     width: 756px;
 	height: 1134px;
     margin: auto;
 }
 
-#bkgImage {
+#bg {
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-#nomeImage {
+#nome-bg {
     position: absolute;
     left: 1%;
-    top: 4%;
+    top: 3.5%;
     width: 98%;
+}
+
+#nome-render {
+	position: absolute;
 }
 
 #nome {
     position: absolute;
-    top: 6%;
+    top: 5.8%;
     width: 100%;
     background: none;
     color: white;
     font-family: Regular;
-    font-size: 50px;
+    font-size: 100%;
     text-align: center;
     display: block;
     padding: 0;
@@ -49,28 +58,33 @@
 #nome:hover {
     color: cyan;
 }
+#nome:focus {
+	color: white;
+}
 
 #info {
     position: absolute;
-    bottom: 0;
-    width: 100%;
     height: 86%;
-    background-image: url(img/Colonna.png);
-    background-size: contain;
-    background-repeat: no-repeat;
+	bottom: 0;
 }
-
 #info.colonna {
-
+}
+#info.agon {
+	width: 58%;
+}
+#info.armor {
+	width: 58%;
+	right: 0;
 }
 
 #stat {
     position: relative;
-    top: 12%;
+    top: 24.4%;
     left: 17%;
 }
 
 #stat div {
+	clear: left;
     margin-bottom: 1%;
 }
 
@@ -79,10 +93,28 @@
 }
 
 #stat label {
+	float: left;
     position: relative;
-    width: 12px;
-    height: 12px;
-    display: inline-block;
+    width: 2.2%;
+    display: block;
+	box-sizing: border-box;
     border: 2px solid black;
     border-radius: 50%;
+	margin: 0 0.4% 1.4% 0;
+	cursor: pointer;
+}
+#stat label:after {
+	content: '';
+	display: block;
+	padding-bottom: 100%;
+}
+#stat label.hover {
+	background: black;
+}
+
+#sp {
+	background: black;
+	position: absolute;
+	width: 10%;
+	height: 10%;
 }

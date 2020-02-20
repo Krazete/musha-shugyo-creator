@@ -6,23 +6,26 @@
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
+    <canvas id="card-render"></canvas>
     <div id="card">
-        <img id="bkgImage" src="img/bg/large/Background_01.jpg">
-        <img id="nomeImage" src="img/Nome.png">
+        <img id="bg" src="img/bg/large/Background_01.jpg">
+        <img id="nome-bg" src="img/Nome.png">
+        <img id="nome-render">
         <input id="nome" type="text" placeholder="Modifica nome PG">
-        <div id="info" class="colonna">
-            <div id="stat">
+        <img id="info" class="colonna" src="img/Colonna.png">
+        <div id="stat">
 <?php foreach (array("ra", "at", "de", "vo", "eq") as $id) { ?>
-                <div id="<?php echo $id ?>">
+            <div id="<?php echo $id; ?>">
 <?php for ($i = 0; $i < 6; $i++) { ?>
-                    <label><input type="radio" name="ra"></label>
-<?php } ?>
-                </div>
+                <label><input type="radio" name="<?php echo $id; ?>"></label>
 <?php } ?>
             </div>
+<?php } ?>
         </div>
-        <input type="text">
+        <div id="sp"></div>
     </div>
-    <input id="scale" type="range" min="10" max="100" step="1" value="50">
+<?php for ($i = 0; $i < 6000; $i++) { ?>
+    @
+<?php } ?>
 </body>
 </html>
