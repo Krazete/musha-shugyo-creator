@@ -68,13 +68,27 @@ function renderCard() {
 
     canvas.width = 756;
     canvas.height = 1134;
-    
+
+    context.putImage
+}
+
+function onCardTypeOptionsClick(e) {
+    if (e.target.tagName == "INPUT") {
+        card.className = e.target.value;
+    }
+}
+
+function initCardTypeInput() {
+    var cardTypeOptions = document.getElementById("card-type-options");
+    cardTypeOptions.addEventListener("click", onCardTypeOptionsClick, true);
+    cardTypeOptions.children[0].click();
 }
 
 function init() {
     cardRender = document.getElementById("card-render");
     card = document.getElementById("card");
     stat = document.getElementById("stat");
+    initCardTypeInput();
     initStat();
 }
 

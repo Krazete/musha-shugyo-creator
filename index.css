@@ -1,11 +1,35 @@
 @font-face {
-	font-family: Regular;
-	src: url("../font/DISTInking-Regular.otf");
+	font-family: 'Regular';
+	src: url('../font/DISTInking-Regular.otf');
 }
 
 @font-face {
-	font-family: Rodeo;
-	src: url("../font/RODEK___.TTF");
+	font-family: 'Rodeo';
+	src: url('../font/RODEK___.TTF');
+}
+
+body {
+	background: #444;
+}
+
+#card-type-options {
+	float: left;
+}
+
+#x label {
+	position: relative;
+	display: block;
+	border: 1px solid white;
+	border-radius: 50%;
+	float: left;
+	margin: 1px;
+	padding: 7px;
+}
+#x div:hover > label {
+	background: gray;
+}
+#x div.lol > label {
+	background: gray;
 }
 
 #card-render {
@@ -43,7 +67,7 @@
     width: 100%;
     background: none;
     color: white;
-    font-family: Regular;
+    font-family: 'Regular';
     font-size: 100%;
     text-align: center;
     display: block;
@@ -62,53 +86,101 @@
 	color: white;
 }
 
+#infobox {
+    position: absolute;
+	width: 438px;
+	height: 974px;
+	bottom: 0;
+	background-size: 100% 100%;
+}
+.char #infobox {
+	background-image: url('img/Colonna.png');
+	left: 0;
+}
+.armor #infobox {
+	background-image: url('img/Armor.png');
+	right: 0;
+}
+.agon #infobox {
+	background-image: url('img/Agon.png');
+	left: 0;
+}
+
 #info {
     position: absolute;
-    height: 86%;
-	bottom: 0;
+	width: 100%;
+	height: 100%;
 }
-#info.colonna {
+
+input[type='text'] {
+	font-family: 'Regular';
+	font-size: 20px;
 }
-#info.agon {
-	width: 58%;
-}
-#info.armor {
-	width: 58%;
-	right: 0;
+
+#type {
+	position: absolute;
+	width: 220px; /* todo */
+	left: 154px; /* todo */
+	top: 86px; /* todo */
+	background: none;
+	padding: 0;
+	border: none;
+	outline: none;
 }
 
 #stat {
-    position: relative;
-    top: 24.4%;
-    left: 17%;
+    position: absolute;
+}
+.char #stat {
+	left: 128px;
+	top: 118px;
+}
+.armor #stat {
+	left: 132px;
+	top: 146px;
+}
+.agon #stat {
+	left: 118px;
+	top: 94px;
 }
 
-#stat div {
-	clear: left;
-    margin-bottom: 1%;
+.char #type,
+.char #stat div:nth-last-child(2),
+.char #stat div:last-child,
+.char #stat2,
+.armor #stat div:nth-last-child(2),
+.armor #stat div:last-child,
+.agon #stat2 {
+	display: none;
 }
 
-#stat input {
+#stat2 {
+	position: absolute;
+	left: 212px;
+	top: 260px;
+}
+
+#card input[type='radio'] {
     display: none;
 }
 
-#stat label {
+#card label {
 	float: left;
     position: relative;
-    width: 2.2%;
+    width: 16px;
     display: block;
 	box-sizing: border-box;
     border: 2px solid black;
     border-radius: 50%;
-	margin: 0 0.4% 1.4% 0;
+	margin: 0 4px 11px 0;
 	cursor: pointer;
 }
-#stat label:after {
+#card label:after {
 	content: '';
 	display: block;
 	padding-bottom: 100%;
 }
-#stat label.hover {
+#card label.hover {
 	background: black;
 }
 

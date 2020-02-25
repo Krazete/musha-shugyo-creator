@@ -6,26 +6,47 @@
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
+    <div id="card-type-options">
+        <label><input type="radio" name="type" value="char">Character</label>
+        <label><input type="radio" name="type" value="armor">Armor</label>
+        <label><input type="radio" name="type" value="agon">Agon</label>
+        <p>lol</p>
+    </div>
     <canvas id="card-render"></canvas>
     <div id="card">
         <img id="bg" src="img/bg/large/Background_01.jpg">
         <img id="nome-bg" src="img/Nome.png">
         <img id="nome-render">
         <input id="nome" type="text" placeholder="Modifica nome PG">
-        <img id="info" class="colonna" src="img/Colonna.png">
-        <div id="stat">
+        <div id="infobox" class="colonna">
+            <!-- <img id="info" src="img/Colonna.png"> -->
+            <input id="type" type="text" placeholder="Type">
+            <div id="stat">
 <?php foreach (array("ra", "at", "de", "vo", "eq") as $id) { ?>
-            <div id="<?php echo $id; ?>">
+                <div id="<?php echo $id; ?>">
 <?php for ($i = 0; $i < 6; $i++) { ?>
-                <label><input type="radio" name="<?php echo $id; ?>"></label>
+                    <label><input type="radio" name="<?php echo $id; ?>"></label>
+<?php } ?>
+                </div>
 <?php } ?>
             </div>
+            <div id="stat2">
+<?php foreach (array("structure", "damage") as $id) { ?>
+                <div id="<?php echo $id; ?>">
+<?php for ($i = 0; $i < 7; $i++) { ?>
+                    <label><input type="radio" name="<?php echo $id; ?>"></label>
 <?php } ?>
+                </div>
+<?php } ?>
+            </div>
+            <div id="sp">
+<?php for ($i = 0; $i < 7; $i++) { ?>
+                <div class="nome"></div>
+                <div class="pa"></div>
+                <div class="bonus"></div>
+<?php } ?>
+            </div>
         </div>
-        <div id="sp"></div>
     </div>
-<?php for ($i = 0; $i < 6000; $i++) { ?>
-    @
-<?php } ?>
 </body>
 </html>
