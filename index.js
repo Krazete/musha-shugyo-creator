@@ -41,25 +41,27 @@ function changeName(name) {
 }
 
 function statHover(e) {
-    for (var i = 0; i < 1e3; i++) {
-        if (e.target.tagName == "LABEL") {
-            break;
-        }
-        else {
-            statHover({"target": e.target.parentElement});
-            return;
+    if (e.target.tagName == "LABEL") {
+        for (var child of e.target.parentElement.children) {
+            child.classList.add("hover");
+            if (child == e.target) {
+                break;
+            }
         }
     }
-    for (var child of e.target.parentElement.children) {
-        child.classList.add("hover");
-        if (child == e.target) {
-            break;
+}
+
+function statHoverNo(e) {
+    if (e.target.tagName == "LABEL") {
+        for (var child of e.target.parentElement.children) {
+            child.classList.remove("hover");
         }
     }
 }
 
 function initStat() {
     stat.addEventListener("mouseover", statHover);
+    stat.addEventListener("mouseout", statHoverNo);
 }
 
 function renderCard() {

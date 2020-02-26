@@ -86,6 +86,8 @@ body {
 	color: white;
 }
 
+/* Infobox */
+
 #infobox {
     position: absolute;
 	width: 438px;
@@ -106,27 +108,27 @@ body {
 	left: 0;
 }
 
-#info {
-    position: absolute;
-	width: 100%;
-	height: 100%;
-}
-
 input[type='text'] {
+	width: 288px;
+	background: none;
+	/* background: linear-gradient(to top left, transparent, teal); */
 	font-family: 'Regular';
 	font-size: 20px;
-}
-
-#type {
-	position: absolute;
-	width: 220px; /* todo */
-	left: 154px; /* todo */
-	top: 86px; /* todo */
-	background: none;
 	padding: 0;
 	border: none;
 	outline: none;
 }
+
+/* Type (Armor) */
+
+#type {
+	position: absolute;
+	width: 224px;
+	left: 154px;
+	top: 86px;
+}
+
+/* Stats (Radio Buttons) */
 
 #stat {
     position: absolute;
@@ -150,6 +152,7 @@ input[type='text'] {
 .char #stat2,
 .armor #stat div:nth-last-child(2),
 .armor #stat div:last-child,
+.agon #type,
 .agon #stat2 {
 	display: none;
 }
@@ -159,6 +162,43 @@ input[type='text'] {
 	left: 212px;
 	top: 260px;
 }
+
+/* Moves/Abilities */
+
+#moves {
+	position: absolute;
+	left: 90px;
+}
+.char #moves {
+	top: 290px;
+}
+.armor #moves {
+	top: 386px;
+}
+.agon #moves {
+	top: 310px;
+}
+
+#moves div {
+	background: linear-gradient(to top left, pink, transparent);
+	width: 288px;
+}
+.char #moves div {
+	height: 72px;
+}
+.armor #moves div {
+	height: 75px;
+}
+.agon #moves div {
+	height: 74px;
+}
+.char #moves div:nth-child(6),
+.armor #moves div:last-child,
+.agon #moves div:nth-child(6) {
+	visibility: hidden;
+}
+
+/* * */
 
 #card input[type='radio'] {
     display: none;
