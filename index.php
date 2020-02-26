@@ -42,7 +42,7 @@
             <div id="moves">
 <?php for ($i = 0; $i < 8; $i++) { ?>
                 <div id="move-<?php echo $i; ?>">
-                    <input class="nome" type="text" placeholder="Nome technica">
+                    <input class="nome" type="text" placeholder="Nome tecnica">
                     <input class="pa" type="text" placeholder="PA">
                     <input class="bonus" type="text" placeholder="Bonus">
                 </div>

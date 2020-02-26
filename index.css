@@ -109,11 +109,9 @@ body {
 }
 
 input[type='text'] {
-	width: 288px;
+	float: left;
 	background: none;
-	/* background: linear-gradient(to top left, transparent, teal); */
-	font-family: 'Regular';
-	font-size: 20px;
+	font-size: 22px;
 	padding: 0;
 	border: none;
 	outline: none;
@@ -122,10 +120,11 @@ input[type='text'] {
 /* Type (Armor) */
 
 #type {
+	font-family: 'Regular';
 	position: absolute;
 	width: 224px;
 	left: 154px;
-	top: 86px;
+	top: 85px;
 }
 
 /* Stats (Radio Buttons) */
@@ -179,23 +178,41 @@ input[type='text'] {
 	top: 310px;
 }
 
-#moves div {
-	background: linear-gradient(to top left, pink, transparent);
+#moves > div {
+	width: 288px;
+	margin-top: 8px;
+}
+.char #moves > div {
+	height: 64px;
+}
+.armor #moves > div {
+	height: 67px;
+}
+.agon #moves > div {
+	height: 66px;
+}
+.char #moves > div:nth-child(6),
+.armor #moves > div:last-child,
+.agon #moves > div:nth-child(6) {
+	visibility: hidden;
+}
+
+.nome {
+	font-family: 'Regular';
 	width: 288px;
 }
-.char #moves div {
-	height: 72px;
+
+.pa {
+	width: 52px;
+	font-family: 'Rodeo';
 }
-.armor #moves div {
-	height: 75px;
+
+.pa:after {
+	content: 'PA';
 }
-.agon #moves div {
-	height: 74px;
-}
-.char #moves div:nth-child(6),
-.armor #moves div:last-child,
-.agon #moves div:nth-child(6) {
-	visibility: hidden;
+
+.bonus {
+	font-family: 'Rodeo';
 }
 
 /* * */
