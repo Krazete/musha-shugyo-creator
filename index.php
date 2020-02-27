@@ -30,8 +30,8 @@
                 </div>
 <?php } ?>
             </div>
-            <div id="stat2">
-<?php foreach (array("structure", "damage") as $id) { ?>
+            <div id="armorstat">
+<?php foreach (array("st", "da") as $id) { ?>
                 <div id="<?php echo $id; ?>">
 <?php for ($i = 0; $i < 7; $i++) { ?>
                     <label><input type="radio" name="<?php echo $id; ?>"></label>

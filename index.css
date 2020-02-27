@@ -133,33 +133,33 @@ input[type='text'] {
     position: absolute;
 }
 .char #stat {
-	left: 128px;
-	top: 118px;
+	left: 126px;
+	top: 113px;
 }
 .armor #stat {
-	left: 132px;
-	top: 146px;
+	left: 130px;
+	top: 141px;
 }
 .agon #stat {
-	left: 118px;
-	top: 94px;
+	left: 116px;
+	top: 89px;
 }
 
 .char #type,
 .char #stat div:nth-last-child(2),
 .char #stat div:last-child,
-.char #stat2,
+.char #armorstat,
 .armor #stat div:nth-last-child(2),
 .armor #stat div:last-child,
 .agon #type,
-.agon #stat2 {
+.agon #armorstat {
 	display: none;
 }
 
-#stat2 {
+#armorstat {
 	position: absolute;
-	left: 212px;
-	top: 260px;
+	left: 210px;
+	top: 255px;
 }
 
 /* Moves/Abilities */
@@ -224,21 +224,30 @@ input[type='text'] {
 #card label {
 	float: left;
     position: relative;
-    width: 16px;
     display: block;
-	box-sizing: border-box;
-    border: 2px solid black;
-    border-radius: 50%;
-	margin: 0 4px 11px 0;
+	padding: 5px 2px 6px 2px;
 	cursor: pointer;
 }
 #card label:after {
 	content: '';
 	display: block;
-	padding-bottom: 100%;
+	width: 16px;
+	height: 16px;
+	box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 50%;
 }
-#card label.hover {
+#card label.over:after {
+	box-shadow: inset 0 0 6px black;
+}
+#card label.click:after {
 	background: black;
+}
+#card label.click.over:after {
+	background: grey;
+}
+#card .arr label.over:after {
+	box-shadow: inset 0 0 6px white;
 }
 
 #sp {

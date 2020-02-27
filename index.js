@@ -1,4 +1,4 @@
-var card, scale;
+var card;
 
 var size = {
     "pageHeight": 1134,
@@ -40,30 +40,6 @@ function changeName(name) {
 	context.fillText(name, 748, 100);
 }
 
-function statHover(e) {
-    if (e.target.tagName == "LABEL") {
-        for (var child of e.target.parentElement.children) {
-            child.classList.add("hover");
-            if (child == e.target) {
-                break;
-            }
-        }
-    }
-}
-
-function statHoverNo(e) {
-    if (e.target.tagName == "LABEL") {
-        for (var child of e.target.parentElement.children) {
-            child.classList.remove("hover");
-        }
-    }
-}
-
-function initStat() {
-    stat.addEventListener("mouseover", statHover);
-    stat.addEventListener("mouseout", statHoverNo);
-}
-
 function renderCard() {
     var canvas = document.getElementById("card-render");
     var context = canvas.getContext("2d");
@@ -86,12 +62,81 @@ function initCardTypeInput() {
     cardTypeOptions.children[0].click();
 }
 
+/* Stat (Radio Buttons) */
+
+var stats = {
+    "ra": 0,
+    "at": 0,
+    "de": 0,
+    "vo": 0,
+    "eq": 0,
+    "st": 0,
+    "da": 0
+}
+
+function onStatOver(e) {
+    if (e.target.tagName == "LABEL") {
+        if (e.target.classList.contains("selected")) {
+            e.target.parentElement.classList.add("arr");
+        }
+        for (var child of e.target.parentElement.children) {
+            child.classList.add("over");
+            if (child == e.target) {
+                break;
+            }
+        }
+    }
+}
+
+function onStatOut(e) {
+    if (e.target.tagName == "LABEL") {
+        e.target.parentElement.classList.remove("arr");
+        for (var child of e.target.parentElement.children) {
+            child.classList.remove("over");
+            if (child == e.target) {
+                break;
+            }
+        }
+    }
+}
+
+function onStatClick(e) {
+    if (e.target.tagName == "LABEL") {
+        var fill = !e.target.classList.contains("selected");
+        for (var child of e.target.parentElement.children) {
+            if (fill) {
+                child.classList.add("click");
+            }
+            else {
+                child.classList.remove("click");
+            }
+            child.classList.remove("selected");
+            if (child == e.target) {
+                if (fill) {
+                    child.classList.add("selected");
+                }
+                fill = false;
+            }
+        }
+    }
+    onStatOut(e);
+    onStatOver(e);
+}
+
+function initStat(stat) {
+    stat.addEventListener("mouseover", onStatOver);
+    stat.addEventListener("mouseout", onStatOut);
+    stat.addEventListener("click", onStatClick);
+}
+
 function init() {
     cardRender = document.getElementById("card-render");
     card = document.getElementById("card");
-    stat = document.getElementById("stat");
+    var stat = document.getElementById("stat");
+    var armorstat = document.getElementById("stat");
     initCardTypeInput();
-    initStat();
+    initStat(stat);
+    initStat(armorstat);
 }
 
 window.addEventListener("load", init);
