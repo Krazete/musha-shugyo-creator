@@ -76,9 +76,6 @@ var stats = {
 
 function onStatOver(e) {
     if (e.target.tagName == "LABEL") {
-        if (e.target.classList.contains("selected")) {
-            e.target.parentElement.classList.add("arr");
-        }
         for (var child of e.target.parentElement.children) {
             child.classList.add("over");
             if (child == e.target) {
@@ -90,7 +87,6 @@ function onStatOver(e) {
 
 function onStatOut(e) {
     if (e.target.tagName == "LABEL") {
-        e.target.parentElement.classList.remove("arr");
         for (var child of e.target.parentElement.children) {
             child.classList.remove("over");
             if (child == e.target) {
@@ -119,8 +115,6 @@ function onStatClick(e) {
             }
         }
     }
-    onStatOut(e);
-    onStatOver(e);
 }
 
 function initStat(stat) {
@@ -133,7 +127,7 @@ function init() {
     cardRender = document.getElementById("card-render");
     card = document.getElementById("card");
     var stat = document.getElementById("stat");
-    var armorstat = document.getElementById("stat");
+    var armorstat = document.getElementById("armorstat");
     initCardTypeInput();
     initStat(stat);
     initStat(armorstat);
