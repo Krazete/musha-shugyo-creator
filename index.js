@@ -35,7 +35,7 @@ function getImageDataFromImage(image, w, h) {
 }
 
 function changeName(name) {
-	canvas = document.getElementById("nome").getElementsByTagName("canvas")[0];
+	canvas = document.getElementById("name").getElementsByTagName("canvas")[0];
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.fillText(name, 748, 100);
 }
@@ -60,6 +60,29 @@ function initCardTypeInput() {
     var cardTypeOptions = document.getElementById("card-type-options");
     cardTypeOptions.addEventListener("click", onCardTypeOptionsClick, true);
     cardTypeOptions.children[0].click();
+}
+
+/* Moniker */
+
+function onMonikerInput(e) {
+    var topp = document.getElementById("moniker-color-top");
+    var bott = document.getElementById("moniker-color-bottom");
+
+    var gradient = monikerContext.createLinearGradient(0, 0, 0, monikerContext.canvas.height);
+    gradient.addColorStop(0, "#" + topp.value);
+    gradient.addColorStop(1, "#" + bott.value);
+
+    monikerContext.clearRect(0, 0, monikerContext.canvas.width, monikerContext.canvas.height);
+    monikerContext.textAlign = "center";
+    monikerContext.textBaseline = "middle";
+    monikerContext.font = "56px Regular";
+    monikerContext.fillStyle = gradient;
+    monikerContext.fillText(e.target.value, monikerContext.canvas.width/2, monikerContext.canvas.height/2);
+}
+
+function initMoniker() {
+    var moniker = document.getElementById("moniker");
+    moniker.addEventListener("input", onMonikerInput);
 }
 
 /* Stat (Radio Buttons) */
@@ -124,11 +147,23 @@ function initStat(stat) {
 }
 
 function init() {
-    cardRender = document.getElementById("card-render");
     card = document.getElementById("card");
+    moniker = document.getElementById("moniker");
+    var cardBox = card.getBoundingClientRect();
+    var monikerBox = moniker.getBoundingClientRect();
+    var cardCanvas = document.getElementById("card-canvas");
+    var monikerCanvas = document.getElementById("moniker-canvas");
+    cardCanvas.width = cardBox.width;
+    cardCanvas.height = cardBox.height;
+    monikerCanvas.width = monikerBox.width;
+    monikerCanvas.height = monikerBox.height;
+    cardContext = cardCanvas.getContext("2d");
+    monikerContext = monikerCanvas.getContext("2d");
+
     var stat = document.getElementById("stat");
     var armorstat = document.getElementById("armorstat");
     initCardTypeInput();
+    initMoniker();
     initStat(stat);
     initStat(armorstat);
 }

@@ -32,7 +32,7 @@ body {
 	background: gray;
 }
 
-#card-render {
+#card-canvas {
 	display: none;
 }
 
@@ -50,23 +50,25 @@ body {
     height: 100%;
 }
 
-#nome-bg {
+#moniker-bg {
     position: absolute;
-    left: 1%;
-    top: 3.5%;
-    width: 98%;
+    left: 8px;
+    top: 40px;
+    width: 740px;
 }
 
-#nome-render {
+#moniker-canvas {
 	position: absolute;
+	top: 65px;
+	pointer-events: none;
 }
 
-#nome {
+#moniker {
     position: absolute;
-    top: 5.8%;
+    top: 65px;
     width: 100%;
     background: none;
-    color: white;
+    color: transparent;
     font-family: 'Regular';
     font-size: 100%;
     text-align: center;
@@ -76,14 +78,14 @@ body {
     outline: none;
     margin: auto;
 }
-#nome:hover::placeholder {
+#moniker:hover::placeholder {
     color: darkcyan;
 }
-#nome:hover {
+#moniker:hover {
     color: cyan;
 }
-#nome:focus {
-	color: white;
+#moniker:focus {
+    color: white;
 }
 
 /* Infobox */
@@ -192,12 +194,13 @@ input[type='text'] {
 	height: 66px;
 }
 .char #moves > div:nth-child(6),
+.armor #moves > div:nth-child(7),
 .armor #moves > div:last-child,
 .agon #moves > div:nth-child(6) {
 	visibility: hidden;
 }
 
-.nome {
+.name {
 	font-family: 'Regular';
 	width: 288px;
 }
@@ -255,4 +258,8 @@ input[type='text'] {
 	position: absolute;
 	width: 10%;
 	height: 10%;
+}
+
+.jscolor {
+	float: left;
 }

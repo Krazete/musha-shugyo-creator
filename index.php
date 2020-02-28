@@ -3,6 +3,7 @@
 <head>
     <link type="text/css" rel="stylesheet" href="index.css">
     <title>Musha Shugyo Creator</title>
+    <script type="text/javascript" src="script/jscolor.js"></script>
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
@@ -12,12 +13,14 @@
         <label><input type="radio" name="type" value="agon">Agon</label>
         <p>lol</p>
     </div>
-    <canvas id="card-render"></canvas>
+    <input id="moniker-color-top" class="jscolor" value="#543210">
+    <input id="moniker-color-bottom" class="jscolor" value="#abcdef">
+    <canvas id="card-canvas"></canvas>
     <div id="card">
         <img id="bg" src="img/bg/large/Background_01.jpg">
-        <img id="nome-bg" src="img/Nome.png">
-        <img id="nome-render">
-        <input id="nome" type="text" placeholder="Modifica nome PG">
+        <img id="moniker-bg" src="img/Nome.png">
+        <input id="moniker" type="text" placeholder="Modifica nome PG">
+        <canvas id="moniker-canvas"></canvas>
         <div id="infobox" class="colonna">
             <!-- <img id="info" src="img/Colonna.png"> -->
             <input id="type" type="text" placeholder="Type">
@@ -42,7 +45,7 @@
             <div id="moves">
 <?php for ($i = 0; $i < 8; $i++) { ?>
                 <div id="move-<?php echo $i; ?>">
-                    <input class="nome" type="text" placeholder="Nome tecnica">
+                    <input class="name" type="text" placeholder="Nome tecnica">
                     <input class="pa" type="text" placeholder="PA">
                     <input class="bonus" type="text" placeholder="Bonus">
                 </div>
