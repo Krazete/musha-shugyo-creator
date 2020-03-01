@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'Regular';
-	src: url('../font/DISTInking-Regular.otf');
+	src: url('font/DISTInking-Regular.otf');
 }
 
 @font-face {
 	font-family: 'Rodeo';
-	src: url('../font/RODEK___.TTF');
+	src: url('font/RODEK___.TTF');
 }
 
 body {
