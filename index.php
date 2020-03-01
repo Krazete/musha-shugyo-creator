@@ -13,13 +13,13 @@
         <label><input type="radio" name="type" value="agon">Agon</label>
         <p>lol</p>
     </div>
-    <input id="moniker-color-top" class="jscolor" value="#543210">
-    <input id="moniker-color-bottom" class="jscolor" value="#abcdef">
+    <input id="moniker-color-top" class="jscolor {hash:true}" value="#ffca1a">
+    <input id="moniker-color-bottom" class="jscolor {hash:true}" value="#fe6207">
     <canvas id="card-canvas"></canvas>
     <div id="card">
         <img id="bg" src="img/bg/large/Background_01.jpg">
         <img id="moniker-bg" src="img/Nome.png">
-        <input id="moniker" type="text" placeholder="Modifica nome PG">
+        <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="off">
         <canvas id="moniker-canvas"></canvas>
         <div id="infobox" class="colonna">
             <!-- <img id="info" src="img/Colonna.png"> -->
@@ -52,6 +52,11 @@
 <?php } ?>
             </div>
         </div>
+    </div>
+    <div>
+        <div class="option-label" name="Name Color"></div>
+        <div class="option-label" name="Background Color"></div>
+        <div class="option-label" name="Image"></div>
     </div>
 </body>
 </html>

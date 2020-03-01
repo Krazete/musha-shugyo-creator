@@ -12,10 +12,6 @@ body {
 	background: #444;
 }
 
-#card-type-options {
-	float: left;
-}
-
 #x label {
 	position: relative;
 	display: block;
@@ -260,6 +256,12 @@ input[type='text'] {
 	height: 10%;
 }
 
-.jscolor {
-	float: left;
+.option-label:after {
+	content: attr(name);
+	background-image: url('img/Nome.png');
+	background-size: 100% 100%;
+	font-family: Regular;
+	font-size: 30px;
+	color: white;
+	padding: 20px 30px;
 }

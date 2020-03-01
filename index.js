@@ -64,24 +64,38 @@ function initCardTypeInput() {
 
 /* Moniker */
 
+var moniker;
+
 function onMonikerInput(e) {
     var topp = document.getElementById("moniker-color-top");
     var bott = document.getElementById("moniker-color-bottom");
+    topp.jscolor.hash = true;
+    bott.jscolor.hash = true;
+    topp.jscolor.onFineChange = onMonikerInput;
+    bott.jscolor.onFineChange = onMonikerInput;
 
     var gradient = monikerContext.createLinearGradient(0, 0, 0, monikerContext.canvas.height);
-    gradient.addColorStop(0, "#" + topp.value);
-    gradient.addColorStop(1, "#" + bott.value);
+    gradient.addColorStop(0, topp.value);
+    gradient.addColorStop(1, bott.value);
+    monikerContext.fillStyle = gradient;
 
     monikerContext.clearRect(0, 0, monikerContext.canvas.width, monikerContext.canvas.height);
-    monikerContext.textAlign = "center";
-    monikerContext.textBaseline = "middle";
-    monikerContext.font = "56px Regular";
-    monikerContext.fillStyle = gradient;
-    monikerContext.fillText(e.target.value, monikerContext.canvas.width/2, monikerContext.canvas.height/2);
+    monikerContext.fillText(moniker.value, monikerContext.canvas.width/2, monikerContext.canvas.height/2);
 }
 
 function initMoniker() {
-    var moniker = document.getElementById("moniker");
+    moniker = document.getElementById("moniker");
+    var monikerBox = moniker.getBoundingClientRect();
+
+    var monikerCanvas = document.getElementById("moniker-canvas");
+    monikerCanvas.width = monikerBox.width;
+    monikerCanvas.height = monikerBox.height;
+
+    monikerContext = monikerCanvas.getContext("2d");
+    monikerContext.textAlign = "center";
+    monikerContext.textBaseline = "middle";
+    monikerContext.font = "56px Regular";
+
     moniker.addEventListener("input", onMonikerInput);
 }
 
@@ -148,17 +162,11 @@ function initStat(stat) {
 
 function init() {
     card = document.getElementById("card");
-    moniker = document.getElementById("moniker");
     var cardBox = card.getBoundingClientRect();
-    var monikerBox = moniker.getBoundingClientRect();
     var cardCanvas = document.getElementById("card-canvas");
-    var monikerCanvas = document.getElementById("moniker-canvas");
     cardCanvas.width = cardBox.width;
     cardCanvas.height = cardBox.height;
-    monikerCanvas.width = monikerBox.width;
-    monikerCanvas.height = monikerBox.height;
     cardContext = cardCanvas.getContext("2d");
-    monikerContext = monikerCanvas.getContext("2d");
 
     var stat = document.getElementById("stat");
     var armorstat = document.getElementById("armorstat");
