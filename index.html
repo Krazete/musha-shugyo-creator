@@ -1,0 +1,141 @@
+<!-- for testing -->
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <link type="text/css" rel="stylesheet" href="index.css">
+    <title>Musha Shugyo Creator</title>
+    <script type="text/javascript" src="script/jscolor.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+</head>
+<body>
+    <div id="card-type-options">
+        <label><input type="radio" name="type" value="char">Character</label>
+        <label><input type="radio" name="type" value="armor">Armor</label>
+        <label><input type="radio" name="type" value="agon">Agon</label>
+    </div>
+    <canvas id="card-canvas"></canvas>
+    <div>
+        <div id="card" style="float:left">
+            <img id="bg" src="img/bg/large/Background_01.jpg">
+            <img id="moniker-bg" src="img/Nome.png">
+            <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="off">
+            <canvas id="moniker-canvas"></canvas>
+            <div id="infobox" class="colonna">
+                <!-- <img id="info" src="img/Colonna.png"> -->
+                <input id="type" type="text" placeholder="Type">
+                <div id="stat">
+                    <div id="ra">
+                        <label><input type="radio" name="ra"></label>
+                        <label><input type="radio" name="ra"></label>
+                        <label><input type="radio" name="ra"></label>
+                        <label><input type="radio" name="ra"></label>
+                        <label><input type="radio" name="ra"></label>
+                        <label><input type="radio" name="ra"></label>
+                    </div>
+                    <div id="at">
+                        <label><input type="radio" name="at"></label>
+                        <label><input type="radio" name="at"></label>
+                        <label><input type="radio" name="at"></label>
+                        <label><input type="radio" name="at"></label>
+                        <label><input type="radio" name="at"></label>
+                        <label><input type="radio" name="at"></label>
+                    </div>
+                    <div id="de">
+                        <label><input type="radio" name="de"></label>
+                        <label><input type="radio" name="de"></label>
+                        <label><input type="radio" name="de"></label>
+                        <label><input type="radio" name="de"></label>
+                        <label><input type="radio" name="de"></label>
+                        <label><input type="radio" name="de"></label>
+                    </div>
+                    <div id="vo">
+                        <label><input type="radio" name="vo"></label>
+                        <label><input type="radio" name="vo"></label>
+                        <label><input type="radio" name="vo"></label>
+                        <label><input type="radio" name="vo"></label>
+                        <label><input type="radio" name="vo"></label>
+                        <label><input type="radio" name="vo"></label>
+                    </div>
+                    <div id="eq">
+                        <label><input type="radio" name="eq"></label>
+                        <label><input type="radio" name="eq"></label>
+                        <label><input type="radio" name="eq"></label>
+                        <label><input type="radio" name="eq"></label>
+                        <label><input type="radio" name="eq"></label>
+                        <label><input type="radio" name="eq"></label>
+                    </div>
+                </div>
+                <div id="armorstat">
+                    <div id="st">
+                        <label><input type="radio" name="st"></label>
+                        <label><input type="radio" name="st"></label>
+                        <label><input type="radio" name="st"></label>
+                        <label><input type="radio" name="st"></label>
+                        <label><input type="radio" name="st"></label>
+                        <label><input type="radio" name="st"></label>
+                        <label><input type="radio" name="st"></label>
+                    </div>
+                    <div id="da">
+                        <label><input type="radio" name="da"></label>
+                        <label><input type="radio" name="da"></label>
+                        <label><input type="radio" name="da"></label>
+                        <label><input type="radio" name="da"></label>
+                        <label><input type="radio" name="da"></label>
+                        <label><input type="radio" name="da"></label>
+                        <label><input type="radio" name="da"></label>
+                    </div>
+                </div>
+                <div id="moves">
+                    <div id="move-0">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                    <div id="move-1">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                    <div id="move-2">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                    <div id="move-3">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                    <div id="move-4">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                    <div id="move-5">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                    <div id="move-6">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                    <div id="move-7">
+                        <input class="name" type="text" placeholder="Nome tecnica">
+                        <input class="pa" type="text" placeholder="PA">
+                        <input class="bonus" type="text" placeholder="Bonus">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="option-label" name="Name Color"></div>
+            <input id="moniker-color-top" class="jscolor {hash:true}" value="#ffca1a">
+            <input id="moniker-color-bottom" class="jscolor {hash:true}" value="#fe6207">
+            <div class="option-label" name="Background Color"></div>
+            <div class="option-label" name="Image"></div>
+        </div>
+    </div>
+</body>
+</html>
