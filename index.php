@@ -8,14 +8,13 @@
 </head>
 <body>
     <canvas id="card-canvas"></canvas>
-    <div>
-        <div id="card-type-options">
-            <label><input type="radio" name="type" value="char">Character</label>
-            <label><input type="radio" name="type" value="armor">Armor</label>
-            <label><input type="radio" name="type" value="agon">Agon</label>
+    <div id="creator">
+        <div id="variations">
+            <input id="char" type="radio" name="variation" value="char"><label for="char">Character</label>
+            <input id="armor" type="radio" name="variation" value="armor"><label for="armor">Armor</label>
+            <input id="agon" type="radio" name="variation" value="agon"><label for="agon">Agon</label>
         </div>
         <div id="card" style="float:left">
-            <img id="bg" src="img/bg/large/Background_01.jpg">
             <img id="moniker-bg" src="img/Nome.png">
             <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
             <canvas id="moniker-canvas"></canvas>

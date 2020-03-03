@@ -12,37 +12,43 @@ body {
 	background: #444;
 }
 
-#x label {
-	position: relative;
-	display: block;
-	border: 1px solid white;
-	border-radius: 50%;
-	float: left;
-	margin: 1px;
-	padding: 7px;
-}
-#x div:hover > label {
-	background: gray;
-}
-#x div.lol > label {
-	background: gray;
-}
-
 #card-canvas {
+	width: 10cm;
+	height: 15cm;
 	display: none;
 }
 
+#creator {
+	display: initial;
+}
+
 #card {
+	background-image: url('img/bg/large/Background_01.jpg');
+	background-size: 100% 100%;
     position: relative;
     width: 756px;
 	height: 1134px;
+	border: 10px solid white;
+	border-radius: 10px;
     margin: auto;
 }
 
-#bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+#variations {
+	font-family: 'Regular';
+	font-size: 25px;
+}
+#variations label {
+	background: gray;
+	padding: 10px;
+	border-radius: 10px 10px 0 0;
+}
+#variations input:checked + label {
+	background: white;
+	color: black;
+	text-shadow: 0 0 1px black;
+}
+#variations input {
+	display: none;
 }
 
 #moniker-bg {

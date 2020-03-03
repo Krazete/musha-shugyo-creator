@@ -57,7 +57,7 @@ function onCardTypeOptionsClick(e) {
 }
 
 function initCardTypeInput() {
-    var cardTypeOptions = document.getElementById("card-type-options");
+    var cardTypeOptions = document.getElementById("variations");
     cardTypeOptions.addEventListener("click", onCardTypeOptionsClick, true);
     cardTypeOptions.children[0].click();
 }
