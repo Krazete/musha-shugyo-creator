@@ -64,6 +64,11 @@ function initCardTypeInput() {
 
 /* Moniker */
 
+window.addEventListener("touchstart", function (e) {
+    console.log(e);
+    document.body.click();
+});
+
 var moniker;
 
 function onMonikerInput(e) {
@@ -80,7 +85,7 @@ function onMonikerInput(e) {
     monikerContext.fillStyle = gradient;
 
     monikerContext.clearRect(0, 0, monikerContext.canvas.width, monikerContext.canvas.height);
-    monikerContext.fillText(moniker.value, monikerContext.canvas.width/2, monikerContext.canvas.height/2);
+    monikerContext.fillText(moniker.value, monikerContext.canvas.width/devicePixelRatio, monikerContext.canvas.height/devicePixelRatio);
 }
 
 function initMoniker() {
@@ -88,13 +93,13 @@ function initMoniker() {
     var monikerBox = moniker.getBoundingClientRect();
 
     var monikerCanvas = document.getElementById("moniker-canvas");
-    monikerCanvas.width = monikerBox.width;
-    monikerCanvas.height = monikerBox.height;
+    monikerCanvas.width = monikerBox.width * window.devicePixelRatio;
+    monikerCanvas.height = monikerBox.height * window.devicePixelRatio;
 
     monikerContext = monikerCanvas.getContext("2d");
     monikerContext.textAlign = "center";
     monikerContext.textBaseline = "middle";
-    monikerContext.font = "56px Regular";
+    monikerContext.font = "112px Regular";
 
     moniker.addEventListener("input", onMonikerInput);
 }

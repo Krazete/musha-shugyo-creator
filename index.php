@@ -7,17 +7,17 @@
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-    <div id="card-type-options">
-        <label><input type="radio" name="type" value="char">Character</label>
-        <label><input type="radio" name="type" value="armor">Armor</label>
-        <label><input type="radio" name="type" value="agon">Agon</label>
-    </div>
     <canvas id="card-canvas"></canvas>
     <div>
+        <div id="card-type-options">
+            <label><input type="radio" name="type" value="char">Character</label>
+            <label><input type="radio" name="type" value="armor">Armor</label>
+            <label><input type="radio" name="type" value="agon">Agon</label>
+        </div>
         <div id="card" style="float:left">
             <img id="bg" src="img/bg/large/Background_01.jpg">
             <img id="moniker-bg" src="img/Nome.png">
-            <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="off">
+            <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
             <canvas id="moniker-canvas"></canvas>
             <div id="infobox" class="colonna">
                 <!-- <img id="info" src="img/Colonna.png"> -->

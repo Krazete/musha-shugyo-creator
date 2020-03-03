@@ -33,7 +33,6 @@ body {
 }
 
 #card {
-	font-size: 56px;
     position: relative;
     width: 756px;
 	height: 1134px;
@@ -56,29 +55,24 @@ body {
 #moniker-canvas {
 	position: absolute;
 	top: 65px;
+	width: 756px;
 	pointer-events: none;
 }
 
 #moniker {
     position: absolute;
     top: 65px;
-    width: 100%;
+    width: 756px;
     background: none;
     color: transparent;
     font-family: 'Regular';
-    font-size: 100%;
+	font-size: 56px;
     text-align: center;
     display: block;
     padding: 0;
     border: none;
     outline: none;
     margin: auto;
-}
-#moniker:hover::placeholder {
-    color: darkcyan;
-}
-#moniker:hover {
-    color: cyan;
 }
 #moniker:focus {
     color: white;
@@ -236,17 +230,19 @@ input[type='text'] {
     border: 2px solid black;
     border-radius: 50%;
 }
-#card label.over:after {
-	box-shadow: inset 0 0 6px black;
-}
 #card label.click:after {
 	background: black;
 }
-#card label.click.over:after {
-	background: grey;
-}
-#card .arr label.over:after {
-	box-shadow: inset 0 0 6px white;
+@media (pointer: fine) {
+	#card label.over:after {
+		box-shadow: inset 0 0 6px black;
+	}
+	#card .arr label.over:after {
+		box-shadow: inset 0 0 6px white;
+	}
+	#card label.click.over:after {
+		background: grey;
+	}
 }
 
 #sp {
