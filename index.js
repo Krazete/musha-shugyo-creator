@@ -74,8 +74,6 @@ var moniker;
 function onMonikerInput(e) {
     var topp = document.getElementById("moniker-color-top");
     var bott = document.getElementById("moniker-color-bottom");
-    topp.jscolor.hash = true;
-    bott.jscolor.hash = true;
     topp.jscolor.onFineChange = onMonikerInput;
     bott.jscolor.onFineChange = onMonikerInput;
 
@@ -102,6 +100,48 @@ function initMoniker() {
     monikerContext.font = "112px Regular";
 
     moniker.addEventListener("input", onMonikerInput);
+}
+
+function onBGInput() {
+    if (bgbg.complete) {
+        bgContext.drawImage(bgbg, 0, 0, 756, 1134);
+        var imageData = bgContext.getImageData(0, 0, 756, 1134);
+        for (var i = 0; i < 1134 * 756; i++) {
+                var r = imageData.data[4 * i];
+                var g = imageData.data[4 * i + 1];
+                var b = imageData.data[4 * i + 2];
+                var intensity = Math.floor((r + g + b) / 3);
+                var a = imageData.data[4 * i + 3];
+                imageData.data[4 * i] = intensity * parseInt(toppbg.value.slice(1, 3), 16);
+                imageData.data[4 * i + 1] = intensity * parseInt(toppbg.value.slice(3, 5), 16);
+                imageData.data[4 * i + 2] = intensity * parseInt(toppbg.value.slice(5, 7), 16);
+                imageData.data[4 * i + 3] = a;
+        }
+        bgContext.putImageData(imageData, 0, 0);
+        document.body.appendChild(bgCanvas);
+    }
+    else {
+        requestAnimationFrame(onBGInput);
+    }
+}
+
+var toppbg, bottbg;
+
+function initBG() {
+    bgbg = document.getElementById("bgbg");
+
+    toppbg = document.getElementById("bg-color-hi");
+    bottbg = document.getElementById("bg-color-lo");
+    toppbg.jscolor.onFineChange = onBGInput;
+    bottbg.jscolor.onFineChange = onBGInput;
+
+    card = document.getElementById("card");
+    var cardBox = card.getBoundingClientRect();
+
+    bgCanvas = document.createElement("canvas");
+    bgCanvas.width = 756;
+    bgCanvas.height = 1134;
+    bgContext = bgCanvas.getContext("2d");
 }
 
 /* Stat (Radio Buttons) */
@@ -177,6 +217,7 @@ function init() {
     var armorstat = document.getElementById("armorstat");
     initCardTypeInput();
     initMoniker();
+    initBG();
     initStat(stat);
     initStat(armorstat);
 }

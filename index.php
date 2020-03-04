@@ -14,7 +14,8 @@
             <input id="armor" type="radio" name="variation" value="armor"><label for="armor">Armor</label>
             <input id="agon" type="radio" name="variation" value="agon"><label for="agon">Agon</label>
         </div>
-        <div id="card" style="float:left">
+        <img id="bgbg" src="img/bg/large/Background_01.jpg" style="display:none">
+        <div id="card">
             <img id="moniker-bg" src="img/Nome.png">
             <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
             <canvas id="moniker-canvas"></canvas>
@@ -50,11 +51,15 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="menu">
         <div>
             <div class="option-label" name="Name Color"></div>
-            <input id="moniker-color-top" class="jscolor {hash:true}" value="#ffca1a">
-            <input id="moniker-color-bottom" class="jscolor {hash:true}" value="#fe6207">
+            <input id="moniker-color-top" class="jscolor {hash: true}" value="#ffca1a">
+            <input id="moniker-color-bottom" class="jscolor {hash: true}" value="#fe6207">
             <div class="option-label" name="Background Color"></div>
+            <input id="bg-color-hi" class="jscolor {hash: true}" value="#ffffff">
+            <input id="bg-color-lo" class="jscolor {hash: true}" value="#000000">
             <div class="option-label" name="Image"></div>
         </div>
     </div>

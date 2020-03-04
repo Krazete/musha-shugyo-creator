@@ -19,7 +19,14 @@ body {
 }
 
 #creator {
+	float: left;
 	display: initial;
+	padding: 10px;
+}
+
+#menu {
+	float: left;
+	padding: 10px;
 }
 
 #card {
@@ -30,7 +37,6 @@ body {
 	height: 1134px;
 	border: 10px solid white;
 	border-radius: 10px;
-    margin: auto;
 }
 
 #variations {
@@ -266,4 +272,5 @@ input[type='text'] {
 	font-size: 30px;
 	color: white;
 	padding: 20px 30px;
+	display: inline-block;
 }
