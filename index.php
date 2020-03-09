@@ -14,9 +14,14 @@
             <input id="agon" type="radio" name="variation" value="agon"><label for="agon">Agon</label>
         </div>
         <div id="card">
+            <img id="card-bg" src="img/bg/large/Background_01.jpg">
+            <div id="artlayer">
+                <img id="art" src="img/A.gif">
+            </div>
             <img id="moniker-bg" src="img/Nome.png">
             <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
             <canvas id="moniker-canvas"></canvas>
+            <img id="infobox-bg" src="img/Colonna.png">
             <div id="infobox" class="colonna">
                 <!-- <img id="info" src="img/Colonna.png"> -->
                 <input id="type" type="text" placeholder="Type">
@@ -62,9 +67,9 @@
         <input type="checkbox" checked>
         <label id="autograd2">Automatic Gradient</label>
         <div class="option-label" name="Image"></div>
-        <input type="file" value="#000000">
+        <input type="file">
         <div>
-            <input type="checkbox">
+            <input type="radio">
             <label>Translate</label>
             <input type="number">
             <label>X</label>
@@ -72,16 +77,29 @@
             <label>Y</label>
         </div>
         <div>
-            <input type="checkbox">
+            <input type="radio">
             <label>Rotate</label>
             <input type="number">
             <label>Degrees</label>
         </div>
         <div>
-            <input type="checkbox">
+            <input type="radio">
             <label>Scale</label>
             <input type="number">
             <label>Width</label>
+        </div>
+        <div class="option-label" name="Custom Style"></div>
+        <div>
+            <input type="file">
+            <label>Card Background</label>
+        </div>
+        <div>
+            <input type="file">
+            <label>Name Background</label>
+        </div>
+        <div>
+            <input type="file">
+            <label>Infobox Background</label>
         </div>
         <div class="option-label" name="Export"></div>
         <input type="button" value="PNG">
