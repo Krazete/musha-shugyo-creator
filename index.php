@@ -7,11 +7,6 @@
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-    <canvas id="card-canvas"></canvas>
-    <div id="aide" class="hidden">
-        <img id="bgbg" src="img/bg/large/Background_01.jpg">
-        <canvas id="bg-grad" width="256" height="1"></canvas>
-    </div>
     <div id="creator">
         <div id="variations">
             <input id="char" type="radio" name="variation" value="char"><label for="char">Character</label>
@@ -56,22 +51,47 @@
         </div>
     </div>
     <div id="menu">
+        <div class="option-label" name="Name Color"></div>
+        <input id="moniker-color-top" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
+        <input id="moniker-color-bottom" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
+        <input type="checkbox" checked>
+        <label id="autograd">Automatic Gradient</label>
+        <div class="option-label" name="Background Color"></div>
+        <input id="bg-color-hi" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
+        <input id="bg-color-lo" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+        <input type="checkbox" checked>
+        <label id="autograd2">Automatic Gradient</label>
+        <div class="option-label" name="Image"></div>
+        <input type="file" value="#000000">
         <div>
-            <div class="option-label" name="Name Color"></div>
-            <input id="moniker-color-top" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-            <input id="moniker-color-bottom" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
-            <input type="checkbox" checked>
-            <label id="autograd">Automatic Gradient</label>
-            <div class="option-label" name="Background Color"></div>
-            <input id="bg-color-hi" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
-            <input id="bg-color-lo" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-            <div class="option-label" name="Image"></div>
-            <input type="file" value="#000000">
-            <div class="option-label" name="Export"></div>
-            <input type="button" value="PNG">
-            <input type="button" value="PDF">
-            <input type="button" value="JSON">
+            <input type="checkbox">
+            <label>Translate</label>
+            <input type="number">
+            <label>X</label>
+            <input type="number">
+            <label>Y</label>
         </div>
+        <div>
+            <input type="checkbox">
+            <label>Rotate</label>
+            <input type="number">
+            <label>Degrees</label>
+        </div>
+        <div>
+            <input type="checkbox">
+            <label>Scale</label>
+            <input type="number">
+            <label>Width</label>
+        </div>
+        <div class="option-label" name="Export"></div>
+        <input type="button" value="PNG">
+        <input type="button" value="PDF">
+        <input type="button" value="JSON">
     </div>
+    <div id="aide" class="hidden">
+        <img id="bgbg" src="img/bg/large/Background_01.jpg">
+        <canvas id="bg-grad" width="256" height="1"></canvas>
+    </div>
+    <canvas id="card-canvas"></canvas>
 </body>
 </html>
