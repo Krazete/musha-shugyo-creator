@@ -75,7 +75,8 @@ function onMonikerInput(e) {
     var topp = document.getElementById("moniker-color-top");
     var bott = document.getElementById("moniker-color-bottom");
     topp.jscolor.onFineChange = onMonikerInput;
-    bott.jscolor.onFineChange = onMonikerInput;
+    bott.jscolor.fromString(deeper(topp.value, 3.7));
+    // bott.jscolor.onFineChange = onMonikerInput;
 
     var gradient = monikerContext.createLinearGradient(0, 0, 0, monikerContext.canvas.height);
     gradient.addColorStop(0, topp.value);
@@ -84,6 +85,13 @@ function onMonikerInput(e) {
 
     monikerContext.clearRect(0, 0, monikerContext.canvas.width, monikerContext.canvas.height);
     monikerContext.fillText(moniker.value, monikerContext.canvas.width/devicePixelRatio, monikerContext.canvas.height/devicePixelRatio);
+}
+
+function tester(i, j) {
+    var ri = parseInt(i.slice(1, 3), 16) - parseInt(j.slice(1, 3), 16);
+    var gi = parseInt(i.slice(3, 5), 16) - parseInt(j.slice(3, 5), 16);
+    var bi = parseInt(i.slice(5, 7), 16) - parseInt(j.slice(5, 7), 16);
+    return (ri + gi + bi) / 3;
 }
 
 function initMoniker() {
@@ -102,8 +110,22 @@ function initMoniker() {
     moniker.addEventListener("input", onMonikerInput);
 }
 
+function deeper2(hex2, d) {
+    var c = parseInt(hex2, 16);
+    // return Math.floor(c * c * c * c / 0x1000000).toString(16).padStart(2, 0);
+    return Math.floor(Math.pow(c, d) / Math.pow(16, 2 * (d - 1))).toString(16).padStart(2, 0);
+}
+
+function deeper(hex, d) {
+    var r = deeper2(hex.slice(1, 3), d);
+    var g = deeper2(hex.slice(3, 5), d);
+    var b = deeper2(hex.slice(5, 7), d);
+    return "#" + r + g + b;
+}
+
 function onBGInput() {
     if (bgbg.complete) {
+
         bgContext.drawImage(bgbg, 0, 0, 756, 1134);
         var imageData = bgContext.getImageData(0, 0, 756, 1134);
         for (var i = 0; i < 1134 * 756; i++) {
