@@ -51,9 +51,37 @@ body {
 	overflow: hidden;
 }
 
+.bg-img {
+	position: absolute;
+	pointer-events: none;
+}
+
 #card-bg {
 	width: 100%;
 	height: 100%;
+}
+
+#moniker-bg {
+    left: 8px;
+    top: 40px;
+    width: 740px;
+}
+
+#infobox-bg {
+	background-size: 100% 100%;
+	bottom: 0;
+	width: 438px;
+	height: 974px;
+}
+.char #infobox-bg {
+	background-image: url('img/Colonna.png');
+}
+.armor #infobox-bg {
+	background-image: url('img/Armor.png');
+	right: 0;
+}
+.agon #infobox-bg {
+	background-image: url('img/Agon.png');
 }
 
 input[type='text'] {
@@ -110,13 +138,6 @@ input[type='text'] {
 
 /* Moniker */
 
-#moniker-bg {
-    position: absolute;
-    left: 8px;
-    top: 40px;
-    width: 740px;
-}
-
 #moniker {
     position: absolute;
     top: 65px;
@@ -147,22 +168,19 @@ input[type='text'] {
 
 #infobox {
     position: absolute;
-	width: 438px;
-	height: 974px;
-	bottom: 0;
-	background-size: 100% 100%;
+	width: 288px;
 }
 .char #infobox {
-	background-image: url('img/Colonna.png');
-	left: 0;
+	left: 90px;
+	top: 273px;
 }
 .armor #infobox {
-	background-image: url('img/Armor.png');
-	right: 0;
+	right: 60px;
+	top: 245px;
 }
 .agon #infobox {
-	background-image: url('img/Agon.png');
-	left: 0;
+	left: 90px;
+	top: 249px;
 }
 
 /* Agon Type */
@@ -170,9 +188,7 @@ input[type='text'] {
 #type {
 	font-family: 'Regular';
 	position: absolute;
-	width: 224px;
-	left: 154px;
-	top: 85px;
+	left: 64px;
 }
 .char #type,
 .agon #type {
@@ -185,16 +201,14 @@ input[type='text'] {
     position: absolute;
 }
 .char #stat {
-	left: 126px;
-	top: 113px;
+	left: 36px;
 }
 .armor #stat {
-	left: 130px;
-	top: 141px;
+	left: 40px;
+	top: 56px;
 }
 .agon #stat {
-	left: 116px;
-	top: 89px;
+	left: 26px;
 }
 .char #stat div:nth-last-child(2),
 .char #stat div:last-child,
@@ -205,8 +219,8 @@ input[type='text'] {
 
 #armorstat {
 	position: absolute;
-	left: 210px;
-	top: 255px;
+	left: 120px;
+	top: 170px;
 }
 .char #armorstat,
 .agon #armorstat {
@@ -217,16 +231,15 @@ input[type='text'] {
 
 #moves {
 	position: absolute;
-	left: 90px;
 }
 .char #moves {
-	top: 290px;
+	top: 177px;
 }
 .armor #moves {
-	top: 386px;
+	top: 301px;
 }
 .agon #moves {
-	top: 310px;
+	top: 221px;
 }
 
 #moves > div {
@@ -243,10 +256,12 @@ input[type='text'] {
 	height: 66px;
 }
 .char #moves > div:nth-child(6),
-.armor #moves > div:nth-child(7),
-.armor #moves > div:last-child,
 .agon #moves > div:nth-child(6) {
 	visibility: hidden;
+}
+.armor #moves > div:nth-child(7),
+.armor #moves > div:last-child {
+	display: none;
 }
 
 .name {

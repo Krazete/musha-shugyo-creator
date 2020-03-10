@@ -14,16 +14,15 @@
             <input id="agon" type="radio" name="variation" value="agon"><label for="agon">Agon</label>
         </div>
         <div id="card">
-            <img id="card-bg" src="img/bg/large/Background_01.jpg">
+            <img id="card-bg" class="bg-img" src="img/bg/large/Background_01.jpg">
+            <img id="moniker-bg" class="bg-img" src="img/Nome.png">
+            <div id="infobox-bg" class="bg-img"></div>
             <div id="artlayer">
                 <img id="art" src="img/A.gif">
             </div>
-            <img id="moniker-bg" src="img/Nome.png">
             <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
             <canvas id="moniker-canvas"></canvas>
-            <img id="infobox-bg" src="img/Colonna.png">
             <div id="infobox" class="colonna">
-                <!-- <img id="info" src="img/Colonna.png"> -->
                 <input id="type" type="text" placeholder="Type">
                 <div id="stat">
 <?php foreach (array("ra", "at", "de", "vo", "eq") as $id) { ?>
