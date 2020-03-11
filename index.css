@@ -230,16 +230,16 @@ input[type='text'] {
 /* Moves */
 
 #moves {
-	position: absolute;
+	position: relative;
 }
 .char #moves {
-	top: 177px;
+	margin-top: 185px;
 }
 .armor #moves {
-	top: 301px;
+	margin-top: 309px;
 }
 .agon #moves {
-	top: 221px;
+	margin-top: 229px;
 }
 
 #moves > div {
