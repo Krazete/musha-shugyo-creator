@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
     <link type="text/css" rel="stylesheet" href="index.css">
     <title>Musha Shugyo Creator</title>
@@ -8,21 +8,24 @@
 </head>
 <body>
     <div id="creator">
-        <div id="variations">
-            <input id="char" type="radio" name="variation" value="char"><label for="char">Character</label>
-            <input id="armor" type="radio" name="variation" value="armor"><label for="armor">Armor</label>
-            <input id="agon" type="radio" name="variation" value="agon"><label for="agon">Agon</label>
+        <div id="types">
+            <input id="type-char" type="radio" name="type" value="char">
+            <label for="type-char">Character</label>
+            <input id="type-armor" type="radio" name="type" value="armor">
+            <label for="type-armor">Armor</label>
+            <input id="type-agon" type="radio" name="type" value="agon">
+            <label for="type-agon">Agon</label>
         </div>
         <div id="card">
             <img id="card-bg" class="bg-img" src="img/bg/large/Background_01.jpg">
-            <img id="moniker-bg" class="bg-img" src="img/Nome.png">
-            <div id="infobox-bg" class="bg-img"></div>
             <div id="artlayer">
                 <img id="art" src="img/A.gif">
             </div>
+            <img id="moniker-bg" class="bg-img" src="img/Nome.png">
             <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
             <canvas id="moniker-canvas"></canvas>
-            <div id="infobox" class="colonna">
+            <div id="infobox-bg" class="bg-img"></div>
+            <div id="infobox">
                 <input id="type" type="text" placeholder="Type">
                 <div id="stat">
 <?php foreach (array("ra", "at", "de", "vo", "eq") as $id) { ?>
@@ -53,57 +56,57 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="menu">
-        <div class="option-label" name="Name Color"></div>
-        <input id="moniker-color-top" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-        <input id="moniker-color-bottom" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
-        <input type="checkbox" checked>
-        <label id="autograd">Automatic Gradient</label>
-        <div class="option-label" name="Background Color"></div>
-        <input id="bg-color-hi" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
-        <input id="bg-color-lo" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-        <input type="checkbox" checked>
-        <label id="autograd2">Automatic Gradient</label>
-        <div class="option-label" name="Image"></div>
-        <input type="file">
-        <div>
-            <input type="radio">
-            <label>Translate</label>
-            <input type="number">
-            <label>X</label>
-            <input type="number">
-            <label>Y</label>
-        </div>
-        <div>
-            <input type="radio">
-            <label>Rotate</label>
-            <input type="number">
-            <label>Degrees</label>
-        </div>
-        <div>
-            <input type="radio">
-            <label>Scale</label>
-            <input type="number">
-            <label>Width</label>
-        </div>
-        <div class="option-label" name="Custom Style"></div>
-        <div>
+        <div id="menu">
+            <div class="option-label">Name Color</div>
+            <input id="moniker-color-top" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
+            <input id="moniker-color-bottom" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
+            <input type="checkbox" checked>
+            <label id="autograd">Automatic Gradient</label>
+            <div class="option-label">Background Color</div>
+            <input id="bg-color-hi" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
+            <input id="bg-color-lo" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+            <input type="checkbox" checked>
+            <label id="autograd2">Automatic Gradient</label>
+            <div class="option-label">Card Art</div>
             <input type="file">
-            <label>Card Background</label>
+            <div>
+                <input type="radio">
+                <label>Translate</label>
+                <input type="number">
+                <label>X</label>
+                <input type="number">
+                <label>Y</label>
+            </div>
+            <div>
+                <input type="radio">
+                <label>Rotate</label>
+                <input type="number">
+                <label>Degrees</label>
+            </div>
+            <div>
+                <input type="radio">
+                <label>Scale</label>
+                <input type="number">
+                <label>Width</label>
+            </div>
+            <div class="option-label">Custom Assets</div>
+            <div>
+                <input type="file">
+                <label>Card Background</label>
+            </div>
+            <div>
+                <input type="file">
+                <label>Name Background</label>
+            </div>
+            <div>
+                <input type="file">
+                <label>Infobox Background</label>
+            </div>
+            <div class="option-label">Export</div>
+            <input type="button" value="PNG">
+            <input type="button" value="PDF">
+            <input type="button" value="JSON">
         </div>
-        <div>
-            <input type="file">
-            <label>Name Background</label>
-        </div>
-        <div>
-            <input type="file">
-            <label>Infobox Background</label>
-        </div>
-        <div class="option-label" name="Export"></div>
-        <input type="button" value="PNG">
-        <input type="button" value="PDF">
-        <input type="button" value="JSON">
     </div>
     <div id="aide" class="hidden">
         <img id="bgbg" src="img/bg/large/Background_01.jpg">

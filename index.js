@@ -57,7 +57,7 @@ function onCardTypeOptionsClick(e) {
 }
 
 function initCardTypeInput() {
-    var cardTypeOptions = document.getElementById("variations");
+    var cardTypeOptions = document.getElementById("types");
     cardTypeOptions.addEventListener("click", onCardTypeOptionsClick, true);
     cardTypeOptions.children[0].click();
 }
@@ -85,6 +85,8 @@ function onMonikerInput(e) {
 
     monikerContext.clearRect(0, 0, monikerContext.canvas.width, monikerContext.canvas.height);
     monikerContext.fillText(moniker.value, monikerContext.canvas.width/devicePixelRatio, monikerContext.canvas.height/devicePixelRatio);
+
+    // document.body.style.background = "linear-gradient(" + deeper(topp.value, 0.1) + ", " + deeper(topp.value, 10) + ")";
 }
 
 function tester(i, j) {
@@ -147,6 +149,15 @@ function onBGInput() {
     }
 }
 
+function beforeOnBGInput() {
+    var gradientline = document;
+    var glcontext = gradientline.context;
+    glcontext.drawLine(0, 0, 1, 256);
+    colorstop.add(toppbg.value);
+    colorstop.add(bottbg.value);
+    onBGInput();
+}
+
 var toppbg, bottbg;
 
 function initBG() {
@@ -154,8 +165,8 @@ function initBG() {
 
     toppbg = document.getElementById("bg-color-hi");
     bottbg = document.getElementById("bg-color-lo");
-    toppbg.jscolor.onFineChange = onBGInput;
-    bottbg.jscolor.onFineChange = onBGInput;
+    toppbg.jscolor.onFineChange = beforeOnBGInput;
+    bottbg.jscolor.onFineChange = beforeOnBGInput;
 
     card = document.getElementById("card");
     var cardBox = card.getBoundingClientRect();
