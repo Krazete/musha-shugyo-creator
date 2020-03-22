@@ -3,28 +3,6 @@ var data = {
     "bg": "img/bg/large/Background_01.jpg"
 }; /* todo */
 
-var deeperHex = function() {
-    function deeperSubHex(subhex, d) {
-        var c = parseInt(subhex, 16);
-        var value = Math.floor(Math.pow(c, d) / Math.pow(16, 2 * (d - 1)));
-        return value.toString(16).padStart(2, 0);
-    }
-
-    return function(hex, d) {
-        if (hex.length == 4) {
-            shortHex = hex;
-            hex = "";
-            for (var i = 0; i < shortHex.length; i++) {
-                hex += shortHex.slice(i, i + 2);
-            }
-        }
-        var r = deeperSubHex(hex.slice(1, 3), d);
-        var g = deeperSubHex(hex.slice(3, 5), d);
-        var b = deeperSubHex(hex.slice(5, 7), d);
-        return "#" + r + g + b;
-    };
-}();
-
 function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
@@ -39,68 +17,112 @@ function initTypes() {
     defaultType.click();
 }
 
+function initColorInput(color0, color1, colorAuto, f) {
+    var deeperHex = function() {
+        function deeperSubHex(subhex, d) {
+            var c = parseInt(subhex, 16);
+            var value = Math.floor(Math.pow(c, d) / Math.pow(16, 2 * (d - 1)));
+            return value.toString(16).padStart(2, 0);
+        }
+
+        return function(hex, d) {
+            if (hex.length == 4) {
+                shortHex = hex;
+                hex = "";
+                for (var i = 0; i < shortHex.length; i++) {
+                    hex += shortHex.slice(i, i + 2);
+                }
+            }
+            var r = deeperSubHex(hex.slice(1, 3), d);
+            var g = deeperSubHex(hex.slice(3, 5), d);
+            var b = deeperSubHex(hex.slice(5, 7), d);
+            return "#" + r + g + b;
+        };
+    }();
+
+    function onChangeColor() {
+        if (color0.value.length == 4 || color0.value.length == 7) {
+            if (colorAuto.checked) {
+                color1.jscolor.fromString(deeperHex(color0.value, 3.7));
+            }
+            if (color1.value.length == 4 || color1.value.length == 7) {
+                f(color0, color1);
+            }
+        }
+    }
+
+    function onInputColorAuto() {
+        if (colorAuto.checked) {
+            color1.setAttribute("disabled", true);
+        }
+        else {
+            color1.removeAttribute("disabled");
+        }
+        onChangeColor();
+    }
+
+    color0.jscolor.onFineChange = onChangeColor;
+    color1.jscolor.onFineChange = onChangeColor;
+    colorAuto.addEventListener("input", onInputColorAuto);
+
+    colorAuto.checked = false;
+    colorAuto.click();
+}
+
 function initBackground() {
+    var gradientCanvas = document.getElementById("gradient-canvas");
+    var gradientContext = gradientCanvas.getContext("2d");
     var bgCanvas = document.getElementById("bg-canvas");
     var bgContext = bgCanvas.getContext("2d");
+    var bgColor0 = document.getElementById("bg-color-0");
+    var bgColor1 = document.getElementById("bg-color-1");
+    var bgColorAuto = document.getElementById("bg-color-auto");
+    var bgColorNone = document.getElementById("bg-color-none");
+
+    if (bgColorNone.checked) { /* todo */
+        return;
+    }
+
+    function updateBG(color0, color1) {
+    }
+
+    initColorInput(bgColor0, bgColor1, bgColorAuto, updateBG);
 }
 
 function initName() {
     var cardName = document.getElementById("card-name");
-    var cardNameRect = cardName.getBoundingClientRect();
-    var cardNameCanvas = document.getElementById("card-name-canvas");
-    var nameContext = cardNameCanvas.getContext("2d");
+    var nameRect = cardName.getBoundingClientRect();
+    var nameCanvas = document.getElementById("card-name-canvas");
+    var nameContext = nameCanvas.getContext("2d");
     var nameColor0 = document.getElementById("name-color-0");
     var nameColor1 = document.getElementById("name-color-1");
     var nameColorAuto = document.getElementById("name-color-auto");
 
     function onInputCardName() {
-        var w = cardNameCanvas.width / devicePixelRatio;
-        var h = cardNameCanvas.height / devicePixelRatio;
-        nameContext.clearRect(0, 0, cardNameCanvas.width, cardNameCanvas.height);
+        var w = nameCanvas.width / devicePixelRatio;
+        var h = nameCanvas.height / devicePixelRatio;
+        nameContext.clearRect(0, 0, nameCanvas.width, nameCanvas.height);
         nameContext.fillText(cardName.value, w, h);
     }
 
-    function onChangeNameColor() {
-        var nameGradient = nameContext.createLinearGradient(0, 0, 0, cardNameCanvas.height);
-
-        if (nameColor0.value.length == 4 || nameColor0.value.length == 7) {
-            if (nameColorAuto.checked) {
-                nameColor1.jscolor.fromString(deeperHex(nameColor0.value, 3.7));
-            }
-            if (nameColor1.value.length == 4 || nameColor1.value.length == 7) {
-                nameGradient.addColorStop(0, nameColor0.value);
-                nameGradient.addColorStop(1, nameColor1.value);
-                nameContext.fillStyle = nameGradient;
-                onInputCardName();
-            }
-        }
+    function updateGradient(color0, color1) {
+        var nameGradient = nameContext.createLinearGradient(0, 0, 0, nameCanvas.height);
+        nameGradient.addColorStop(0, color0.value);
+        nameGradient.addColorStop(1, color1.value);
+        nameContext.fillStyle = nameGradient;
+        onInputCardName();
     }
 
-    function onInputNameColorAuto() {
-        if (nameColorAuto.checked) {
-            nameColor1.setAttribute("disabled", true);
-        }
-        else {
-            nameColor1.removeAttribute("disabled");
-        }
-        onChangeNameColor();
-    }
-
-    cardNameCanvas.width = Math.round(cardNameRect.width * devicePixelRatio);
-    cardNameCanvas.height = Math.round(cardNameRect.height * devicePixelRatio);
+    nameCanvas.width = Math.round(nameRect.width * devicePixelRatio);
+    nameCanvas.height = Math.round(nameRect.height * devicePixelRatio);
 
     nameContext.textAlign = "center";
     nameContext.textBaseline = "middle";
     nameContext.font = "112px Regular"; /* todo: getComputedStyle */
-    onChangeNameColor();
 
     cardName.addEventListener("input", onInputCardName);
-    nameColor0.jscolor.onFineChange = onChangeNameColor;
-    nameColor1.jscolor.onFineChange = onChangeNameColor;
-    nameColorAuto.addEventListener("input", onInputNameColorAuto);
 
-    nameColorAuto.checked = false;
-    nameColorAuto.click();
+    initColorInput(nameColor0, nameColor1, nameColorAuto, updateGradient);
 }
 
 /**/
@@ -188,25 +210,6 @@ function beforeOnBGInput() {
     onBGInput();
 }
 
-var toppbg, bottbg;
-
-function initBG() {
-    bgbg = document.getElementById("bgbg");
-
-    toppbg = document.getElementById("bg-color-hi");
-    bottbg = document.getElementById("bg-color-lo");
-    toppbg.jscolor.onFineChange = beforeOnBGInput;
-    bottbg.jscolor.onFineChange = beforeOnBGInput;
-
-    card = document.getElementById("card");
-    var cardBox = card.getBoundingClientRect();
-
-    bgCanvas = document.createElement("canvas");
-    bgCanvas.width = 756;
-    bgCanvas.height = 1134;
-    bgContext = bgCanvas.getContext("2d");
-}
-
 /* Stat (Radio Buttons) */
 
 var stats = {
@@ -219,7 +222,7 @@ var stats = {
     "da": 0
 }
 
-function onStatOver(e) {
+function onOverStat(e) {
     if (e.target.tagName == "LABEL") {
         for (var child of e.target.parentElement.children) {
             child.classList.add("over");
@@ -230,7 +233,7 @@ function onStatOver(e) {
     }
 }
 
-function onStatOut(e) {
+function onOutStat(e) {
     if (e.target.tagName == "LABEL") {
         for (var child of e.target.parentElement.children) {
             child.classList.remove("over");
@@ -241,7 +244,7 @@ function onStatOut(e) {
     }
 }
 
-function onStatClick(e) {
+function onClickStat(e) {
     if (e.target.tagName == "LABEL") {
         var fill = !e.target.classList.contains("selected");
         for (var child of e.target.parentElement.children) {
@@ -263,9 +266,17 @@ function onStatClick(e) {
 }
 
 function initStat(stat) {
-    stat.addEventListener("mouseover", onStatOver);
-    stat.addEventListener("mouseout", onStatOut);
-    stat.addEventListener("click", onStatClick);
+    stat.addEventListener("mouseover", onOverStat);
+    stat.addEventListener("mouseout", onOutStat);
+    stat.addEventListener("click", onClickStat);
+}
+
+function initInfo() {
+    var stat = document.getElementById("info-stat");
+    var statArmor = document.getElementById("info-stat-armor");
+
+    initStat(stat);
+    initStat(statArmor);
 }
 
 function init() {
@@ -274,7 +285,7 @@ function init() {
     initTypes();
     initBackground();
     initName();
-    initStat();
+    initInfo();
 
     /**/
 
@@ -283,13 +294,6 @@ function init() {
     cardCanvas.width = cardBox.width;
     cardCanvas.height = cardBox.height;
     cardContext = cardCanvas.getContext("2d");
-
-    var stat = document.getElementById("stat");
-    var armorstat = document.getElementById("armorstat");
-
-    initBG();
-    initStat(stat);
-    initStat(armorstat);
 }
 
 window.addEventListener("load", init);

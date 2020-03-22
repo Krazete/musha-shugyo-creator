@@ -66,8 +66,8 @@
             <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
             <input for="bg-color-auto" type="checkbox">
             <label id="bg-color-auto">Auto</label>
-            <input for="bg-color-no" type="checkbox">
-            <label id="bg-color-no">Cancel</label>
+            <input for="bg-color-none" type="checkbox">
+            <label id="bg-color-none">Cancel</label>
             <div class="option-label">Card Art</div>
             <input type="file">
             <div>
@@ -111,7 +111,8 @@
     </div>
     <div id="aide" class="hidden">
         <img id="bgbg" src="img/bg/large/Background_01.jpg">
-        <canvas id="bg-canvas" width="256" height="1"></canvas>
+        <canvas id="gradient-canvas" width="256" height="1"></canvas>
+        <canvas id="bg-canvas" width="756" height="1134"></canvas>
     </div>
     <canvas id="card-canvas"></canvas>
 </body>
