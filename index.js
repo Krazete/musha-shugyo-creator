@@ -1,7 +1,7 @@
 var card;
 var cardData = { /* todo */
-    "bgRaw": "img/bg/large/Background_01.jpg",
-    "bg": "img/bg/large/Background_01.jpg"
+    "bgRaw": "",
+    "bg": ""
     // "bg": "img/A.gif"
 };
 
@@ -98,56 +98,47 @@ function initBackground() {
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
     }
 
+    function dataLoop(canvas, imageData, f) {
+        for (var y = 0; y < canvas.height; y++) {
+            for (var x = 0; x < canvas.width; x++) {
+                var i = 4 * (y * canvas.width + x);
+                var r = imageData.data[i];
+                var g = imageData.data[i + 1];
+                var b = imageData.data[i + 2];
+                var a = imageData.data[i + 3];
+                f(i, r, g, b, a);
+            }
+        }
+    }
+
     function updateCanvas() {
         imgLoaded = true;
         var newData = new ImageData(bgCanvas.width, bgCanvas.height);
 
         bgContext.clearRect(0, 0, 256, 256);
         bgContext.drawImage(img, 0, 0, bgCanvas.width, bgCanvas.height);
-        var data = bgContext.getImageData(0, 0, bgCanvas.width, bgCanvas.height);
-        var dataData = data.data;
+        var bgData = bgContext.getImageData(0, 0, bgCanvas.width, bgCanvas.height);
 
-        var dataMin = 256;
+        /* Maximize Contrast */
+
+        var dataMin = 255;
         var dataMax = 0;
-        for (var y = 0; y < bgCanvas.height; y++) {
-            for (var x = 0; x < bgCanvas.width; x++) {
-                var i = 4 * (y * bgCanvas.width + x);
-                var r = dataData[i];
-                var g = dataData[i + 1];
-                var b = dataData[i + 2];
-                var intensity = Math.floor((r + g + b) / 3);
-
-                dataMin = Math.min(dataMin, intensity);
-                dataMax = Math.max(dataMax, intensity);
-            }
-        }
-
-        for (var y = 0; y < bgCanvas.height; y++) {
-            for (var x = 0; x < bgCanvas.width; x++) {
-                var i = 4 * (y * bgCanvas.width + x);
-                var r = dataData[i];
-                var g = dataData[i + 1];
-                var b = dataData[i + 2];
-                var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 256 / (dataMax - dataMin));
-                var a = dataData[i + 3];
-
-                newData.data[i] = gradientData.data[4 * intensity];
-                newData.data[i + 1] = gradientData.data[4 * intensity + 1];
-                newData.data[i + 2] = gradientData.data[4 * intensity + 2];
-                newData.data[i + 3] = a;
-            }
-        }
+        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) {
+            var intensity = Math.floor((r + g + b) / 3);
+            dataMin = Math.min(dataMin, intensity);
+            dataMax = Math.max(dataMax, intensity);
+        });
+        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) {
+            var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
+            newData.data[i] = gradientData.data[4 * intensity];
+            newData.data[i + 1] = gradientData.data[4 * intensity + 1];
+            newData.data[i + 2] = gradientData.data[4 * intensity + 2];
+            newData.data[i + 3] = a;
+        });
 
         bgContext.putImageData(newData, 0, 0);
         cardData.bg = bgCanvas.toDataURL();
         card.style.backgroundImage = "url('" + cardData.bg + "')";
-    }
-
-    function loadImage() {
-        imgLoaded = false;
-        img = new Image();
-        img.src = cardData.bgRaw;
-        img.addEventListener("load", updateCanvas);
     }
 
     function updateBackground(color0, color1) {
@@ -155,15 +146,16 @@ function initBackground() {
         if (imgLoaded) {
             updateCanvas();
         }
-        else {
-            loadImage();
-        }
     }
 
     function newBackground(src) {
         if (cardData.bgRaw != src) {
+            imgLoaded = false;
+            img = new Image();
+            img.src = src;
+            img.addEventListener("load", updateCanvas);
+
             cardData.bgRaw = src;
-            loadImage();
         }
     }
 
@@ -182,8 +174,9 @@ function initBackground() {
         }
     }
 
-    bgColorNone.addEventListener("input", onClickColorNone);
+    newBackground("img/bg/large/Background_01.jpg");
 
+    bgColorNone.addEventListener("input", onClickColorNone);
     bgColorNone.checked = true;
     bgColorNone.click();
 
