@@ -300,11 +300,6 @@ input[type='radio'], input[type='checkbox'] {
 	border-radius: 5px;
 	outline: none;
 }
-.jscolor:disabled {
-	color: gray !important;
-	border-style: dashed;
-	pointer-events: none;
-}
 
 /* Image */
 
@@ -317,6 +312,13 @@ input[type='radio'], input[type='checkbox'] {
 }
 #menu input:checked + label {
 	background: white;
+}
+
+#menu input:disabled, #menu input:disabled + label {
+	color: gray !important;
+	border-color: gray;
+	border-style: dashed;
+	pointer-events: none;
 }
 
 /* Export */
