@@ -59,8 +59,8 @@
             <div class="option-label">Name Color</div>
             <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
             <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
-            <input type="checkbox" checked>
-            <label id="autograd">Automatic Gradient</label>
+            <input id="name-color-auto" type="checkbox" checked>
+            <label for="name-color-auto">Automatic Gradient</label>
             <div class="option-label">Background Color</div>
             <input id="bg-color-hi" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
             <input id="bg-color-lo" class="jscolor" data-jscolor="{hash: true}" value="#000000">

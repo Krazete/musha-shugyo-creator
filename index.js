@@ -1,6 +1,21 @@
 var card;
 var data = {}; /* todo */
 
+var deeperHex = function() {
+    function deeperSubHex(subhex, d) {
+        var c = parseInt(subhex, 16);
+        var value = Math.floor(Math.pow(c, d) / Math.pow(16, 2 * (d - 1)));
+        return value.toString(16).padStart(2, 0);
+    }
+
+    return function(hex, d) {
+        var r = deeperSubHex(hex.slice(1, 3), d);
+        var g = deeperSubHex(hex.slice(3, 5), d);
+        var b = deeperSubHex(hex.slice(5, 7), d);
+        return "#" + r + g + b;
+    };
+}();
+
 function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
@@ -22,6 +37,7 @@ function initName() {
     var nameContext = cardNameCanvas.getContext("2d");
     var nameColor0 = document.getElementById("name-color-0");
     var nameColor1 = document.getElementById("name-color-1");
+    var nameColorAuto = document.getElementById("name-color-auto");
 
     function onInputCardName() {
         var w = cardNameCanvas.width / devicePixelRatio;
@@ -32,18 +48,24 @@ function initName() {
 
     function onChangeNameColor() {
         var nameGradient = nameContext.createLinearGradient(0, 0, 0, cardNameCanvas.height);
+
+        if (nameColorAuto.checked) {
+            nameColor1.jscolor.fromString(deeperHex(nameColor0.value, 3.7));
+        }
+
         nameGradient.addColorStop(0, nameColor0.value);
         nameGradient.addColorStop(1, nameColor1.value);
         nameContext.fillStyle = nameGradient;
         onInputCardName();
     }
 
-    cardNameCanvas.width = Math.round(cardNameRect.width);
-    cardNameCanvas.height = Math.round(cardNameRect.height);
+    cardNameCanvas.width = Math.round(cardNameRect.width * devicePixelRatio);
+    cardNameCanvas.height = Math.round(cardNameRect.height * devicePixelRatio);
 
     nameContext.textAlign = "center";
     nameContext.textBaseline = "middle";
-    nameContext.font = "56px Regular";
+    nameContext.font = "112px Regular"; /* todo: getComputedStyle */
+    onChangeNameColor();
 
     cardName.addEventListener("input", onInputCardName);
     nameColor0.jscolor.onFineChange = onChangeNameColor;
@@ -110,44 +132,6 @@ window.addEventListener("touchstart", function (e) {
     console.log(e);
     document.body.click();
 });
-
-var moniker;
-
-function tester(i, j) {
-    var ri = parseInt(i.slice(1, 3), 16) - parseInt(j.slice(1, 3), 16);
-    var gi = parseInt(i.slice(3, 5), 16) - parseInt(j.slice(3, 5), 16);
-    var bi = parseInt(i.slice(5, 7), 16) - parseInt(j.slice(5, 7), 16);
-    return (ri + gi + bi) / 3;
-}
-
-function initMoniker() {
-    moniker = document.getElementById("moniker");
-    var monikerBox = moniker.getBoundingClientRect();
-
-    var monikerCanvas = document.getElementById("moniker-canvas");
-    monikerCanvas.width = monikerBox.width * window.devicePixelRatio;
-    monikerCanvas.height = monikerBox.height * window.devicePixelRatio;
-
-    monikerContext = monikerCanvas.getContext("2d");
-    monikerContext.textAlign = "center";
-    monikerContext.textBaseline = "middle";
-    monikerContext.font = "112px Regular";
-
-    moniker.addEventListener("input", onMonikerInput);
-}
-
-function deeper2(hex2, d) {
-    var c = parseInt(hex2, 16);
-    // return Math.floor(c * c * c * c / 0x1000000).toString(16).padStart(2, 0);
-    return Math.floor(Math.pow(c, d) / Math.pow(16, 2 * (d - 1))).toString(16).padStart(2, 0);
-}
-
-function deeper(hex, d) {
-    var r = deeper2(hex.slice(1, 3), d);
-    var g = deeper2(hex.slice(3, 5), d);
-    var b = deeper2(hex.slice(5, 7), d);
-    return "#" + r + g + b;
-}
 
 function onBGInput() {
     if (bgbg.complete) {
