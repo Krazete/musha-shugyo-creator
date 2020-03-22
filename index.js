@@ -1,38 +1,58 @@
 var card;
-
-/* Card Type */
-
-function onClickTypes(e) {
-    if (e.target.tagName == "INPUT") {
-        card.className = e.target.value;
-    }
-}
+var data = {}; /* todo */
 
 function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
 
+    function onClickTypes(e) {
+        if (e.target.tagName == "INPUT") {
+            card.className = e.target.value;
+        }
+    }
+
     types.addEventListener("click", onClickTypes);
     defaultType.click();
 }
 
-/* Card Name */
-
-function onInputCardName() {
-
-}
-
 function initName() {
     var cardName = document.getElementById("card-name");
+    var cardNameRect = cardName.getBoundingClientRect();
     var cardNameCanvas = document.getElementById("card-name-canvas");
+    var nameContext = cardNameCanvas.getContext("2d");
+    var nameColor0 = document.getElementById("name-color-0");
+    var nameColor1 = document.getElementById("name-color-1");
+
+    function onInputCardName() {
+        var w = cardNameCanvas.width / devicePixelRatio;
+        var h = cardNameCanvas.height / devicePixelRatio;
+        nameContext.clearRect(0, 0, cardNameCanvas.width, cardNameCanvas.height);
+        nameContext.fillText(cardName.value, w, h);
+    }
+
+    function onChangeNameColor() {
+        var nameGradient = nameContext.createLinearGradient(0, 0, 0, cardNameCanvas.height);
+        nameGradient.addColorStop(0, nameColor0.value);
+        nameGradient.addColorStop(1, nameColor1.value);
+        nameContext.fillStyle = nameGradient;
+        onInputCardName();
+    }
+
+    cardNameCanvas.width = Math.round(cardNameRect.width);
+    cardNameCanvas.height = Math.round(cardNameRect.height);
+
+    nameContext.textAlign = "center";
+    nameContext.textBaseline = "middle";
+    nameContext.font = "56px Regular";
 
     cardName.addEventListener("input", onInputCardName);
+    nameColor0.jscolor.onFineChange = onChangeNameColor;
+    nameColor1.jscolor.onFineChange = onChangeNameColor;
 }
 
 /**/
 
 /* Name Color */
-
 
 var size = {
     "pageHeight": 1134,
@@ -92,28 +112,6 @@ window.addEventListener("touchstart", function (e) {
 });
 
 var moniker;
-
-function onMonikerInput(e) {
-    var topp = document.getElementById("moniker-color-top");
-    var bott = document.getElementById("moniker-color-bottom");
-    topp.jscolor.onFineChange = onMonikerInput;
-    bott.jscolor.fromString(deeper(topp.value, 3.7));
-    // bott.jscolor.onFineChange = onMonikerInput;
-
-    topp.style.borderColor = deeper(topp.value, 10);
-    bott.style.borderColor = deeper(bott.value, 10);
-    bott.style.color = deeper(bott.value, 10);
-
-    var gradient = monikerContext.createLinearGradient(0, 0, 0, monikerContext.canvas.height);
-    gradient.addColorStop(0, topp.value);
-    gradient.addColorStop(1, bott.value);
-    monikerContext.fillStyle = gradient;
-
-    monikerContext.clearRect(0, 0, monikerContext.canvas.width, monikerContext.canvas.height);
-    monikerContext.fillText(moniker.value, monikerContext.canvas.width/devicePixelRatio, monikerContext.canvas.height/devicePixelRatio);
-
-    // document.body.style.background = "linear-gradient(" + deeper(topp.value, 0.1) + ", " + deeper(topp.value, 10) + ")";
-}
 
 function tester(i, j) {
     var ri = parseInt(i.slice(1, 3), 16) - parseInt(j.slice(1, 3), 16);

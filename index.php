@@ -57,8 +57,8 @@
         </div>
         <div id="menu">
             <div class="option-label">Name Color</div>
-            <input id="moniker-color-top" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-            <input id="moniker-color-bottom" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
+            <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
+            <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
             <input type="checkbox" checked>
             <label id="autograd">Automatic Gradient</label>
             <div class="option-label">Background Color</div>
