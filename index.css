@@ -9,22 +9,23 @@
 }
 
 body {
-	background: #444;
+	background: #585854;
 }
 
-/*** LEFT SIDE ***/
+input[type='radio'], input[type='checkbox'] {
+	display: none;
+}
 
 #creator {
 	float: left;
 	padding: 10px;
 }
 
-/* Card Types */
-
 #types {
 	font-family: 'Regular';
 	font-size: 25px;
 }
+
 #types label {
 	background: gray;
 	padding: 10px;
@@ -33,79 +34,123 @@ body {
 }
 #types input:checked + label {
 	background: white;
-	color: black;
 	text-shadow: 0 0 1px black;
 }
-#types input {
-	display: none;
-}
-
-/* Card Preview */
 
 #card {
+	background-image: url('img/bg/large/Background_01.jpg');
+	background-size: 100% 100%;
     position: relative;
     width: 756px;
 	height: 1134px;
+	display: inline-block;
 	border: 10px solid white;
 	border-radius: 10px;
 	overflow: hidden;
-	display: inline-block;
 }
 
-.bg-img {
-	position: absolute;
-	pointer-events: none;
-}
-
-#card-bg {
-	width: 100%;
-	height: 100%;
-}
-
-#moniker-bg {
-    left: 8px;
-    top: 40px;
-    width: 740px;
-}
-
-#infobox-bg {
-	background-size: 100% 100%;
-	bottom: 0;
-	width: 438px;
-	height: 974px;
-}
-.char #infobox-bg {
-	background-image: url('img/Colonna.png');
-}
-.armor #infobox-bg {
-	background-image: url('img/Armor.png');
-	right: 0;
-}
-.agon #infobox-bg {
-	background-image: url('img/Agon.png');
-}
-
-input[type='text'] {
-	float: left;
+#card input[type='text'] {
 	background: none;
-	font-size: 22px;
 	padding: 0;
 	border: none;
 	outline: none;
 }
 
-#card input[type='radio'] {
+#card-art-controller {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	cursor: move;
+}
+
+#card-art { /* todo */
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+#card-name-bg {
+	position: absolute;
+    left: 8px;
+    top: 40px;
+    width: 740px;
+	height: 120px;
+	pointer-events: none;
+}
+
+#card-name {
+    color: transparent;
+    font-family: 'Regular';
+	font-size: 56px;
+    text-align: center;
+    position: absolute;
+    top: 65px;
+    width: 100%;
+}
+#card-name:focus {
+    color: white;
+}
+
+#card-name-canvas {
+	position: absolute;
+	top: 65px;
+	width: 100%;
+	pointer-events: none;
+}
+
+#card-info-bg {
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 0;
+	width: 438px;
+	height: 974px;
+	pointer-events: none;
+}
+.char #card-info-bg {
+	background-image: url('img/Colonna.png');
+}
+.armor #card-info-bg {
+	background-image: url('img/Armor.png');
+	right: 0;
+}
+.agon #card-info-bg {
+	background-image: url('img/Agon.png');
+}
+
+#card-info {
+    position: absolute;
+	width: 288px;
+}
+.char #card-info {
+	left: 90px;
+	top: 273px;
+}
+.armor #card-info {
+	right: 60px;
+	top: 245px;
+}
+.agon #card-info {
+	left: 90px;
+	top: 249px;
+}
+
+#card-info input[type='text'] {
+	float: left; /* todo */
+	font-size: 22px;
+}
+
+#card-info input[type='checkbox'] {
     display: none;
 }
 
-#card label {
+#card-info label {
 	float: left;
     position: relative;
     display: block;
 	padding: 5px 2px 6px 2px;
 	cursor: pointer;
 }
-#card label:after {
+#card-info label:after {
 	content: '';
 	display: block;
 	width: 16px;
@@ -114,7 +159,7 @@ input[type='text'] {
     border: 2px solid black;
     border-radius: 50%;
 }
-#card label.click:after {
+#card-info label.click:after {
 	background: black;
 }
 @media (pointer: fine) {
@@ -129,161 +174,104 @@ input[type='text'] {
 	}
 }
 
-/* Art */
-
-#artlayer {
-	width: 100%;
-	height: 100%;
-	cursor: move;
-}
-
-#artlayer img {
-	position: absolute;
-}
-
-/* Moniker */
-
-#moniker {
-    position: absolute;
-    top: 65px;
-    width: 756px;
-    background: none;
-    color: transparent;
-    font-family: 'Regular';
-	font-size: 56px;
-    text-align: center;
-    display: block;
-    padding: 0;
-    border: none;
-    outline: none;
-    margin: auto;
-}
-#moniker:focus {
-    color: white;
-}
-
-#moniker-canvas {
-	position: absolute;
-	top: 65px;
-	width: 756px;
-	pointer-events: none;
-}
-
-/* Infobox */
-
-#infobox {
-    position: absolute;
-	width: 288px;
-}
-.char #infobox {
-	left: 90px;
-	top: 273px;
-}
-.armor #infobox {
-	right: 60px;
-	top: 245px;
-}
-.agon #infobox {
-	left: 90px;
-	top: 249px;
-}
+/* *{outline:auto!important} */
 
 /* Agon Type */
 
-#type {
+#info-type {
 	font-family: 'Regular';
 	position: absolute;
 	left: 64px;
 }
-.char #type,
-.agon #type {
+.char #info-type,
+.agon #info-type {
 	display: none;
 }
 
 /* Stat Radio Buttons */
 
-#stat {
+#info-stat {
     position: absolute;
 }
-.char #stat {
+.char #info-stat {
 	left: 36px;
 }
-.armor #stat {
+.armor #info-stat {
 	left: 40px;
 	top: 56px;
 }
-.agon #stat {
+.agon #info-stat {
 	left: 26px;
 }
-.char #stat div:nth-last-child(2),
-.char #stat div:last-child,
-.armor #stat div:nth-last-child(2),
-.armor #stat div:last-child {
+.char #info-stat div:nth-last-child(2),
+.char #info-stat div:last-child,
+.armor #info-stat div:nth-last-child(2),
+.armor #info-stat div:last-child {
 	display: none;
 }
 
-#armorstat {
+#info-stat-armor {
 	position: absolute;
 	left: 120px;
 	top: 170px;
 }
-.char #armorstat,
-.agon #armorstat {
+.char #info-stat-armor,
+.agon #info-stat-armor {
 	display: none;
 }
 
 /* Moves */
 
-#moves {
+#info-moves {
 	position: relative;
 }
-.char #moves {
+.char #info-moves {
 	margin-top: 185px;
 }
-.armor #moves {
+.armor #info-moves {
 	margin-top: 309px;
 }
-.agon #moves {
+.agon #info-moves {
 	margin-top: 229px;
 }
 
-#moves > div {
+#info-moves > div {
 	width: 288px;
 	margin-bottom: 8px;
 }
-.char #moves > div {
+.char #info-moves > div {
 	height: 64px;
 }
-.armor #moves > div {
+.armor #info-moves > div {
 	height: 67px;
 }
-.agon #moves > div {
+.agon #info-moves > div {
 	height: 66px;
 }
-.char #moves > div:nth-child(6),
-.agon #moves > div:nth-child(6) {
+.char #info-moves > div:nth-child(6),
+.agon #info-moves > div:nth-child(6) {
 	visibility: hidden;
 }
-.armor #moves > div:nth-child(7),
-.armor #moves > div:last-child {
+.armor #info-moves > div:nth-child(7),
+.armor #info-moves > div:last-child {
 	display: none;
 }
 
-.name {
+.move-name {
 	font-family: 'Regular';
 	width: 288px;
 }
 
-.pa {
+.move-pa {
 	width: 52px;
 	font-family: 'Rodeo';
 }
 
-.pa:after {
+.move-pa:after {
 	content: 'PA';
 }
 
-.bonus {
+.move-bonus {
 	font-family: 'Rodeo';
 }
 
@@ -309,7 +297,7 @@ input[type='text'] {
 	width: 7em;
 	font-size: 16px;
 	padding: 5px;
-	border: 1px solid #444;
+	border: 1px solid;
 	border-radius: 5px;
 	outline: none;
 }

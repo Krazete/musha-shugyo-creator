@@ -1,5 +1,39 @@
 var card;
 
+/* Card Type */
+
+function onClickTypes(e) {
+    if (e.target.tagName == "INPUT") {
+        card.className = e.target.value;
+    }
+}
+
+function initTypes() {
+    var types = document.getElementById("types");
+    var defaultType = document.getElementById("type-char");
+
+    types.addEventListener("click", onClickTypes);
+    defaultType.click();
+}
+
+/* Card Name */
+
+function onInputCardName() {
+
+}
+
+function initName() {
+    var cardName = document.getElementById("card-name");
+    var cardNameCanvas = document.getElementById("card-name-canvas");
+
+    cardName.addEventListener("input", onInputCardName);
+}
+
+/**/
+
+/* Name Color */
+
+
 var size = {
     "pageHeight": 1134,
     "pageWidth": 756,
@@ -50,18 +84,6 @@ function renderCard() {
     context.putImage
 }
 
-function onCardTypeOptionsClick(e) {
-    if (e.target.tagName == "INPUT") {
-        card.className = e.target.value;
-    }
-}
-
-function initCardTypeInput() {
-    var cardTypeOptions = document.getElementById("types");
-    cardTypeOptions.addEventListener("click", onCardTypeOptionsClick, true);
-    cardTypeOptions.children[0].click();
-}
-
 /* Moniker */
 
 window.addEventListener("touchstart", function (e) {
@@ -77,6 +99,10 @@ function onMonikerInput(e) {
     topp.jscolor.onFineChange = onMonikerInput;
     bott.jscolor.fromString(deeper(topp.value, 3.7));
     // bott.jscolor.onFineChange = onMonikerInput;
+
+    topp.style.borderColor = deeper(topp.value, 10);
+    bott.style.borderColor = deeper(bott.value, 10);
+    bott.style.color = deeper(bott.value, 10);
 
     var gradient = monikerContext.createLinearGradient(0, 0, 0, monikerContext.canvas.height);
     gradient.addColorStop(0, topp.value);
@@ -240,6 +266,13 @@ function initStat(stat) {
 
 function init() {
     card = document.getElementById("card");
+
+    initTypes();
+    initName();
+    initStat();
+
+    /**/
+
     var cardBox = card.getBoundingClientRect();
     var cardCanvas = document.getElementById("card-canvas");
     cardCanvas.width = cardBox.width;
@@ -248,7 +281,7 @@ function init() {
 
     var stat = document.getElementById("stat");
     var armorstat = document.getElementById("armorstat");
-    initCardTypeInput();
+
     initMoniker();
     initBG();
     initStat(stat);

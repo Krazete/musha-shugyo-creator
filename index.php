@@ -16,41 +16,40 @@
             <input id="type-agon" type="radio" name="type" value="agon">
             <label for="type-agon">Agon</label>
         </div>
-        <div id="card">
-            <img id="card-bg" class="bg-img" src="img/bg/large/Background_01.jpg">
-            <div id="artlayer">
-                <img id="art" src="img/A.gif">
+        <div id="card" class="armor"><!-- todo: temp -->
+            <div id="card-art-controller">
+                <img id="card-art" src="img/A.gif">
             </div>
-            <img id="moniker-bg" class="bg-img" src="img/Nome.png">
-            <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
-            <canvas id="moniker-canvas"></canvas>
-            <div id="infobox-bg" class="bg-img"></div>
-            <div id="infobox">
-                <input id="type" type="text" placeholder="Type">
-                <div id="stat">
+            <img id="card-name-bg" src="img/Nome.png">
+            <input id="card-name" type="text" placeholder="Card Name" autocomplete="off" spellcheck="false"><!-- todo -->
+            <canvas id="card-name-canvas"></canvas>
+            <div id="card-info-bg"></div>
+            <div id="card-info">
+                <input id="info-type" type="text" placeholder="Type">
+                <div id="info-stat">
 <?php foreach (array("ra", "at", "de", "vo", "eq") as $id) { ?>
                     <div id="<?php echo $id; ?>">
 <?php for ($i = 0; $i < 6; $i++) { ?>
-                        <label><input type="radio" name="<?php echo $id; ?>"></label>
+                        <label><input type="checkbox" name="<?php echo $id; ?>"></label>
 <?php } ?>
                     </div>
 <?php } ?>
                 </div>
-                <div id="armorstat">
+                <div id="info-stat-armor">
 <?php foreach (array("st", "da") as $id) { ?>
                     <div id="<?php echo $id; ?>">
 <?php for ($i = 0; $i < 7; $i++) { ?>
-                        <label><input type="radio" name="<?php echo $id; ?>"></label>
+                        <label><input type="checkbox" name="<?php echo $id; ?>"></label>
 <?php } ?>
                     </div>
 <?php } ?>
                 </div>
-                <div id="moves">
+                <div id="info-moves">
 <?php for ($i = 0; $i < 8; $i++) { ?>
                     <div id="move-<?php echo $i; ?>">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
 <?php } ?>
                 </div>
