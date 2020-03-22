@@ -64,8 +64,10 @@
             <div class="option-label">Background Color</div>
             <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
             <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-            <input id="bg-color-auto" type="checkbox">
+            <input for="bg-color-auto" type="checkbox">
             <label id="bg-color-auto">Auto</label>
+            <input for="bg-color-no" type="checkbox">
+            <label id="bg-color-no">Cancel</label>
             <div class="option-label">Card Art</div>
             <input type="file">
             <div>

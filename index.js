@@ -11,6 +11,13 @@ var deeperHex = function() {
     }
 
     return function(hex, d) {
+        if (hex.length == 4) {
+            shortHex = hex;
+            hex = "";
+            for (var i = 0; i < shortHex.length; i++) {
+                hex += shortHex.slice(i, i + 2);
+            }
+        }
         var r = deeperSubHex(hex.slice(1, 3), d);
         var g = deeperSubHex(hex.slice(3, 5), d);
         var b = deeperSubHex(hex.slice(5, 7), d);
@@ -56,14 +63,17 @@ function initName() {
     function onChangeNameColor() {
         var nameGradient = nameContext.createLinearGradient(0, 0, 0, cardNameCanvas.height);
 
-        if (nameColorAuto.checked) {
-            nameColor1.jscolor.fromString(deeperHex(nameColor0.value, 3.7));
+        if (nameColor0.value.length == 4 || nameColor0.value.length == 7) {
+            if (nameColorAuto.checked) {
+                nameColor1.jscolor.fromString(deeperHex(nameColor0.value, 3.7));
+            }
+            if (nameColor1.value.length == 4 || nameColor1.value.length == 7) {
+                nameGradient.addColorStop(0, nameColor0.value);
+                nameGradient.addColorStop(1, nameColor1.value);
+                nameContext.fillStyle = nameGradient;
+                onInputCardName();
+            }
         }
-
-        nameGradient.addColorStop(0, nameColor0.value);
-        nameGradient.addColorStop(1, nameColor1.value);
-        nameContext.fillStyle = nameGradient;
-        onInputCardName();
     }
 
     function onInputNameColorAuto() {
