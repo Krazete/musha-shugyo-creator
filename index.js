@@ -113,22 +113,23 @@ function initBackground() {
 
     function updateCanvas() {
         imgLoaded = true;
-        var newData = new ImageData(bgCanvas.width, bgCanvas.height);
 
         bgContext.clearRect(0, 0, 256, 256);
         bgContext.drawImage(img, 0, 0, bgCanvas.width, bgCanvas.height);
-        var bgData = bgContext.getImageData(0, 0, bgCanvas.width, bgCanvas.height);
 
-        /* Maximize Contrast */
+        var bgData = bgContext.getImageData(0, 0, bgCanvas.width, bgCanvas.height);
+        var newData = new ImageData(bgCanvas.width, bgCanvas.height);
 
         var dataMin = 255;
         var dataMax = 0;
-        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) {
+
+        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) { /* to maximize contrast */
             var intensity = Math.floor((r + g + b) / 3);
             dataMin = Math.min(dataMin, intensity);
             dataMax = Math.max(dataMax, intensity);
         });
-        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) {
+
+        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) { /* recolor */
             var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
             newData.data[i] = gradientData.data[4 * intensity];
             newData.data[i + 1] = gradientData.data[4 * intensity + 1];
@@ -168,9 +169,11 @@ function initBackground() {
         }
         else {
             bgColor0.removeAttribute("disabled");
-            bgColor1.removeAttribute("disabled");
+            if (!bgColorAuto.checked) {
+                bgColor1.removeAttribute("disabled");
+            }
             bgColorAuto.removeAttribute("disabled");
-            updateBackground();
+            updateBackground(bgColor0, bgColor1);
         }
     }
 
