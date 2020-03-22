@@ -58,14 +58,14 @@
         <div id="menu">
             <div class="option-label">Name Color</div>
             <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-            <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
-            <input id="name-color-auto" type="checkbox" checked>
-            <label for="name-color-auto">Automatic Gradient</label>
+            <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
+            <input id="name-color-auto" type="checkbox">
+            <label for="name-color-auto">Auto</label>
             <div class="option-label">Background Color</div>
-            <input id="bg-color-hi" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
-            <input id="bg-color-lo" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-            <input type="checkbox" checked>
-            <label id="autograd2">Automatic Gradient</label>
+            <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
+            <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+            <input id="bg-color-auto" type="checkbox">
+            <label id="bg-color-auto">Auto</label>
             <div class="option-label">Card Art</div>
             <input type="file">
             <div>
@@ -109,7 +109,7 @@
     </div>
     <div id="aide" class="hidden">
         <img id="bgbg" src="img/bg/large/Background_01.jpg">
-        <canvas id="bg-grad" width="256" height="1"></canvas>
+        <canvas id="bg-canvas" width="256" height="1"></canvas>
     </div>
     <canvas id="card-canvas"></canvas>
 </body>

@@ -1,5 +1,7 @@
 var card;
-var data = {}; /* todo */
+var data = {
+    "bg": "img/bg/large/Background_01.jpg"
+}; /* todo */
 
 var deeperHex = function() {
     function deeperSubHex(subhex, d) {
@@ -28,6 +30,11 @@ function initTypes() {
 
     types.addEventListener("click", onClickTypes);
     defaultType.click();
+}
+
+function initBackground() {
+    var bgCanvas = document.getElementById("bg-canvas");
+    var bgContext = bgCanvas.getContext("2d");
 }
 
 function initName() {
@@ -59,6 +66,16 @@ function initName() {
         onInputCardName();
     }
 
+    function onInputNameColorAuto() {
+        if (nameColorAuto.checked) {
+            nameColor1.setAttribute("disabled", true);
+        }
+        else {
+            nameColor1.removeAttribute("disabled");
+        }
+        onChangeNameColor();
+    }
+
     cardNameCanvas.width = Math.round(cardNameRect.width * devicePixelRatio);
     cardNameCanvas.height = Math.round(cardNameRect.height * devicePixelRatio);
 
@@ -70,6 +87,10 @@ function initName() {
     cardName.addEventListener("input", onInputCardName);
     nameColor0.jscolor.onFineChange = onChangeNameColor;
     nameColor1.jscolor.onFineChange = onChangeNameColor;
+    nameColorAuto.addEventListener("input", onInputNameColorAuto);
+
+    nameColorAuto.checked = false;
+    nameColorAuto.click();
 }
 
 /**/
@@ -89,9 +110,6 @@ function onScale(e) {
     card.style.height = 15 * parseInt(value) + "px";
 }
 
-function renderNome(e) {
-}
-
 function getImageDataFromImage(image, w, h) {
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
@@ -108,12 +126,6 @@ function getImageDataFromImage(image, w, h) {
     context.clearRect(0, 0, canvas.width, canvas.height);
 	context.fillText(name, 748, 100);
     return context.getImageData(0, 0, canvas.width, canvas.height);
-}
-
-function changeName(name) {
-	canvas = document.getElementById("name").getElementsByTagName("canvas")[0];
-	context.clearRect(0, 0, canvas.width, canvas.height);
-	context.fillText(name, 748, 100);
 }
 
 function renderCard() {
@@ -250,6 +262,7 @@ function init() {
     card = document.getElementById("card");
 
     initTypes();
+    initBackground();
     initName();
     initStat();
 
@@ -264,7 +277,6 @@ function init() {
     var stat = document.getElementById("stat");
     var armorstat = document.getElementById("armorstat");
 
-    initMoniker();
     initBG();
     initStat(stat);
     initStat(armorstat);

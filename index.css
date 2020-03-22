@@ -309,6 +309,17 @@ input[type='radio'], input[type='checkbox'] {
 
 /* Image */
 
+#menu label {
+	font-family: 'Regular';
+	padding: 5px;
+	border: 1px solid black;
+	border-radius: 10px;
+	cursor: pointer;
+}
+#menu input:checked + label {
+	background: white;
+}
+
 /* Export */
 
 
