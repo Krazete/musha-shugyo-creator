@@ -2,7 +2,6 @@ var card;
 var cardData = { /* todo */
     "bgRaw": "",
     "bg": ""
-    // "bg": "img/A.gif"
 };
 
 function initTypes() {
@@ -114,7 +113,7 @@ function initBackground() {
     function updateCanvas() {
         imgLoaded = true;
 
-        bgContext.clearRect(0, 0, 256, 256);
+        bgContext.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
         bgContext.drawImage(img, 0, 0, bgCanvas.width, bgCanvas.height);
 
         var bgData = bgContext.getImageData(0, 0, bgCanvas.width, bgCanvas.height);
@@ -129,7 +128,7 @@ function initBackground() {
             dataMax = Math.max(dataMax, intensity);
         });
 
-        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) { /* recolor */
+        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) {
             var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
             newData.data[i] = gradientData.data[4 * intensity];
             newData.data[i + 1] = gradientData.data[4 * intensity + 1];
