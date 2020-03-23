@@ -67,10 +67,33 @@ function initColorInput(color0, color1, colorAuto, depth, f) {
 
     color0.jscolor.onFineChange = onChangeColor;
     color1.jscolor.onFineChange = onChangeColor;
-    colorAuto.addEventListener("input", onInputColorAuto);
 
     colorAuto.checked = false;
+    colorAuto.addEventListener("input", onInputColorAuto);
     colorAuto.click();
+}
+
+function initStandardButton(standard, inputs, ignore, f, g) {
+    function onInputStandard() {
+        if (standard.checked) {
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].setAttribute("disabled", true);
+            }
+            f(inputs);
+        }
+        else {
+            for (var i = 0; i < inputs.length; i++) {
+                if (ignore(inputs, i)) {
+                    inputs[i].removeAttribute("disabled");
+                }
+            }
+            g(inputs);
+        }
+    }
+
+    standard.checked = false;
+    standard.addEventListener("input", onInputStandard);
+    standard.click();
 }
 
 function initBackground() {
@@ -82,7 +105,7 @@ function initBackground() {
     var bgColor0 = document.getElementById("bg-color-0");
     var bgColor1 = document.getElementById("bg-color-1");
     var bgColorAuto = document.getElementById("bg-color-auto");
-    var bgColorNone = document.getElementById("bg-color-none");
+    var bgColorStandard = document.getElementById("bg-color-standard");
     var img;
     var imgLoaded = false;
 
@@ -112,6 +135,9 @@ function initBackground() {
 
     function updateCanvas() {
         imgLoaded = true;
+        if (bgColorStandard.checked) {
+            return;
+        }
 
         bgContext.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
         bgContext.drawImage(img, 0, 0, bgCanvas.width, bgCanvas.height);
@@ -159,30 +185,24 @@ function initBackground() {
         }
     }
 
-    function onClickColorNone() {
-        if (bgColorNone.checked) {
-            bgColor0.setAttribute("disabled", true);
-            bgColor1.setAttribute("disabled", true);
-            bgColorAuto.setAttribute("disabled", true);
-            card.style.backgroundImage = "url('" + cardData.bgRaw + "')";
+    function ignoreColor1(inputs, i) {
+        if (i == 1 && inputs[2].checked) {
+            return false;
         }
-        else {
-            bgColor0.removeAttribute("disabled");
-            if (!bgColorAuto.checked) {
-                bgColor1.removeAttribute("disabled");
-            }
-            bgColorAuto.removeAttribute("disabled");
-            updateBackground(bgColor0, bgColor1);
-        }
+        return true;
+    }
+
+    function onColorStandardChecked(inputs) {
+        card.style.backgroundImage = "url('" + cardData.bgRaw + "')";
+    }
+
+    function onColorStandardUnchecked(inputs) {
+        updateBackground(inputs[0], inputs[1]);
     }
 
     newBackground("img/bg/large/Background_01.jpg");
-
-    bgColorNone.addEventListener("input", onClickColorNone);
-    bgColorNone.checked = true;
-    bgColorNone.click();
-
     initColorInput(bgColor0, bgColor1, bgColorAuto, 0, updateBackground);
+    initStandardButton(bgColorStandard, [bgColor0, bgColor1, bgColorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
 }
 
 function initName() {
@@ -193,6 +213,7 @@ function initName() {
     var nameColor0 = document.getElementById("name-color-0");
     var nameColor1 = document.getElementById("name-color-1");
     var nameColorAuto = document.getElementById("name-color-auto");
+    var nameColorStandard = document.getElementById("name-color-standard");
 
     function onInputCardName() {
         var w = nameCanvas.width / devicePixelRatio;
@@ -209,6 +230,21 @@ function initName() {
         onInputCardName();
     }
 
+    function ignoreColor1(inputs, i) {
+        if (i == 1 && inputs[2].checked) {
+            return false;
+        }
+        return true;
+    }
+
+    function onColorStandardChecked(inputs) {
+        updateGradient({"value": "#ffca1a"}, {"value": "#fe6207"});
+    }
+
+    function onColorStandardUnchecked(inputs) {
+        updateGradient(nameColor0, nameColor1)
+    }
+
     nameCanvas.width = Math.round(nameRect.width * devicePixelRatio);
     nameCanvas.height = Math.round(nameRect.height * devicePixelRatio);
 
@@ -219,6 +255,7 @@ function initName() {
     cardName.addEventListener("input", onInputCardName);
 
     initColorInput(nameColor0, nameColor1, nameColorAuto, 3.7, updateGradient);
+    initStandardButton(nameColorStandard, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
 }
 
 /**/
@@ -375,6 +412,12 @@ function initInfo() {
     initStat(statArmor);
 }
 
+function warn(e) {
+    e.preventDefault();
+    e.returnValue = "Changes you made may not be saved.";
+    return e.returnValue;
+}
+
 function init() {
     card = document.getElementById("card");
 
@@ -394,3 +437,4 @@ function init() {
 
 window.addEventListener("load", init);
 window.addEventListener("beforeprint", renderCard);
+window.addEventListener("beforeunload", warn);

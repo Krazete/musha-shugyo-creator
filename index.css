@@ -9,7 +9,7 @@
 }
 
 body {
-	background: #585854;
+	background: #585955;
 }
 
 input[type='radio'], input[type='checkbox'] {
@@ -304,6 +304,7 @@ input[type='radio'], input[type='checkbox'] {
 /* Image */
 
 #menu label {
+	background: #585955;
 	font-family: 'Regular';
 	padding: 5px;
 	border: 1px solid black;

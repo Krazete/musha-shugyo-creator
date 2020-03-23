@@ -57,17 +57,24 @@
         </div>
         <div id="menu">
             <div class="option-label">Name Color</div>
+            <input id="name-color-standard" type="checkbox">
+            <label for="name-color-standard">Default</label>
             <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
             <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
             <input id="name-color-auto" type="checkbox">
             <label for="name-color-auto">Auto</label>
             <div class="option-label">Background Color</div>
+            <div>
+                <input id="bg-file-standard" type="checkbox">
+                <label for="bg-file-standard">Default</label>
+                <input id="bg-file" type="file">
+            </div>
+            <input id="bg-color-standard" type="checkbox">
+            <label for="bg-color-standard">Default</label>
             <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
             <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
             <input id="bg-color-auto" type="checkbox">
             <label for="bg-color-auto">Auto</label>
-            <input id="bg-color-none" type="checkbox">
-            <label for="bg-color-none">Cancel</label>
             <div class="option-label">Card Art</div>
             <input type="file">
             <div>
