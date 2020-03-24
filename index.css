@@ -71,9 +71,9 @@ input[type='radio'], input[type='checkbox'] {
 
 #card-name-bg {
 	position: absolute;
-    left: 8px;
+    left: 18px;
     top: 40px;
-    width: 740px;
+    width: 720px;
 	height: 120px;
 	pointer-events: none;
 }
@@ -102,8 +102,8 @@ input[type='radio'], input[type='checkbox'] {
 	background-size: 100% 100%;
 	position: absolute;
 	bottom: 0;
-	width: 438px;
-	height: 974px;
+	width: 436px;
+	height: 981px;
 	pointer-events: none;
 }
 .char #card-info-bg {
@@ -122,16 +122,16 @@ input[type='radio'], input[type='checkbox'] {
 	width: 288px;
 }
 .char #card-info {
-	left: 90px;
-	top: 273px;
+	left: 92px;
+	top: 265px;
 }
 .armor #card-info {
 	right: 60px;
-	top: 245px;
+	top: 238px;
 }
 .agon #card-info {
-	left: 90px;
-	top: 249px;
+	left: 80px;
+	top: 241px;
 }
 
 #card-info input[type='text'] {
@@ -139,14 +139,10 @@ input[type='radio'], input[type='checkbox'] {
 	font-size: 22px;
 }
 
-#card-info input[type='checkbox'] {
-    display: none;
-}
-
 #card-info label {
 	float: left;
     display: block;
-	padding: 5px 2px 6px 2px;
+	padding: 6px 2px 6px 2px;
 	cursor: pointer;
 }
 #card-info label:after {
@@ -174,6 +170,8 @@ input[type='radio'], input[type='checkbox'] {
 }
 
 /* *{outline:auto!important} */
+/* *{outline:auto!important} */
+/* *{outline:auto!important} */
 
 /* Agon Type */
 
@@ -193,14 +191,14 @@ input[type='radio'], input[type='checkbox'] {
     position: absolute;
 }
 .char #info-stat {
-	left: 36px;
+	left: 34px;
 }
 .armor #info-stat {
-	left: 40px;
+	left: 45px;
 	top: 56px;
 }
 .agon #info-stat {
-	left: 26px;
+	left: 35px;
 }
 .char #info-stat div:nth-last-child(2),
 .char #info-stat div:last-child,
@@ -211,7 +209,7 @@ input[type='radio'], input[type='checkbox'] {
 
 #info-stat-armor {
 	position: absolute;
-	left: 120px;
+	left: 125px;
 	top: 170px;
 }
 .char #info-stat-armor,
@@ -225,13 +223,13 @@ input[type='radio'], input[type='checkbox'] {
 	position: relative;
 }
 .char #info-moves {
-	margin-top: 185px;
+	margin-top: 182px;
 }
 .armor #info-moves {
-	margin-top: 309px;
+	margin-top: 310px; /* todo: change to 308 after middling */
 }
 .agon #info-moves {
-	margin-top: 229px;
+	margin-top: 229px; /* todo: change to 308 after middling */
 }
 
 #info-moves > div {
@@ -239,13 +237,13 @@ input[type='radio'], input[type='checkbox'] {
 	margin-bottom: 8px;
 }
 .char #info-moves > div {
-	height: 64px;
+	height: 65px;
 }
 .armor #info-moves > div {
-	height: 67px;
+	height: 68px;
 }
 .agon #info-moves > div {
-	height: 66px;
+	height: 67px;
 }
 .char #info-moves > div:nth-child(6),
 .agon #info-moves > div:nth-child(6) {
@@ -274,7 +272,9 @@ input[type='radio'], input[type='checkbox'] {
 	font-family: 'Rodeo';
 }
 
-/*** RIGHT SIDE ***/
+/* *{outline:auto!important} */
+/* *{outline:auto!important} */
+/* *{outline:auto!important} */
 
 #menu {
 	vertical-align: top;
@@ -282,30 +282,40 @@ input[type='radio'], input[type='checkbox'] {
 	padding: 10px;
 }
 
-.option-label {
+.menu-title {
 	background-image: url('img/Nome.png');
 	background-size: 100% 100%;
-	font-family: Regular;
-	font-size: 30px;
+	font-family: 'Regular';
+	font-size: 25px;
 	color: white;
 	padding: 20px 30px;
 	width: max-content;
 }
 
-.jscolor {
-	width: 7em;
+.row {
+	font-family: sans-serif;
+	padding: 5px 0;
+}
+
+#menu input {
 	font-size: 16px;
 	padding: 5px;
 	border: 1px solid;
 	border-radius: 5px;
 	outline: none;
 }
-
-/* Image */
+#menu input[type='file'] {
+	background: white;
+	width: 240px;
+}
+#menu input.jscolor {
+	width: 80px;
+}
 
 #menu label {
 	background: #585955;
 	font-family: 'Regular';
+	font-size: 16px;
 	padding: 5px;
 	border: 1px solid black;
 	border-radius: 10px;
@@ -316,22 +326,16 @@ input[type='radio'], input[type='checkbox'] {
 }
 
 #menu input:disabled, #menu input:disabled + label {
-	color: gray !important;
 	opacity: 0.67;
+	color: gray !important;
 	border-color: gray;
 	border-style: dashed;
 	pointer-events: none;
 }
 
-.row {
-	padding: 5px 0;
-}
-
-/* Export */
-
-
-
-/*** Hidden ***/
+/* *{outline:auto!important} */
+/* *{outline:auto!important} */
+/* *{outline:auto!important} */
 
 #card-canvas {
 	width: 10cm;

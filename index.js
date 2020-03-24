@@ -422,9 +422,10 @@ function init() {
     card = document.getElementById("card");
 
     initTypes();
+    initInfo();
+
     initBackground();
     initName();
-    initInfo();
 
     /**/
 
@@ -437,4 +438,4 @@ function init() {
 
 window.addEventListener("load", init);
 window.addEventListener("beforeprint", renderCard);
-window.addEventListener("beforeunload", warn);
+// window.addEventListener("beforeunload", warn);

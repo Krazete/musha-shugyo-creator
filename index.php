@@ -56,11 +56,12 @@
             </div>
         </div>
         <div id="menu">
-            <div class="option-label">Background</div>
+            <div class="menu-title">Background</div>
             <div class="row">
                 <input id="bg-file-standard" type="checkbox">
                 <label for="bg-file-standard">Default</label>
-                <input id="bg-file" type="file">
+                <input id="bg-file" type="file" accept="image/*">
+                (2:3)
             </div>
             <div class="row">
                 <input id="bg-color-standard" type="checkbox">
@@ -71,11 +72,12 @@
                 <label for="bg-color-auto">Auto</label>
             </div>
 
-            <div class="option-label">Nameplate</div>
+            <div class="menu-title">Nameplate</div>
             <div class="row">
                 <input id="nameplate-file-standard" type="checkbox">
                 <label for="nameplate-file-standard">Default</label>
-                <input id="nameplate-file" type="file">
+                <input id="nameplate-file" type="file" accept="image/*">
+                (1:6)
             </div>
             <div class="row">
                 <input id="nameplate-color-standard" type="checkbox">
@@ -86,7 +88,7 @@
                 <label for="nameplate-color-auto">Auto</label>
             </div>
 
-            <div class="option-label">Name</div>
+            <div class="menu-title">Name</div>
             <div class="row">
                 <input id="name-color-standard" type="checkbox">
                 <label for="name-color-standard">Default</label>
@@ -96,11 +98,12 @@
                 <label for="name-color-auto">Auto</label>
             </div>
 
-            <div class="option-label">Infobox</div>
+            <div class="menu-title">Infobox</div>
             <div class="row">
                 <input id="info-file-standard" type="checkbox">
                 <label for="info-file-standard">Default</label>
-                <input id="info-file" type="file">
+                <input id="info-file" type="file" accept="image/*">
+                (4:9)
             </div>
             <div class="row">
                 <input id="info-color-standard" type="checkbox">
@@ -111,9 +114,9 @@
                 <label for="info-color-auto">Auto</label>
             </div>
 
-            <div class="option-label">Card Art</div>
+            <div class="menu-title">Card Art</div>
             <div class="row">
-                <input id="art" type="file">
+                <input id="art" type="file" accept="image/*">
             </div>
             <div class="row">
                 <input type="radio">
@@ -135,7 +138,7 @@
                 <input type="number">
                 <label>Width</label>
             </div>
-            <div class="option-label">Export</div>
+            <div class="menu-title">Export</div>
             <div class="row">
                 <input type="button" value="PNG">
                 <input type="button" value="PDF">
