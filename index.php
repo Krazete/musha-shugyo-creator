@@ -56,28 +56,66 @@
             </div>
         </div>
         <div id="menu">
-            <div class="option-label">Name Color</div>
-            <input id="name-color-standard" type="checkbox">
-            <label for="name-color-standard">Default</label>
-            <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-            <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
-            <input id="name-color-auto" type="checkbox">
-            <label for="name-color-auto">Auto</label>
-            <div class="option-label">Background Color</div>
-            <div>
+            <div class="option-label">Background</div>
+            <div class="row">
                 <input id="bg-file-standard" type="checkbox">
                 <label for="bg-file-standard">Default</label>
                 <input id="bg-file" type="file">
             </div>
-            <input id="bg-color-standard" type="checkbox">
-            <label for="bg-color-standard">Default</label>
-            <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
-            <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-            <input id="bg-color-auto" type="checkbox">
-            <label for="bg-color-auto">Auto</label>
+            <div class="row">
+                <input id="bg-color-standard" type="checkbox">
+                <label for="bg-color-standard">Default</label>
+                <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="bg-color-auto" type="checkbox">
+                <label for="bg-color-auto">Auto</label>
+            </div>
+
+            <div class="option-label">Nameplate</div>
+            <div class="row">
+                <input id="nameplate-file-standard" type="checkbox">
+                <label for="nameplate-file-standard">Default</label>
+                <input id="nameplate-file" type="file">
+            </div>
+            <div class="row">
+                <input id="nameplate-color-standard" type="checkbox">
+                <label for="nameplate-color-standard">Default</label>
+                <input id="nameplate-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="nameplate-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="nameplate-color-auto" type="checkbox">
+                <label for="nameplate-color-auto">Auto</label>
+            </div>
+
+            <div class="option-label">Name</div>
+            <div class="row">
+                <input id="name-color-standard" type="checkbox">
+                <label for="name-color-standard">Default</label>
+                <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
+                <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
+                <input id="name-color-auto" type="checkbox">
+                <label for="name-color-auto">Auto</label>
+            </div>
+
+            <div class="option-label">Infobox</div>
+            <div class="row">
+                <input id="info-file-standard" type="checkbox">
+                <label for="info-file-standard">Default</label>
+                <input id="info-file" type="file">
+            </div>
+            <div class="row">
+                <input id="info-color-standard" type="checkbox">
+                <label for="info-color-standard">Default</label>
+                <input id="info-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="info-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="info-color-auto" type="checkbox">
+                <label for="info-color-auto">Auto</label>
+            </div>
+
             <div class="option-label">Card Art</div>
-            <input type="file">
-            <div>
+            <div class="row">
+                <input id="art" type="file">
+            </div>
+            <div class="row">
                 <input type="radio">
                 <label>Translate</label>
                 <input type="number">
@@ -85,35 +123,24 @@
                 <input type="number">
                 <label>Y</label>
             </div>
-            <div>
+            <div class="row">
                 <input type="radio">
                 <label>Rotate</label>
                 <input type="number">
                 <label>Degrees</label>
             </div>
-            <div>
+            <div class="row">
                 <input type="radio">
                 <label>Scale</label>
                 <input type="number">
                 <label>Width</label>
             </div>
-            <div class="option-label">Custom Assets</div>
-            <div>
-                <input type="file">
-                <label>Card Background</label>
-            </div>
-            <div>
-                <input type="file">
-                <label>Name Background</label>
-            </div>
-            <div>
-                <input type="file">
-                <label>Infobox Background</label>
-            </div>
             <div class="option-label">Export</div>
-            <input type="button" value="PNG">
-            <input type="button" value="PDF">
-            <input type="button" value="JSON">
+            <div class="row">
+                <input type="button" value="PNG">
+                <input type="button" value="PDF">
+                <input type="button" value="JSON">
+            </div>
         </div>
     </div>
     <div id="aide" class="hidden">

@@ -317,9 +317,14 @@ input[type='radio'], input[type='checkbox'] {
 
 #menu input:disabled, #menu input:disabled + label {
 	color: gray !important;
+	opacity: 0.67;
 	border-color: gray;
 	border-style: dashed;
 	pointer-events: none;
+}
+
+.row {
+	padding: 5px 0;
 }
 
 /* Export */
