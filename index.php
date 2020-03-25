@@ -146,10 +146,6 @@
             </div>
         </div>
     </div>
-    <div id="aide" class="hidden">
-        <canvas id="gradient-canvas" width="256" height="1"></canvas>
-        <canvas id="bg-canvas" width="756" height="1134"></canvas>
-    </div>
     <canvas id="card-canvas"></canvas>
 </body>
 </html>

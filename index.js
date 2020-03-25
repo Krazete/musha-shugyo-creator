@@ -18,6 +18,34 @@ function initTypes() {
     defaultType.click();
 }
 
+function initFileInput(file, ff) {
+    function onInputFile() {
+        if (this.files.length > 0) {
+            var f = this.files[0];
+            if (/image\//.test(f.type)) {
+                var reader = new FileReader();
+                reader.addEventListener("load", function() {
+                    ff(this.result);
+                })
+                reader.readAsDataURL(f);
+            }
+        }
+    }
+
+    file.addEventListener("input", onInputFile);
+}
+
+function newCanvas(width, height) {
+    var canvas = document.createElement("canvas");
+    if (width) {
+        canvas.width = width;
+    }
+    if (height) {
+        canvas.height = height;
+    }
+    return canvas;
+}
+
 function initColorInput(color0, color1, colorAuto, depth, f) {
     var deeperHex = function() {
         function deeperSubHex(subhex, d) {
@@ -79,15 +107,19 @@ function initStandardButton(standard, inputs, ignore, f, g) {
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].setAttribute("disabled", true);
             }
-            f(inputs);
+            if (f) {
+                f(inputs);
+            }
         }
         else {
             for (var i = 0; i < inputs.length; i++) {
-                if (ignore(inputs, i)) {
+                if (!ignore || ignore(inputs, i)) {
                     inputs[i].removeAttribute("disabled");
                 }
             }
-            g(inputs);
+            if (g) {
+                g(inputs);
+            }
         }
     }
 
@@ -97,15 +129,20 @@ function initStandardButton(standard, inputs, ignore, f, g) {
 }
 
 function initBackground() {
-    var gradientCanvas = document.getElementById("gradient-canvas");
+    var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
     var gradientData = new ImageData(1, 256);
-    var bgCanvas = document.getElementById("bg-canvas");
+    var bgCanvas = newCanvas(756, 1134);
     var bgContext = bgCanvas.getContext("2d");
+
+    var bgFile = document.getElementById("bg-file");
+    var bgFileStandard = document.getElementById("bg-file-standard");
+
     var bgColor0 = document.getElementById("bg-color-0");
     var bgColor1 = document.getElementById("bg-color-1");
     var bgColorAuto = document.getElementById("bg-color-auto");
     var bgColorStandard = document.getElementById("bg-color-standard");
+
     var img;
     var imgLoaded = false;
 
@@ -185,23 +222,34 @@ function initBackground() {
         }
     }
 
+    function pppp(ppk) {
+        newBackground(ppk)
+    }
+
+    function onFileStandardChecked(e) {
+        console.log(e);
+    }
+    function onFileStandardUnchecked(e) {
+        console.log(e);
+    }
+
     function ignoreColor1(inputs, i) {
         if (i == 1 && inputs[2].checked) {
             return false;
         }
         return true;
     }
-
     function onColorStandardChecked(inputs) {
         card.style.backgroundImage = "url('" + cardData.bgRaw + "')";
     }
-
     function onColorStandardUnchecked(inputs) {
         updateBackground(inputs[0], inputs[1]);
     }
 
     newBackground("img/bg/large/Background_01.jpg");
+    initFileInput(bgFile, pppp);
     initColorInput(bgColor0, bgColor1, bgColorAuto, 0, updateBackground);
+    initStandardButton(bgFileStandard, [bgFile]);
     initStandardButton(bgColorStandard, [bgColor0, bgColor1, bgColorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
 }
 
