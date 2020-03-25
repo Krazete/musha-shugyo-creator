@@ -370,3 +370,7 @@ input[type='radio'], input[type='checkbox'] {
 	height: 15cm;
 	display: none;
 }
+
+.blocked {
+	outline: 1px solid red;
+}

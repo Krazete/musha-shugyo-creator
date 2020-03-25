@@ -18,7 +18,7 @@
         </div>
         <div id="card" class="armor"><!-- todo: temp -->
             <div id="card-art-controller">
-                <img id="card-art" src="img/A.gif">
+                <img id="card-art">
             </div>
             <div id="card-name-bg"></div>
             <input id="card-name" type="text" placeholder="Card Name" autocomplete="off" spellcheck="false"><!-- todo -->
@@ -35,7 +35,7 @@
                     </div>
 <?php } ?>
                 </div>
-                <div id="info-sp"></div>
+                <div id="info-sp" class="blocked"></div>
                 <div id="info-stat-armor">
 <?php foreach (array("st", "da") as $id) { ?>
                     <div id="<?php echo $id; ?>">
@@ -50,7 +50,7 @@
                     <div id="move-<?php echo $i; ?>">
                         <input class="move-name" type="text" placeholder="Nome tecnica">
                         <input class="move-pa" type="text" placeholder="PA">
-                        <div class="move-icons"></div>
+                        <div class="move-icons blocked"></div>
                         <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
 <?php } ?>
@@ -116,11 +116,11 @@
                 <label for="ib-color-auto">Auto</label>
             </div>
 
-            <div class="menu-title">Card Art</div>
-            <div class="row">
+            <div class="menu-title blocked">Card Art</div>
+            <div class="row blocked">
                 <input id="art" type="file" accept="image/*">
             </div>
-            <div class="row">
+            <div class="row blocked">
                 <input type="radio">
                 <label>Translate</label>
                 <input type="number">
@@ -128,20 +128,20 @@
                 <input type="number">
                 <label>Y</label>
             </div>
-            <div class="row">
+            <div class="row blocked">
                 <input type="radio">
                 <label>Rotate</label>
                 <input type="number">
                 <label>Degrees</label>
             </div>
-            <div class="row">
+            <div class="row blocked">
                 <input type="radio">
                 <label>Scale</label>
                 <input type="number">
                 <label>Width</label>
             </div>
-            <div class="menu-title">Export</div>
-            <div class="row">
+            <div class="menu-title blocked">Export</div>
+            <div class="row blocked">
                 <input type="button" value="PNG">
                 <input type="button" value="PDF">
                 <input type="button" value="JSON">

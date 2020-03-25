@@ -1,16 +1,16 @@
 var card;
 var cardData = { /* todo */
     "bgStandard": "",
-    "bgRaw": "",
+    "bgUpload": "",
     "bg": "",
     "npStandard": "",
-    "npRaw": "",
+    "npUpload": "",
     "np": "",
     "ibStandardChar": "",
     "ibStandardArmor": "",
     "ibStandardAgon": "",
     "ibStandard": "",
-    "ibRaw": "",
+    "ibUpload": "",
     "ib": "",
     "art": ""
 };
@@ -196,25 +196,6 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         Math.round(elementRect.height)
     );
     var imgContext = imgCanvas.getContext("2d");
-    var img;
-    var imgLoaded = false;
-
-    function newImage(src, onLoad) {
-        var img = new Image();
-        img.src = src;
-        img.addEventListener("load", onLoad);
-    }
-
-    function initCardData(id, src) {
-        function onLoad() {
-            var canvas = newCanvas(this.width, this.height);
-            var context = canvas.getContext("2d");
-            context.drawImage(this, 0, 0);
-            cardData[id] = canvas.toDataURL();
-        }
-
-        newImage(src, onLoad);
-    }
 
     function updateGradient(color0, color1) {
         var lg = gradientContext.createLinearGradient(0, 0, 256, 0);
@@ -280,18 +261,18 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
     }
 
     function newBackground(src) {
-        if (cardData[code + "Raw"] != src) {
+        if (cardData[code + "Upload"] != src) {
             imgLoaded = false;
             img = new Image();
             img.src = src;
             img.addEventListener("load", updateCanvas);
 
-            cardData[code + "Raw"] = src;
+            cardData[code + "Upload"] = src;
         }
     }
 
     function updateFile(dataURL) {
-        cardData[code + "Raw"] = dataURL;
+        cardData[code + "Upload"] = dataURL;
         updateBackground(color0, color1);
     }
 
@@ -300,24 +281,24 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
             setBG(cardData.bgStandard);
         }
         else if (!fileStandard.checked && colorStandard.checked) {
-            cardData.bgRaw = file.getDataURL();
-            setBG(cardData.bgRaw);
+            cardData.bgUpload = file.getDataURL();
+            setBG(cardData.bgUpload);
         }
         else if (fileStandard.checked && !colorStandard.checked) {
             cardData.bg = recolor(cardData.bgStandard);
             setBG(cardData.bg);
         }
         else if (!fileStandard.checked && !colorStandard.checked) {
-            cardData.bgRaw = file.getDataURL();
+            cardData.bgUpload = file.getDataURL();
             cardData.bg = recolor(cardData.bgStandard);
             setBG(cardData.bg);
         }
 
-        cardData.bgRaw = cardData.bgStandard;
+        cardData.bgUpload = cardData.bgStandard;
         if (fileStandard.checked || fileInput.files.length < 0) {
-            cardData.bgRaw = file.getDataURL();
+            cardData.bgUpload = file.getDataURL();
         }
-        cardData.bg = recolor(cardData.bgRaw);
+        cardData.bg = recolor(cardData.bgUpload);
         if (colorStandard.checked) {
             setBG(cardData.bgStandard);
         }
@@ -332,16 +313,16 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         }
         else {
         }
-        cardData[code + "Raw"] = cardData[code + "Standard"];
+        cardData[code + "Upload"] = cardData[code + "Standard"];
     }
     function onUncheckFileStandard(inputs) {
         console.log(inputs[0].files);
         newBackground(imgCanvas.toDataURL());
         if (inputs[0].files.length > 0) {
-            cardData[code + "Raw"] = cardData[code + "Standard"];
+            cardData[code + "Upload"] = cardData[code + "Standard"];
         }
         else {
-            cardData[code + "Raw"] = cardData[code + "Standard"];
+            cardData[code + "Upload"] = cardData[code + "Standard"];
         }
     }
 
@@ -352,8 +333,8 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         return true;
     }
     function onCheckColorStandard(inputs) {
-        updateBackground(code + "Raw", input[0]);
-        element.style.backgroundImage = "url('" + cardData[code + "Raw"] + "')";
+        updateBackground(code + "Upload", input[0]);
+        element.style.backgroundImage = "url('" + cardData[code + "Upload"] + "')";
 
     }
     function onUncheckColorStandard(inputs) {
@@ -363,16 +344,16 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         updateBackground(inputs[0], inputs[1]);
     }
 
-    initCardData("bgStandard", "img/bg/large/Background_01.jpg");
-    initCardData("npStandard", "img/Nome.png");
-    initCardData("ibStandardChar", "img/Colonna.png");
-    initCardData("ibStandardArmor", "img/Armor.png");
-    initCardData("ibStandardAgon", "img/Agon.png");
-
     initFileInput(file, updateFile);
     initColorInput(color0, color1, colorAuto, 0, updateBackground);
     initStandardButton(fileStandard, [file], false, onCheckFileStandard, onUncheckFileStandard);
     initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onCheckColorStandard, onUncheckColorStandard);
+}
+
+function newImage(src, onLoad) {
+    var img = new Image();
+    img.src = src;
+    img.addEventListener("load", onLoad);
 }
 
 function initRecolorers() {
@@ -397,6 +378,22 @@ function initRecolorers() {
     var ibColor1 = document.getElementById("ib-color-1");
     var ibColorAuto = document.getElementById("ib-color-auto");
     var ibColorStandard = document.getElementById("ib-color-standard");
+
+    function initCardData(id, src) {
+        newImage(src, function () {
+            var canvas = newCanvas(this.width, this.height);
+            var context = canvas.getContext("2d");
+            context.drawImage(this, 0, 0);
+            cardData[id] = canvas.toDataURL();
+        });
+    }
+
+    initCardData("bgStandard", "img/bg/large/Background_01.jpg");
+    initCardData("npStandard", "img/Nome.png");
+    initCardData("ibStandardChar", "img/Colonna.png");
+    initCardData("ibStandardArmor", "img/Armor.png");
+    initCardData("ibStandardAgon", "img/Agon.png");
+
     initRecolorer(bg, "bg", bgFile, bgFileStandard, bgColor0, bgColor1, bgColorAuto, bgColorStandard);
     initRecolorer(np, "np", npFile, npFileStandard, npColor0, npColor1, npColorAuto, npColorStandard);
     initRecolorer(ib, "ib", ibFile, ibFileStandard, ibColor0, ibColor1, ibColorAuto, ibColorStandard);
