@@ -1,11 +1,14 @@
 var card;
 var cardData = { /* todo */
-    "bgStandard": "img/bg/large/Background_01.jpg",
+    "bgStandard": "",
     "bgRaw": "",
     "bg": "",
-    "npStandard": "img/Nome.png",
+    "npStandard": "",
     "npRaw": "",
     "np": "",
+    "ibStandardChar": "",
+    "ibStandardArmor": "",
+    "ibStandardAgon": "",
     "ibStandard": "",
     "ibRaw": "",
     "ib": "",
@@ -15,16 +18,10 @@ var cardData = { /* todo */
 function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
-    var ibStandards = {
-        "char": "img/Colonna.png",
-        "armor": "img/Armor.png",
-        "agon": "img/Agon.png"
-    };
 
     function onClickTypes(e) {
         if (e.target.tagName == "INPUT") {
             card.className = e.target.value;
-            cardData.ibStandard = e.target.value;
         }
     }
 
@@ -32,7 +29,7 @@ function initTypes() {
     defaultType.click();
 }
 
-function initColorInput(color0, color1, colorAuto, depth, f) {
+function initColorInput(color0, color1, colorAuto, depth, update) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
 
@@ -64,7 +61,7 @@ function initColorInput(color0, color1, colorAuto, depth, f) {
                 color1.jscolor.fromString(deeperHex(color0.value, depth));
             }
             if (color1.value.length == 4 || color1.value.length == 7) {
-                f(color0, color1);
+                update(color0, color1);
             }
         }
     }
@@ -90,15 +87,13 @@ function initColorInput(color0, color1, colorAuto, depth, f) {
     colorAuto.click();
 }
 
-function initStandardButton(standard, inputs, ignore, f, g) {
+function initStandardButton(standard, inputs, ignore, onCheck, onUncheck) {
     function onInputStandard() {
         if (standard.checked) {
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].setAttribute("disabled", true);
             }
-            if (f) {
-                f(inputs);
-            }
+            onCheck(inputs);
         }
         else {
             for (var i = 0; i < inputs.length; i++) {
@@ -106,9 +101,7 @@ function initStandardButton(standard, inputs, ignore, f, g) {
                     inputs[i].removeAttribute("disabled");
                 }
             }
-            if (g) {
-                g(inputs);
-            }
+            onUncheck(inputs);
         }
     }
 
@@ -135,10 +128,10 @@ function initName() {
     }
 
     function updateGradient(color0, color1) {
-        var gradient = nameContext.createLinearGradient(0, 0, 0, nameCanvas.height);
-        gradient.addColorStop(0, color0.value);
-        gradient.addColorStop(1, color1.value);
-        nameContext.fillStyle = gradient;
+        var lg = nameContext.createLinearGradient(0, 0, 0, nameCanvas.height);
+        lg.addColorStop(0, color0.value);
+        lg.addColorStop(1, color1.value);
+        nameContext.fillStyle = lg;
         onInputCardName();
     }
 
@@ -149,12 +142,12 @@ function initName() {
         return true;
     }
 
-    function onColorStandardChecked(inputs) {
+    function onCheckColorStandard(inputs) {
         updateGradient({"value": "#ffca1a"}, {"value": "#fe6207"});
     }
 
-    function onColorStandardUnchecked(inputs) {
-        updateGradient(nameColor0, nameColor1)
+    function onUncheckColorStandard(inputs) {
+        updateGradient(nameColor0, nameColor1);
     }
 
     nameCanvas.width = Math.round(nameRect.width * devicePixelRatio);
@@ -165,9 +158,8 @@ function initName() {
     nameContext.font = "112px Regular"; /* todo: getComputedStyle */
 
     cardName.addEventListener("input", onInputCardName);
-
     initColorInput(nameColor0, nameColor1, nameColorAuto, 3.7, updateGradient);
-    initStandardButton(nameColorStandard, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
+    initStandardButton(nameColorStandard, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onCheckColorStandard, onUncheckColorStandard);
 }
 
 function newCanvas(width, height) {
@@ -177,14 +169,14 @@ function newCanvas(width, height) {
     return canvas;
 }
 
-function initFileInput(file, ff) {
+function initFileInput(file, update) {
     function onInputFile() {
         if (this.files.length > 0) {
             var f = this.files[0];
             if (/image\//.test(f.type)) {
                 var reader = new FileReader();
                 reader.addEventListener("load", function() {
-                    ff(this.result);
+                    update(this.result);
                 })
                 reader.readAsDataURL(f);
             }
@@ -207,11 +199,28 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
     var img;
     var imgLoaded = false;
 
+    function newImage(src, onLoad) {
+        var img = new Image();
+        img.src = src;
+        img.addEventListener("load", onLoad);
+    }
+
+    function initCardData(id, src) {
+        function onLoad() {
+            var canvas = newCanvas(this.width, this.height);
+            var context = canvas.getContext("2d");
+            context.drawImage(this, 0, 0);
+            cardData[id] = canvas.toDataURL();
+        }
+
+        newImage(src, onLoad);
+    }
+
     function updateGradient(color0, color1) {
-        var gradient = gradientContext.createLinearGradient(0, 0, 256, 0);
-        gradient.addColorStop(1, color0.value);
-        gradient.addColorStop(0, color1.value);
-        gradientContext.fillStyle = gradient;
+        var lg = gradientContext.createLinearGradient(0, 0, 256, 0);
+        lg.addColorStop(1, color0.value);
+        lg.addColorStop(0, color1.value);
+        gradientContext.fillStyle = lg;
         gradientContext.fillRect(0, 0, 256, 1);
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
     }
@@ -281,18 +290,59 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         }
     }
 
-    function pppp(ppk) {
-        newBackground(ppk);
+    function updateFile(dataURL) {
+        cardData[code + "Raw"] = dataURL;
         updateBackground(color0, color1);
     }
 
-    function onFileStandardChecked(inputs) {
-        newBackground("img/bg/large/Background_01.jpg");
-        console.log(cardData[code + "Raw"]);
+    function idk() {
+        if (fileStandard.checked && colorStandard.checked) {
+            setBG(cardData.bgStandard);
+        }
+        else if (!fileStandard.checked && colorStandard.checked) {
+            cardData.bgRaw = file.getDataURL();
+            setBG(cardData.bgRaw);
+        }
+        else if (fileStandard.checked && !colorStandard.checked) {
+            cardData.bg = recolor(cardData.bgStandard);
+            setBG(cardData.bg);
+        }
+        else if (!fileStandard.checked && !colorStandard.checked) {
+            cardData.bgRaw = file.getDataURL();
+            cardData.bg = recolor(cardData.bgStandard);
+            setBG(cardData.bg);
+        }
+
+        cardData.bgRaw = cardData.bgStandard;
+        if (fileStandard.checked || fileInput.files.length < 0) {
+            cardData.bgRaw = file.getDataURL();
+        }
+        cardData.bg = recolor(cardData.bgRaw);
+        if (colorStandard.checked) {
+            setBG(cardData.bgStandard);
+        }
+        else {
+            setBG(cardData.bg);
+        }
     }
-    function onFileStandardUnchecked(inputs) {
-        newBackground(imgData);
-        console.log(cardData[code + "Raw"]);
+
+    function onCheckFileStandard(inputs) {
+        if (colorStandard.checked) {
+            element.removeAttribute("style");
+        }
+        else {
+        }
+        cardData[code + "Raw"] = cardData[code + "Standard"];
+    }
+    function onUncheckFileStandard(inputs) {
+        console.log(inputs[0].files);
+        newBackground(imgCanvas.toDataURL());
+        if (inputs[0].files.length > 0) {
+            cardData[code + "Raw"] = cardData[code + "Standard"];
+        }
+        else {
+            cardData[code + "Raw"] = cardData[code + "Standard"];
+        }
     }
 
     function ignoreColor1(inputs, i) {
@@ -301,17 +351,28 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         }
         return true;
     }
-    function onColorStandardChecked(inputs) {
+    function onCheckColorStandard(inputs) {
+        updateBackground(code + "Raw", input[0]);
         element.style.backgroundImage = "url('" + cardData[code + "Raw"] + "')";
+
     }
-    function onColorStandardUnchecked(inputs) {
+    function onUncheckColorStandard(inputs) {
+        if (fileStandard.checked) {
+            newBackground(cardData[code + "Standard"]);
+        }
         updateBackground(inputs[0], inputs[1]);
     }
 
-    initFileInput(file, pppp);
+    initCardData("bgStandard", "img/bg/large/Background_01.jpg");
+    initCardData("npStandard", "img/Nome.png");
+    initCardData("ibStandardChar", "img/Colonna.png");
+    initCardData("ibStandardArmor", "img/Armor.png");
+    initCardData("ibStandardAgon", "img/Agon.png");
+
+    initFileInput(file, updateFile);
     initColorInput(color0, color1, colorAuto, 0, updateBackground);
-    initStandardButton(fileStandard, [file], false, onFileStandardChecked, onFileStandardUnchecked);
-    initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
+    initStandardButton(fileStandard, [file], false, onCheckFileStandard, onUncheckFileStandard);
+    initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onCheckColorStandard, onUncheckColorStandard);
 }
 
 function initRecolorers() {
