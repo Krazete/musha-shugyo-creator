@@ -194,7 +194,7 @@ function initFileInput(file, ff) {
     file.addEventListener("input", onInputFile);
 }
 
-function initRecolorer(element, file, fileStandard, color0, color1, colorAuto, colorStandard) {
+function initRecolorer(element, code, file, fileStandard, color0, color1, colorAuto, colorStandard) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
     var gradientData;
@@ -259,8 +259,8 @@ function initRecolorer(element, file, fileStandard, color0, color1, colorAuto, c
         });
 
         imgContext.putImageData(newData, 0, 0);
-        cardData.bg = bgCanvas.toDataURL();
-        card.style.backgroundImage = "url('" + cardData.bg + "')";
+        cardData[code] = imgCanvas.toDataURL();
+        element.style.backgroundImage = "url('" + cardData[code] + "')";
     }
 
     function updateBackground(color0, color1) {
@@ -271,28 +271,28 @@ function initRecolorer(element, file, fileStandard, color0, color1, colorAuto, c
     }
 
     function newBackground(src) {
-        if (cardData.bgRaw != src) {
+        if (cardData[code + "Raw"] != src) {
             imgLoaded = false;
             img = new Image();
             img.src = src;
             img.addEventListener("load", updateCanvas);
 
-            cardData.bgRaw = src;
+            cardData[code + "Raw"] = src;
         }
     }
 
     function pppp(ppk) {
         newBackground(ppk);
-        updateBackground(imgColor0, imgColor1);
+        updateBackground(color0, color1);
     }
 
     function onFileStandardChecked(inputs) {
         newBackground("img/bg/large/Background_01.jpg");
-        console.log(cardData.bgRaw);
+        console.log(cardData[code + "Raw"]);
     }
     function onFileStandardUnchecked(inputs) {
-        newBackground(inputs[0].value);
-        console.log(cardData.bgRaw);
+        newBackground(imgData);
+        console.log(cardData[code + "Raw"]);
     }
 
     function ignoreColor1(inputs, i) {
@@ -302,7 +302,7 @@ function initRecolorer(element, file, fileStandard, color0, color1, colorAuto, c
         return true;
     }
     function onColorStandardChecked(inputs) {
-        card.style.backgroundImage = "url('" + cardData.bgRaw + "')";
+        element.style.backgroundImage = "url('" + cardData[code + "Raw"] + "')";
     }
     function onColorStandardUnchecked(inputs) {
         updateBackground(inputs[0], inputs[1]);
@@ -322,41 +322,28 @@ function initRecolorers() {
     var bgColor1 = document.getElementById("bg-color-1");
     var bgColorAuto = document.getElementById("bg-color-auto");
     var bgColorStandard = document.getElementById("bg-color-standard");
-    var np = document.getElementById("np");
+    var np = document.getElementById("card-name-bg");
     var npFile = document.getElementById("np-file");
     var npFileStandard = document.getElementById("np-file-standard");
     var npColor0 = document.getElementById("np-color-0");
     var npColor1 = document.getElementById("np-color-1");
     var npColorAuto = document.getElementById("np-color-auto");
     var npColorStandard = document.getElementById("np-color-standard");
-    var ib = document.getElementById("ib");
+    var ib = document.getElementById("card-info-bg");
     var ibFile = document.getElementById("ib-file");
     var ibFileStandard = document.getElementById("ib-file-standard");
     var ibColor0 = document.getElementById("ib-color-0");
     var ibColor1 = document.getElementById("ib-color-1");
     var ibColorAuto = document.getElementById("ib-color-auto");
     var ibColorStandard = document.getElementById("ib-color-standard");
-    initRecolorer(bg, bgFile, bgFileStandard, bgColor0, bgColor1, bgColorAuto, bgColorStandard);
-    initRecolorer(np, npFile, npFileStandard, npColor0, npColor1, npColorAuto, npColorStandard);
-    initRecolorer(ib, ibFile, ibFileStandard, ibColor0, ibColor1, ibColorAuto, ibColorStandard);
+    initRecolorer(bg, "bg", bgFile, bgFileStandard, bgColor0, bgColor1, bgColorAuto, bgColorStandard);
+    initRecolorer(np, "np", npFile, npFileStandard, npColor0, npColor1, npColorAuto, npColorStandard);
+    initRecolorer(ib, "ib", ibFile, ibFileStandard, ibColor0, ibColor1, ibColorAuto, ibColorStandard);
 }
 
 /**/
 
 /* Name Color */
-
-var size = {
-    "pageHeight": 1134,
-    "pageWidth": 756,
-    "radio": 12,
-    "radioBorder": 2
-}
-
-function onScale(e) {
-    var value = e.target.value;
-    card.style.width = 10 * parseInt(value) + "px";
-    card.style.height = 15 * parseInt(value) + "px";
-}
 
 function getImageDataFromImage(image, w, h) {
     var canvas = document.createElement("canvas");
