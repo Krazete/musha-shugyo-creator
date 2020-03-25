@@ -9,25 +9,12 @@ var cardData = { /* todo */
     "ibStandardChar": undefined,
     "ibStandardArmor": undefined,
     "ibStandardAgon": undefined,
-    "ibStandard": undefined,
     "ibUpload": undefined,
     "ib": undefined,
     "art": undefined
 };
 
-function initTypes() {
-    var types = document.getElementById("types");
-    var defaultType = document.getElementById("type-char");
-
-    function onClickTypes(e) {
-        if (e.target.tagName == "INPUT") {
-            card.className = e.target.value;
-        }
-    }
-
-    types.addEventListener("click", onClickTypes);
-    defaultType.click();
-}
+var updateInfoboxBackground;
 
 function initColorInput(color0, color1, colorAuto, depth, update) {
     var gradientCanvas = newCanvas(256, 1);
@@ -221,27 +208,33 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
 
     function updateCanvas() {
         var id = code + "Standard";
-        if (!fileStandard.checked && file.files.length > 0) {
+        if (fileStandard.checked && code == "ib") {
+            id += card.className[0].toUpperCase() + card.className.slice(1); /* todo: this is flimsy */
+        }
+        else if (!fileStandard.checked && file.files.length > 0) {
             id = code + "Upload";
+        }
+
+        if (!cardData[id]) {
+            return;
         }
 
         if (colorStandard.checked) {
             cardData[code] = cardData[id];
         }
         else {
-            var imgData = cardData[id];
-            var newData = new ImageData(imgData.width, imgData.height);
+            var newData = new ImageData(cardData[id].width, cardData[id].height);
 
             var dataMin = 255;
             var dataMax = 0;
 
-            dataLoop(imgData, function (i, r, g, b, a) { /* to maximize contrast */
+            dataLoop(cardData[id], function (i, r, g, b, a) { /* to maximize contrast */
                 var intensity = Math.floor((r + g + b) / 3);
                 dataMin = Math.min(dataMin, intensity);
                 dataMax = Math.max(dataMax, intensity);
             });
 
-            dataLoop(imgData, function (i, r, g, b, a) {
+            dataLoop(cardData[id], function (i, r, g, b, a) {
                 var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
                 newData.data[i] = gradientData.data[4 * intensity];
                 newData.data[i + 1] = gradientData.data[4 * intensity + 1];
@@ -264,15 +257,12 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
     }
 
     function updateFile(dataURL) {
-        cardData[code + "Upload"] = dataURL;
-        updateCanvas();
-    }
-
-    function onCheckFileStandard(inputs) {
-        updateCanvas();
-    }
-    function onUncheckFileStandard(inputs) {
-        updateCanvas();
+        newImage(dataURL, function () {
+            imgContext.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
+            imgContext.drawImage(this, 0, 0, imgCanvas.width, imgCanvas.height);
+            cardData[code + "Upload"] = imgContext.getImageData(0, 0, imgCanvas.width, imgCanvas.height);
+            updateCanvas();
+        });
     }
 
     function ignoreColor1(inputs, i) {
@@ -281,18 +271,17 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         }
         return true;
     }
-    function onCheckColorStandard(inputs) {
-        updateBackground(inputs[0], inputs[1]);
 
-    }
-    function onUncheckColorStandard(inputs) {
+    function onInputColorStandard(inputs) {
         updateBackground(inputs[0], inputs[1]);
     }
+
+    updateInfoboxBackground = updateCanvas;
 
     initFileInput(file, updateFile);
-    initColorInput(color0, color1, colorAuto, 0, updateBackground);
-    initStandardButton(fileStandard, [file], false, onCheckFileStandard, onUncheckFileStandard);
-    initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onCheckColorStandard, onUncheckColorStandard);
+    initColorInput(color0, color1, colorAuto, 37, updateBackground);
+    initStandardButton(fileStandard, [file], undefined, updateCanvas, updateCanvas);
+    initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onInputColorStandard, onInputColorStandard);
 }
 
 function newImage(src, onLoad) {
@@ -349,26 +338,87 @@ function initRecolorers() {
     initRecolorer(ib, "ib", ibFile, ibFileStandard, ibColor0, ibColor1, ibColorAuto, ibColorStandard);
 }
 
-/**/
+function initTypes() {
+    var types = document.getElementById("types");
+    var defaultType = document.getElementById("type-char");
+    var ibTemplate = document.getElementById("ib-template");
+    var ibTemplateURLs = {
+        "char": "img/Colonna.png",
+        "armor": "img/Armor.png",
+        "agon": "img/Agon.png"
+    };
 
-/* Name Color */
+    function onClickTypes(e) {
+        if (e.target.tagName == "INPUT") {
+            card.className = e.target.value;
+            ibTemplate.href = ibTemplateURLs[e.target.value];
+            updateInfoboxBackground();
+        }
+    }
 
-function getImageDataFromImage(image, w, h) {
-    var canvas = document.createElement("canvas");
-    var context = canvas.getContext("2d");
-    if (w && h) {
-        canvas.width = w;
-        canvas.height = h;
-        context.drawImage(image, 0, 0, w, h);
+    types.addEventListener("click", onClickTypes);
+    defaultType.click();
+}
+
+function initStats() {
+    var stat = document.getElementById("info-stat");
+    var statArmor = document.getElementById("info-stat-armor");
+
+    function onOverStat(e) {
+        if (e.target.tagName == "LABEL") {
+            for (var child of e.target.parentElement.children) {
+                child.classList.add("over");
+                if (child == e.target) {
+                    break;
+                }
+            }
+        }
     }
-    else {
-        canvas.width = image.width;
-        canvas.height = image.height;
-        context.drawImage(image, 0, 0);
+
+    function onOutStat(e) {
+        if (e.target.tagName == "LABEL") {
+            for (var child of e.target.parentElement.children) {
+                child.classList.remove("over");
+                if (child == e.target) {
+                    break;
+                }
+            }
+        }
     }
-    context.clearRect(0, 0, canvas.width, canvas.height);
-	context.fillText(name, 748, 100);
-    return context.getImageData(0, 0, canvas.width, canvas.height);
+
+    function onClickStat(e) {
+        if (e.target.tagName == "LABEL") {
+            var fill = !e.target.classList.contains("selected");
+            for (var child of e.target.parentElement.children) {
+                if (fill) {
+                    child.classList.add("click");
+                }
+                else {
+                    child.classList.remove("click");
+                }
+                child.classList.remove("selected");
+                if (child == e.target) {
+                    if (fill) {
+                        child.classList.add("selected");
+                    }
+                    fill = false;
+                }
+            }
+        }
+    }
+
+    function initStat(stat) {
+        stat.addEventListener("mouseover", onOverStat);
+        stat.addEventListener("mouseout", onOutStat);
+        stat.addEventListener("click", onClickStat);
+    }
+
+    initStat(stat);
+    initStat(statArmor);
+}
+
+function initInfo() {
+    initStats();
 }
 
 function renderCard() {
@@ -381,115 +431,6 @@ function renderCard() {
     context.putImage
 }
 
-/* Moniker */
-
-window.addEventListener("touchstart", function (e) {
-    console.log(e);
-    document.body.click();
-});
-
-function onBGInput() {
-    if (bgbg.complete) {
-
-        bgContext.drawImage(bgbg, 0, 0, 756, 1134);
-        var imageData = bgContext.getImageData(0, 0, 756, 1134);
-        for (var i = 0; i < 1134 * 756; i++) {
-                var r = imageData.data[4 * i];
-                var g = imageData.data[4 * i + 1];
-                var b = imageData.data[4 * i + 2];
-                var intensity = Math.floor((r + g + b) / 3);
-                var a = imageData.data[4 * i + 3];
-                imageData.data[4 * i] = intensity * parseInt(toppbg.value.slice(1, 3), 16);
-                imageData.data[4 * i + 1] = intensity * parseInt(toppbg.value.slice(3, 5), 16);
-                imageData.data[4 * i + 2] = intensity * parseInt(toppbg.value.slice(5, 7), 16);
-                imageData.data[4 * i + 3] = a;
-        }
-        bgContext.putImageData(imageData, 0, 0);
-        document.body.appendChild(bgCanvas);
-    }
-    else {
-        requestAnimationFrame(onBGInput);
-    }
-}
-
-function beforeOnBGInput() {
-    var gradientline = document;
-    var glcontext = gradientline.context;
-    glcontext.drawLine(0, 0, 1, 256);
-    colorstop.add(toppbg.value);
-    colorstop.add(bottbg.value);
-    onBGInput();
-}
-
-/* Stat (Radio Buttons) */
-
-var stats = {
-    "ra": 0,
-    "at": 0,
-    "de": 0,
-    "vo": 0,
-    "eq": 0,
-    "st": 0,
-    "da": 0
-}
-
-function onOverStat(e) {
-    if (e.target.tagName == "LABEL") {
-        for (var child of e.target.parentElement.children) {
-            child.classList.add("over");
-            if (child == e.target) {
-                break;
-            }
-        }
-    }
-}
-
-function onOutStat(e) {
-    if (e.target.tagName == "LABEL") {
-        for (var child of e.target.parentElement.children) {
-            child.classList.remove("over");
-            if (child == e.target) {
-                break;
-            }
-        }
-    }
-}
-
-function onClickStat(e) {
-    if (e.target.tagName == "LABEL") {
-        var fill = !e.target.classList.contains("selected");
-        for (var child of e.target.parentElement.children) {
-            if (fill) {
-                child.classList.add("click");
-            }
-            else {
-                child.classList.remove("click");
-            }
-            child.classList.remove("selected");
-            if (child == e.target) {
-                if (fill) {
-                    child.classList.add("selected");
-                }
-                fill = false;
-            }
-        }
-    }
-}
-
-function initStat(stat) {
-    stat.addEventListener("mouseover", onOverStat);
-    stat.addEventListener("mouseout", onOutStat);
-    stat.addEventListener("click", onClickStat);
-}
-
-function initInfo() {
-    var stat = document.getElementById("info-stat");
-    var statArmor = document.getElementById("info-stat-armor");
-
-    initStat(stat);
-    initStat(statArmor);
-}
-
 function warn(e) {
     e.preventDefault();
     e.returnValue = "Changes you made may not be saved.";
@@ -499,11 +440,10 @@ function warn(e) {
 function init() {
     card = document.getElementById("card");
 
-    initTypes();
-    initInfo();
-
     initRecolorers();
     initName();
+    initTypes();
+    initInfo();
 
     /**/
 

@@ -64,6 +64,7 @@
                 <label for="bg-file-standard">Default</label>
                 <input id="bg-file" type="file" accept="image/*">
                 (2:3)
+                <a href="img/bg/large/Background_01.jpg" download>Template</a>
             </div>
             <div class="row">
                 <input id="bg-color-standard" type="checkbox">
@@ -80,6 +81,7 @@
                 <label for="np-file-standard">Default</label>
                 <input id="np-file" type="file" accept="image/*">
                 (1:6)
+                <a href="img/Nome.png" download>Template</a>
             </div>
             <div class="row">
                 <input id="np-color-standard" type="checkbox">
@@ -106,6 +108,7 @@
                 <label for="ib-file-standard">Default</label>
                 <input id="ib-file" type="file" accept="image/*">
                 (4:9)
+                <a id="ib-template" href="img/Colonna.png" download>Template</a>
             </div>
             <div class="row">
                 <input id="ib-color-standard" type="checkbox">
