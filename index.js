@@ -1,18 +1,18 @@
 var card;
 var cardData = { /* todo */
-    "bgStandard": "",
-    "bgUpload": "",
-    "bg": "",
-    "npStandard": "",
-    "npUpload": "",
-    "np": "",
-    "ibStandardChar": "",
-    "ibStandardArmor": "",
-    "ibStandardAgon": "",
-    "ibStandard": "",
-    "ibUpload": "",
-    "ib": "",
-    "art": ""
+    "bgStandard": undefined,
+    "bgUpload": undefined,
+    "bg": undefined,
+    "npStandard": undefined,
+    "npUpload": undefined,
+    "np": undefined,
+    "ibStandardChar": undefined,
+    "ibStandardArmor": undefined,
+    "ibStandardAgon": undefined,
+    "ibStandard": undefined,
+    "ibUpload": undefined,
+    "ib": undefined,
+    "art": undefined
 };
 
 function initTypes() {
@@ -206,10 +206,10 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
     }
 
-    function dataLoop(canvas, data, f) {
-        for (var y = 0; y < canvas.height; y++) {
-            for (var x = 0; x < canvas.width; x++) {
-                var i = 4 * (y * canvas.width + x);
+    function dataLoop(data, f) {
+        for (var y = 0; y < data.height; y++) {
+            for (var x = 0; x < data.width; x++) {
+                var i = 4 * (y * data.width + x);
                 var r = data.data[i];
                 var g = data.data[i + 1];
                 var b = data.data[i + 2];
@@ -220,110 +220,59 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
     }
 
     function updateCanvas() {
-        imgLoaded = true;
+        var id = code + "Standard";
+        if (!fileStandard.checked && file.files.length > 0) {
+            id = code + "Upload";
+        }
+
         if (colorStandard.checked) {
-            return;
+            cardData[code] = cardData[id];
+        }
+        else {
+            var imgData = cardData[id];
+            var newData = new ImageData(imgData.width, imgData.height);
+
+            var dataMin = 255;
+            var dataMax = 0;
+
+            dataLoop(imgData, function (i, r, g, b, a) { /* to maximize contrast */
+                var intensity = Math.floor((r + g + b) / 3);
+                dataMin = Math.min(dataMin, intensity);
+                dataMax = Math.max(dataMax, intensity);
+            });
+
+            dataLoop(imgData, function (i, r, g, b, a) {
+                var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
+                newData.data[i] = gradientData.data[4 * intensity];
+                newData.data[i + 1] = gradientData.data[4 * intensity + 1];
+                newData.data[i + 2] = gradientData.data[4 * intensity + 2];
+                newData.data[i + 3] = a;
+            });
+
+            cardData[code] = newData;
         }
 
         imgContext.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
-        imgContext.drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height);
+        imgContext.putImageData(cardData[code], 0, 0);
 
-        var imgData = imgContext.getImageData(0, 0, imgCanvas.width, imgCanvas.height);
-        var newData = new ImageData(imgCanvas.width, imgCanvas.height);
-
-        var dataMin = 255;
-        var dataMax = 0;
-
-        dataLoop(imgCanvas, imgData, function (i, r, g, b, a) { /* to maximize contrast */
-            var intensity = Math.floor((r + g + b) / 3);
-            dataMin = Math.min(dataMin, intensity);
-            dataMax = Math.max(dataMax, intensity);
-        });
-
-        dataLoop(imgCanvas, imgData, function (i, r, g, b, a) {
-            var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
-            newData.data[i] = gradientData.data[4 * intensity];
-            newData.data[i + 1] = gradientData.data[4 * intensity + 1];
-            newData.data[i + 2] = gradientData.data[4 * intensity + 2];
-            newData.data[i + 3] = a;
-        });
-
-        imgContext.putImageData(newData, 0, 0);
-        cardData[code] = imgCanvas.toDataURL();
-        element.style.backgroundImage = "url('" + cardData[code] + "')";
+        element.style.backgroundImage = "url('" + imgCanvas.toDataURL() + "')";
     }
 
     function updateBackground(color0, color1) {
         updateGradient(color0, color1);
-        if (imgLoaded) {
-            updateCanvas();
-        }
-    }
-
-    function newBackground(src) {
-        if (cardData[code + "Upload"] != src) {
-            imgLoaded = false;
-            img = new Image();
-            img.src = src;
-            img.addEventListener("load", updateCanvas);
-
-            cardData[code + "Upload"] = src;
-        }
+        updateCanvas();
     }
 
     function updateFile(dataURL) {
         cardData[code + "Upload"] = dataURL;
-        updateBackground(color0, color1);
-    }
-
-    function idk() {
-        if (fileStandard.checked && colorStandard.checked) {
-            setBG(cardData.bgStandard);
-        }
-        else if (!fileStandard.checked && colorStandard.checked) {
-            cardData.bgUpload = file.getDataURL();
-            setBG(cardData.bgUpload);
-        }
-        else if (fileStandard.checked && !colorStandard.checked) {
-            cardData.bg = recolor(cardData.bgStandard);
-            setBG(cardData.bg);
-        }
-        else if (!fileStandard.checked && !colorStandard.checked) {
-            cardData.bgUpload = file.getDataURL();
-            cardData.bg = recolor(cardData.bgStandard);
-            setBG(cardData.bg);
-        }
-
-        cardData.bgUpload = cardData.bgStandard;
-        if (fileStandard.checked || fileInput.files.length < 0) {
-            cardData.bgUpload = file.getDataURL();
-        }
-        cardData.bg = recolor(cardData.bgUpload);
-        if (colorStandard.checked) {
-            setBG(cardData.bgStandard);
-        }
-        else {
-            setBG(cardData.bg);
-        }
+        updateCanvas();
     }
 
     function onCheckFileStandard(inputs) {
-        if (colorStandard.checked) {
-            element.removeAttribute("style");
-        }
-        else {
-        }
-        cardData[code + "Upload"] = cardData[code + "Standard"];
+        updateCanvas();
     }
     function onUncheckFileStandard(inputs) {
-        console.log(inputs[0].files);
-        newBackground(imgCanvas.toDataURL());
-        if (inputs[0].files.length > 0) {
-            cardData[code + "Upload"] = cardData[code + "Standard"];
-        }
-        else {
-            cardData[code + "Upload"] = cardData[code + "Standard"];
-        }
+        updateCanvas();
     }
 
     function ignoreColor1(inputs, i) {
@@ -333,14 +282,10 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         return true;
     }
     function onCheckColorStandard(inputs) {
-        updateBackground(code + "Upload", input[0]);
-        element.style.backgroundImage = "url('" + cardData[code + "Upload"] + "')";
+        updateBackground(inputs[0], inputs[1]);
 
     }
     function onUncheckColorStandard(inputs) {
-        if (fileStandard.checked) {
-            newBackground(cardData[code + "Standard"]);
-        }
         updateBackground(inputs[0], inputs[1]);
     }
 
@@ -379,20 +324,25 @@ function initRecolorers() {
     var ibColorAuto = document.getElementById("ib-color-auto");
     var ibColorStandard = document.getElementById("ib-color-standard");
 
-    function initCardData(id, src) {
+    function initCardData(element, id, src) {
+        var elementRect = element.getBoundingClientRect();
+        var canvas = newCanvas(
+            Math.round(elementRect.width),
+            Math.round(elementRect.height)
+        );
+        var context = canvas.getContext("2d");
+
         newImage(src, function () {
-            var canvas = newCanvas(this.width, this.height);
-            var context = canvas.getContext("2d");
-            context.drawImage(this, 0, 0);
-            cardData[id] = canvas.toDataURL();
+            context.drawImage(this, 0, 0, canvas.width, canvas.height);
+            cardData[id] = context.getImageData(0, 0, canvas.width, canvas.height);
         });
     }
 
-    initCardData("bgStandard", "img/bg/large/Background_01.jpg");
-    initCardData("npStandard", "img/Nome.png");
-    initCardData("ibStandardChar", "img/Colonna.png");
-    initCardData("ibStandardArmor", "img/Armor.png");
-    initCardData("ibStandardAgon", "img/Agon.png");
+    initCardData(bg, "bgStandard", "img/bg/large/Background_01.jpg");
+    initCardData(np, "npStandard", "img/Nome.png");
+    initCardData(ib, "ibStandardChar", "img/Colonna.png");
+    initCardData(ib, "ibStandardArmor", "img/Armor.png");
+    initCardData(ib, "ibStandardAgon", "img/Agon.png");
 
     initRecolorer(bg, "bg", bgFile, bgFileStandard, bgColor0, bgColor1, bgColorAuto, bgColorStandard);
     initRecolorer(np, "np", npFile, npFileStandard, npColor0, npColor1, npColorAuto, npColorStandard);
