@@ -223,14 +223,15 @@ function initBackground() {
     }
 
     function pppp(ppk) {
-        newBackground(ppk)
+        newBackground(ppk);
+        updateBackground(bgColor0, bgColor1);
     }
 
     function onFileStandardChecked(e) {
-        console.log(e);
+        newBackground("img/bg/large/Background_01.jpg");
     }
     function onFileStandardUnchecked(e) {
-        console.log(e);
+        pppp(card.bgRaw);
     }
 
     function ignoreColor1(inputs, i) {
@@ -246,10 +247,9 @@ function initBackground() {
         updateBackground(inputs[0], inputs[1]);
     }
 
-    newBackground("img/bg/large/Background_01.jpg");
     initFileInput(bgFile, pppp);
     initColorInput(bgColor0, bgColor1, bgColorAuto, 0, updateBackground);
-    initStandardButton(bgFileStandard, [bgFile]);
+    initStandardButton(bgFileStandard, [bgFile], undefined, onFileStandardChecked, onFileStandardUnchecked);
     initStandardButton(bgColorStandard, [bgColor0, bgColor1, bgColorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
 }
 

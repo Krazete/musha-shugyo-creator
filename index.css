@@ -207,6 +207,23 @@ input[type='radio'], input[type='checkbox'] {
 	display: none;
 }
 
+#info-sp {
+	background: #808080;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	margin: 5px;
+}
+.char #info-sp {
+	left: 204px;
+}
+.armor #info-sp {
+	display: none;
+}
+.agon #info-sp {
+	left: 226px;
+}
+
 #info-stat-armor {
 	position: absolute;
 	left: 125px;
@@ -266,6 +283,14 @@ input[type='radio'], input[type='checkbox'] {
 
 .move-pa:after {
 	content: 'PA';
+}
+
+.move-icons {
+	float: left;
+	background: #808080;
+	width: 20px;
+	height: 20px;
+	margin: 5px;
 }
 
 .move-bonus {

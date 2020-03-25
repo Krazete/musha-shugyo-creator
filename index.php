@@ -35,6 +35,7 @@
                     </div>
 <?php } ?>
                 </div>
+                <div id="info-sp"></div>
                 <div id="info-stat-armor">
 <?php foreach (array("st", "da") as $id) { ?>
                     <div id="<?php echo $id; ?>">
@@ -49,6 +50,7 @@
                     <div id="move-<?php echo $i; ?>">
                         <input class="move-name" type="text" placeholder="Nome tecnica">
                         <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons"></div>
                         <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
 <?php } ?>
