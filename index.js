@@ -1,16 +1,30 @@
 var card;
 var cardData = { /* todo */
+    "bgStandard": "img/bg/large/Background_01.jpg",
     "bgRaw": "",
-    "bg": ""
+    "bg": "",
+    "npStandard": "img/Nome.png",
+    "npRaw": "",
+    "np": "",
+    "ibStandard": "",
+    "ibRaw": "",
+    "ib": "",
+    "art": ""
 };
 
 function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
+    var ibStandards = {
+        "char": "img/Colonna.png",
+        "armor": "img/Armor.png",
+        "agon": "img/Agon.png"
+    };
 
     function onClickTypes(e) {
         if (e.target.tagName == "INPUT") {
             card.className = e.target.value;
+            cardData.ibStandard = e.target.value;
         }
     }
 
@@ -18,35 +32,10 @@ function initTypes() {
     defaultType.click();
 }
 
-function initFileInput(file, ff) {
-    function onInputFile() {
-        if (this.files.length > 0) {
-            var f = this.files[0];
-            if (/image\//.test(f.type)) {
-                var reader = new FileReader();
-                reader.addEventListener("load", function() {
-                    ff(this.result);
-                })
-                reader.readAsDataURL(f);
-            }
-        }
-    }
-
-    file.addEventListener("input", onInputFile);
-}
-
-function newCanvas(width, height) {
-    var canvas = document.createElement("canvas");
-    if (width) {
-        canvas.width = width;
-    }
-    if (height) {
-        canvas.height = height;
-    }
-    return canvas;
-}
-
 function initColorInput(color0, color1, colorAuto, depth, f) {
+    var gradientCanvas = newCanvas(256, 1);
+    var gradientContext = gradientCanvas.getContext("2d");
+
     var deeperHex = function() {
         function deeperSubHex(subhex, d) {
             var c = parseInt(subhex, 16);
@@ -128,131 +117,6 @@ function initStandardButton(standard, inputs, ignore, f, g) {
     standard.click();
 }
 
-function initBackground() {
-    var gradientCanvas = newCanvas(256, 1);
-    var gradientContext = gradientCanvas.getContext("2d");
-    var gradientData = new ImageData(1, 256);
-    var bgCanvas = newCanvas(756, 1134);
-    var bgContext = bgCanvas.getContext("2d");
-
-    var bgFile = document.getElementById("bg-file");
-    var bgFileStandard = document.getElementById("bg-file-standard");
-
-    var bgColor0 = document.getElementById("bg-color-0");
-    var bgColor1 = document.getElementById("bg-color-1");
-    var bgColorAuto = document.getElementById("bg-color-auto");
-    var bgColorStandard = document.getElementById("bg-color-standard");
-
-    var img;
-    var imgLoaded = false;
-
-    function updateGradient(color0, color1) {
-        var gradient = gradientContext.createLinearGradient(0, 0, 256, 0);
-        gradient.addColorStop(1, color0.value);
-        gradient.addColorStop(0, color1.value);
-
-        gradientContext.fillStyle = gradient;
-        gradientContext.fillRect(0, 0, 256, 1);
-
-        gradientData = gradientContext.getImageData(0, 0, 256, 1);
-    }
-
-    function dataLoop(canvas, imageData, f) {
-        for (var y = 0; y < canvas.height; y++) {
-            for (var x = 0; x < canvas.width; x++) {
-                var i = 4 * (y * canvas.width + x);
-                var r = imageData.data[i];
-                var g = imageData.data[i + 1];
-                var b = imageData.data[i + 2];
-                var a = imageData.data[i + 3];
-                f(i, r, g, b, a);
-            }
-        }
-    }
-
-    function updateCanvas() {
-        imgLoaded = true;
-        if (bgColorStandard.checked) {
-            return;
-        }
-
-        bgContext.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-        bgContext.drawImage(img, 0, 0, bgCanvas.width, bgCanvas.height);
-
-        var bgData = bgContext.getImageData(0, 0, bgCanvas.width, bgCanvas.height);
-        var newData = new ImageData(bgCanvas.width, bgCanvas.height);
-
-        var dataMin = 255;
-        var dataMax = 0;
-
-        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) { /* to maximize contrast */
-            var intensity = Math.floor((r + g + b) / 3);
-            dataMin = Math.min(dataMin, intensity);
-            dataMax = Math.max(dataMax, intensity);
-        });
-
-        dataLoop(bgCanvas, bgData, function (i, r, g, b, a) {
-            var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
-            newData.data[i] = gradientData.data[4 * intensity];
-            newData.data[i + 1] = gradientData.data[4 * intensity + 1];
-            newData.data[i + 2] = gradientData.data[4 * intensity + 2];
-            newData.data[i + 3] = a;
-        });
-
-        bgContext.putImageData(newData, 0, 0);
-        cardData.bg = bgCanvas.toDataURL();
-        card.style.backgroundImage = "url('" + cardData.bg + "')";
-    }
-
-    function updateBackground(color0, color1) {
-        updateGradient(color0, color1);
-        if (imgLoaded) {
-            updateCanvas();
-        }
-    }
-
-    function newBackground(src) {
-        if (cardData.bgRaw != src) {
-            imgLoaded = false;
-            img = new Image();
-            img.src = src;
-            img.addEventListener("load", updateCanvas);
-
-            cardData.bgRaw = src;
-        }
-    }
-
-    function pppp(ppk) {
-        newBackground(ppk);
-        updateBackground(bgColor0, bgColor1);
-    }
-
-    function onFileStandardChecked(e) {
-        newBackground("img/bg/large/Background_01.jpg");
-    }
-    function onFileStandardUnchecked(e) {
-        pppp(card.bgRaw);
-    }
-
-    function ignoreColor1(inputs, i) {
-        if (i == 1 && inputs[2].checked) {
-            return false;
-        }
-        return true;
-    }
-    function onColorStandardChecked(inputs) {
-        card.style.backgroundImage = "url('" + cardData.bgRaw + "')";
-    }
-    function onColorStandardUnchecked(inputs) {
-        updateBackground(inputs[0], inputs[1]);
-    }
-
-    initFileInput(bgFile, pppp);
-    initColorInput(bgColor0, bgColor1, bgColorAuto, 0, updateBackground);
-    initStandardButton(bgFileStandard, [bgFile], undefined, onFileStandardChecked, onFileStandardUnchecked);
-    initStandardButton(bgColorStandard, [bgColor0, bgColor1, bgColorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
-}
-
 function initName() {
     var cardName = document.getElementById("card-name");
     var nameRect = cardName.getBoundingClientRect();
@@ -304,6 +168,177 @@ function initName() {
 
     initColorInput(nameColor0, nameColor1, nameColorAuto, 3.7, updateGradient);
     initStandardButton(nameColorStandard, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
+}
+
+function newCanvas(width, height) {
+    var canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
+}
+
+function initFileInput(file, ff) {
+    function onInputFile() {
+        if (this.files.length > 0) {
+            var f = this.files[0];
+            if (/image\//.test(f.type)) {
+                var reader = new FileReader();
+                reader.addEventListener("load", function() {
+                    ff(this.result);
+                })
+                reader.readAsDataURL(f);
+            }
+        }
+    }
+
+    file.addEventListener("input", onInputFile);
+}
+
+function initRecolorer(element, file, fileStandard, color0, color1, colorAuto, colorStandard) {
+    var gradientCanvas = newCanvas(256, 1);
+    var gradientContext = gradientCanvas.getContext("2d");
+    var gradientData;
+    var elementRect = element.getBoundingClientRect();
+    var imgCanvas = newCanvas(
+        Math.round(elementRect.width),
+        Math.round(elementRect.height)
+    );
+    var imgContext = imgCanvas.getContext("2d");
+    var img;
+    var imgLoaded = false;
+
+    function updateGradient(color0, color1) {
+        var gradient = gradientContext.createLinearGradient(0, 0, 256, 0);
+        gradient.addColorStop(1, color0.value);
+        gradient.addColorStop(0, color1.value);
+        gradientContext.fillStyle = gradient;
+        gradientContext.fillRect(0, 0, 256, 1);
+        gradientData = gradientContext.getImageData(0, 0, 256, 1);
+    }
+
+    function dataLoop(canvas, data, f) {
+        for (var y = 0; y < canvas.height; y++) {
+            for (var x = 0; x < canvas.width; x++) {
+                var i = 4 * (y * canvas.width + x);
+                var r = data.data[i];
+                var g = data.data[i + 1];
+                var b = data.data[i + 2];
+                var a = data.data[i + 3];
+                f(i, r, g, b, a);
+            }
+        }
+    }
+
+    function updateCanvas() {
+        imgLoaded = true;
+        if (colorStandard.checked) {
+            return;
+        }
+
+        imgContext.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
+        imgContext.drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height);
+
+        var imgData = imgContext.getImageData(0, 0, imgCanvas.width, imgCanvas.height);
+        var newData = new ImageData(imgCanvas.width, imgCanvas.height);
+
+        var dataMin = 255;
+        var dataMax = 0;
+
+        dataLoop(imgCanvas, imgData, function (i, r, g, b, a) { /* to maximize contrast */
+            var intensity = Math.floor((r + g + b) / 3);
+            dataMin = Math.min(dataMin, intensity);
+            dataMax = Math.max(dataMax, intensity);
+        });
+
+        dataLoop(imgCanvas, imgData, function (i, r, g, b, a) {
+            var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
+            newData.data[i] = gradientData.data[4 * intensity];
+            newData.data[i + 1] = gradientData.data[4 * intensity + 1];
+            newData.data[i + 2] = gradientData.data[4 * intensity + 2];
+            newData.data[i + 3] = a;
+        });
+
+        imgContext.putImageData(newData, 0, 0);
+        cardData.bg = bgCanvas.toDataURL();
+        card.style.backgroundImage = "url('" + cardData.bg + "')";
+    }
+
+    function updateBackground(color0, color1) {
+        updateGradient(color0, color1);
+        if (imgLoaded) {
+            updateCanvas();
+        }
+    }
+
+    function newBackground(src) {
+        if (cardData.bgRaw != src) {
+            imgLoaded = false;
+            img = new Image();
+            img.src = src;
+            img.addEventListener("load", updateCanvas);
+
+            cardData.bgRaw = src;
+        }
+    }
+
+    function pppp(ppk) {
+        newBackground(ppk);
+        updateBackground(imgColor0, imgColor1);
+    }
+
+    function onFileStandardChecked(inputs) {
+        newBackground("img/bg/large/Background_01.jpg");
+        console.log(cardData.bgRaw);
+    }
+    function onFileStandardUnchecked(inputs) {
+        newBackground(inputs[0].value);
+        console.log(cardData.bgRaw);
+    }
+
+    function ignoreColor1(inputs, i) {
+        if (i == 1 && inputs[2].checked) {
+            return false;
+        }
+        return true;
+    }
+    function onColorStandardChecked(inputs) {
+        card.style.backgroundImage = "url('" + cardData.bgRaw + "')";
+    }
+    function onColorStandardUnchecked(inputs) {
+        updateBackground(inputs[0], inputs[1]);
+    }
+
+    initFileInput(file, pppp);
+    initColorInput(color0, color1, colorAuto, 0, updateBackground);
+    initStandardButton(fileStandard, [file], false, onFileStandardChecked, onFileStandardUnchecked);
+    initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onColorStandardChecked, onColorStandardUnchecked);
+}
+
+function initRecolorers() {
+    var bg = document.getElementById("card");
+    var bgFile = document.getElementById("bg-file");
+    var bgFileStandard = document.getElementById("bg-file-standard");
+    var bgColor0 = document.getElementById("bg-color-0");
+    var bgColor1 = document.getElementById("bg-color-1");
+    var bgColorAuto = document.getElementById("bg-color-auto");
+    var bgColorStandard = document.getElementById("bg-color-standard");
+    var np = document.getElementById("np");
+    var npFile = document.getElementById("np-file");
+    var npFileStandard = document.getElementById("np-file-standard");
+    var npColor0 = document.getElementById("np-color-0");
+    var npColor1 = document.getElementById("np-color-1");
+    var npColorAuto = document.getElementById("np-color-auto");
+    var npColorStandard = document.getElementById("np-color-standard");
+    var ib = document.getElementById("ib");
+    var ibFile = document.getElementById("ib-file");
+    var ibFileStandard = document.getElementById("ib-file-standard");
+    var ibColor0 = document.getElementById("ib-color-0");
+    var ibColor1 = document.getElementById("ib-color-1");
+    var ibColorAuto = document.getElementById("ib-color-auto");
+    var ibColorStandard = document.getElementById("ib-color-standard");
+    initRecolorer(bg, bgFile, bgFileStandard, bgColor0, bgColor1, bgColorAuto, bgColorStandard);
+    initRecolorer(np, npFile, npFileStandard, npColor0, npColor1, npColorAuto, npColorStandard);
+    initRecolorer(ib, ibFile, ibFileStandard, ibColor0, ibColor1, ibColorAuto, ibColorStandard);
 }
 
 /**/
@@ -472,7 +507,7 @@ function init() {
     initTypes();
     initInfo();
 
-    initBackground();
+    initRecolorers();
     initName();
 
     /**/

@@ -20,7 +20,7 @@
             <div id="card-art-controller">
                 <img id="card-art" src="img/A.gif">
             </div>
-            <img id="card-name-bg" src="img/Nome.png">
+            <div id="card-name-bg"></div>
             <input id="card-name" type="text" placeholder="Card Name" autocomplete="off" spellcheck="false"><!-- todo -->
             <canvas id="card-name-canvas"></canvas>
             <div id="card-info-bg"></div>
@@ -76,18 +76,18 @@
 
             <div class="menu-title">Nameplate</div>
             <div class="row">
-                <input id="nameplate-file-standard" type="checkbox">
-                <label for="nameplate-file-standard">Default</label>
-                <input id="nameplate-file" type="file" accept="image/*">
+                <input id="np-file-standard" type="checkbox">
+                <label for="np-file-standard">Default</label>
+                <input id="np-file" type="file" accept="image/*">
                 (1:6)
             </div>
             <div class="row">
-                <input id="nameplate-color-standard" type="checkbox">
-                <label for="nameplate-color-standard">Default</label>
-                <input id="nameplate-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
-                <input id="nameplate-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-                <input id="nameplate-color-auto" type="checkbox">
-                <label for="nameplate-color-auto">Auto</label>
+                <input id="np-color-standard" type="checkbox">
+                <label for="np-color-standard">Default</label>
+                <input id="np-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="np-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="np-color-auto" type="checkbox">
+                <label for="np-color-auto">Auto</label>
             </div>
 
             <div class="menu-title">Name</div>
@@ -102,18 +102,18 @@
 
             <div class="menu-title">Infobox</div>
             <div class="row">
-                <input id="info-file-standard" type="checkbox">
-                <label for="info-file-standard">Default</label>
-                <input id="info-file" type="file" accept="image/*">
+                <input id="ib-file-standard" type="checkbox">
+                <label for="ib-file-standard">Default</label>
+                <input id="ib-file" type="file" accept="image/*">
                 (4:9)
             </div>
             <div class="row">
-                <input id="info-color-standard" type="checkbox">
-                <label for="info-color-standard">Default</label>
-                <input id="info-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
-                <input id="info-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-                <input id="info-color-auto" type="checkbox">
-                <label for="info-color-auto">Auto</label>
+                <input id="ib-color-standard" type="checkbox">
+                <label for="ib-color-standard">Default</label>
+                <input id="ib-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="ib-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="ib-color-auto" type="checkbox">
+                <label for="ib-color-auto">Auto</label>
             </div>
 
             <div class="menu-title">Card Art</div>
