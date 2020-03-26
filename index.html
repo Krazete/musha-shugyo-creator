@@ -145,42 +145,42 @@
         <div id="menu">
             <div class="menu-title">Background</div>
             <div class="row">
-                <input id="bg-file-standard" type="checkbox">
-                <label for="bg-file-standard">Default</label>
-                <input id="bg-file" type="file" accept="image/*">
-                (2:3)
-                <a href="img/bg/large/Background_01.jpg" download>Template</a>
-            </div>
-            <div class="row">
-                <input id="bg-color-standard" type="checkbox">
-                <label for="bg-color-standard">Default</label>
+                <input id="bg-color-custom" type="checkbox">
+                <label for="bg-color-custom">Custom</label>
                 <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
                 <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
                 <input id="bg-color-auto" type="checkbox">
                 <label for="bg-color-auto">Auto</label>
             </div>
+            <div class="row">
+                <input id="bg-file-custom" type="checkbox">
+                <label for="bg-file-custom">Custom</label>
+                <input id="bg-file" type="file" accept="image/*">
+                (2:3)
+                <a href="img/bg/large/Background_01.jpg" download>Template</a>
+            </div>
 
             <div class="menu-title">Nameplate</div>
             <div class="row">
-                <input id="np-file-standard" type="checkbox">
-                <label for="np-file-standard">Default</label>
-                <input id="np-file" type="file" accept="image/*">
-                (1:6)
-                <a href="img/Nome.png" download>Template</a>
-            </div>
-            <div class="row">
-                <input id="np-color-standard" type="checkbox">
-                <label for="np-color-standard">Default</label>
-                <input id="np-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="np-color-custom" type="checkbox">
+                <label for="np-color-custom">Custom</label>
+                <input id="np-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
                 <input id="np-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
                 <input id="np-color-auto" type="checkbox">
                 <label for="np-color-auto">Auto</label>
             </div>
+            <div class="row">
+                <input id="np-file-custom" type="checkbox">
+                <label for="np-file-custom">Custom</label>
+                <input id="np-file" type="file" accept="image/*">
+                (1:6)
+                <a href="img/Nome.png" download>Template</a>
+            </div>
 
             <div class="menu-title">Name</div>
             <div class="row">
-                <input id="name-color-standard" type="checkbox">
-                <label for="name-color-standard">Default</label>
+                <input id="name-color-custom" type="checkbox">
+                <label for="name-color-custom">Custom</label>
                 <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
                 <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
                 <input id="name-color-auto" type="checkbox">
@@ -189,19 +189,19 @@
 
             <div class="menu-title">Infobox</div>
             <div class="row">
-                <input id="ib-file-standard" type="checkbox">
-                <label for="ib-file-standard">Default</label>
-                <input id="ib-file" type="file" accept="image/*">
-                (4:9)
-                <a id="ib-template" href="img/Colonna.png" download>Template</a>
-            </div>
-            <div class="row">
-                <input id="ib-color-standard" type="checkbox">
-                <label for="ib-color-standard">Default</label>
-                <input id="ib-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="ib-color-custom" type="checkbox">
+                <label for="ib-color-custom">Custom</label>
+                <input id="ib-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
                 <input id="ib-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
                 <input id="ib-color-auto" type="checkbox">
                 <label for="ib-color-auto">Auto</label>
+            </div>
+            <div class="row">
+                <input id="ib-file-custom" type="checkbox">
+                <label for="ib-file-custom">Custom</label>
+                <input id="ib-file" type="file" accept="image/*">
+                (4:9)
+                <a id="ib-template" href="img/Colonna.png" download>Template</a>
             </div>
 
             <div class="menu-title">Card Art</div>
@@ -209,30 +209,26 @@
                 <input id="art" type="file" accept="image/*">
             </div>
             <div class="row blocked">
-                <input type="radio">
-                <label>Translate</label>
-                <input type="number">
-                <label>X</label>
-                <input type="number">
-                <label>Y</label>
+                <input id="art-position" type="radio" name="art-transform">
+                <label for="art-position">Position</label>
+                <input id="art-x" type="number" value="378">X
+                <input id="art-y" type="number" value="567">Y
             </div>
             <div class="row blocked">
-                <input type="radio">
-                <label>Rotate</label>
-                <input type="number">
-                <label>Degrees</label>
+                <input id="art-angle" type="radio" name="art-transform">
+                <label for="art-angle">Angle</label>
+                <input id="art-degrees" type="number" value="0">°
             </div>
             <div class="row blocked">
-                <input type="radio">
-                <label>Scale</label>
-                <input type="number">
-                <label>Width</label>
+                <input id="art-width" type="radio" name="art-transform">
+                <label for="art-width">Width</label>
+                <input id="art-px" type="number" value="756">px
             </div>
             <div class="menu-title">Export</div>
             <div class="row blocked">
-                <input type="button" value="PNG">
-                <input type="button" value="PDF">
-                <input type="button" value="JSON">
+                <input id="export-png" type="button" value="PNG">
+                <input id="export-pdf" type="button" value="PDF">
+                <input id="export-json" type="button" value="JSON">
             </div>
         </div>
     </div>

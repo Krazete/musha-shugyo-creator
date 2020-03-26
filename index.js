@@ -1,14 +1,14 @@
 var card;
 var cardData = { /* todo */
-    "bgStandard": undefined,
+    "bgDefault": undefined,
     "bgUpload": undefined,
     "bg": undefined,
-    "npStandard": undefined,
+    "npDefault": undefined,
     "npUpload": undefined,
     "np": undefined,
-    "ibStandardChar": undefined,
-    "ibStandardArmor": undefined,
-    "ibStandardAgon": undefined,
+    "ibDefaultChar": undefined,
+    "ibDefaultArmor": undefined,
+    "ibDefaultAgon": undefined,
     "ibUpload": undefined,
     "ib": undefined,
     "art": undefined
@@ -74,27 +74,27 @@ function initColorInput(color0, color1, colorAuto, autoOn, depth, update) {
     colorAuto.click();
 }
 
-function initStandardButton(standard, inputs, ignore, onCheck, onUncheck) {
-    function onInputStandard() {
-        if (standard.checked) {
-            for (var i = 0; i < inputs.length; i++) {
-                inputs[i].setAttribute("disabled", true);
-            }
-            onCheck(inputs);
-        }
-        else {
+function initCustomButton(custom, inputs, ignore, onUncheck, onCheck) {
+    function onInputCustom() {
+        if (custom.checked) {
             for (var i = 0; i < inputs.length; i++) {
                 if (!ignore || ignore(inputs, i)) {
                     inputs[i].removeAttribute("disabled");
                 }
             }
+            onCheck(inputs);
+        }
+        else {
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].setAttribute("disabled", true);
+            }
             onUncheck(inputs);
         }
     }
 
-    standard.checked = false;
-    standard.addEventListener("input", onInputStandard);
-    standard.click();
+    custom.checked = true;
+    custom.addEventListener("input", onInputCustom);
+    custom.click();
 }
 
 function initName() {
@@ -105,7 +105,7 @@ function initName() {
     var nameColor0 = document.getElementById("name-color-0");
     var nameColor1 = document.getElementById("name-color-1");
     var nameColorAuto = document.getElementById("name-color-auto");
-    var nameColorStandard = document.getElementById("name-color-standard");
+    var nameColorCustom = document.getElementById("name-color-custom");
 
     function onInputCardName() {
         var w = nameCanvas.width / devicePixelRatio;
@@ -129,11 +129,11 @@ function initName() {
         return true;
     }
 
-    function onCheckColorStandard(inputs) {
+    function onUncheckColorCustom(inputs) {
         updateGradient({"value": "#ffca1a"}, {"value": "#fe6207"});
     }
 
-    function onUncheckColorStandard(inputs) {
+    function onCheckColorCustom(inputs) {
         updateGradient(nameColor0, nameColor1);
     }
 
@@ -146,7 +146,7 @@ function initName() {
 
     cardName.addEventListener("input", onInputCardName);
     initColorInput(nameColor0, nameColor1, nameColorAuto, true, 3.7, updateGradient);
-    initStandardButton(nameColorStandard, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onCheckColorStandard, onUncheckColorStandard);
+    initCustomButton(nameColorCustom, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onUncheckColorCustom, onCheckColorCustom);
 }
 
 function newCanvas(width, height) {
@@ -173,7 +173,7 @@ function initFileInput(file, update) {
     file.addEventListener("input", onInputFile);
 }
 
-function initRecolorer(element, code, file, fileStandard, color0, color1, colorAuto, colorStandard) {
+function initRecolorer(element, code, file, fileCustom, color0, color1, colorAuto, colorCustom) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
     var gradientData;
@@ -207,22 +207,19 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
     }
 
     function updateCanvas() {
-        var id = code + "Standard";
-        if (fileStandard.checked && code == "ib") {
-            id += card.className[0].toUpperCase() + card.className.slice(1); /* todo: this is flimsy */
-        }
-        else if (!fileStandard.checked && file.files.length > 0) {
+        var id = code + "Default";
+        if (fileCustom.checked && file.files.length > 0) {
             id = code + "Upload";
+        }
+        else if (code == "ib") {
+            id += card.className[0].toUpperCase() + card.className.slice(1); /* todo: this is flimsy */
         }
 
         if (!cardData[id]) {
             return;
         }
 
-        if (colorStandard.checked) {
-            cardData[code] = cardData[id];
-        }
-        else {
+        if (colorCustom.checked) {
             var newData = new ImageData(cardData[id].width, cardData[id].height);
 
             var dataMin = 255;
@@ -243,6 +240,9 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
             });
 
             cardData[code] = newData;
+        }
+        else {
+            cardData[code] = cardData[id];
         }
 
         imgContext.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
@@ -272,7 +272,7 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
         return true;
     }
 
-    function onInputColorStandard(inputs) {
+    function onInputColorCustom(inputs) {
         updateBackground(inputs[0], inputs[1]);
     }
 
@@ -280,8 +280,8 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
 
     initFileInput(file, updateFile);
     initColorInput(color0, color1, colorAuto, false, 37, updateBackground);
-    initStandardButton(fileStandard, [file], undefined, updateCanvas, updateCanvas);
-    initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onInputColorStandard, onInputColorStandard);
+    initCustomButton(fileCustom, [file], undefined, updateCanvas, updateCanvas);
+    initCustomButton(colorCustom, [color0, color1, colorAuto], ignoreColor1, onInputColorCustom, onInputColorCustom);
 }
 
 function newImage(src, onLoad) {
@@ -293,25 +293,25 @@ function newImage(src, onLoad) {
 function initRecolorers() {
     var bg = document.getElementById("card");
     var bgFile = document.getElementById("bg-file");
-    var bgFileStandard = document.getElementById("bg-file-standard");
+    var bgFileCustom = document.getElementById("bg-file-custom");
     var bgColor0 = document.getElementById("bg-color-0");
     var bgColor1 = document.getElementById("bg-color-1");
     var bgColorAuto = document.getElementById("bg-color-auto");
-    var bgColorStandard = document.getElementById("bg-color-standard");
+    var bgColorCustom = document.getElementById("bg-color-custom");
     var np = document.getElementById("card-name-bg");
     var npFile = document.getElementById("np-file");
-    var npFileStandard = document.getElementById("np-file-standard");
+    var npFileCustom = document.getElementById("np-file-custom");
     var npColor0 = document.getElementById("np-color-0");
     var npColor1 = document.getElementById("np-color-1");
     var npColorAuto = document.getElementById("np-color-auto");
-    var npColorStandard = document.getElementById("np-color-standard");
+    var npColorCustom = document.getElementById("np-color-custom");
     var ib = document.getElementById("card-info-bg");
     var ibFile = document.getElementById("ib-file");
-    var ibFileStandard = document.getElementById("ib-file-standard");
+    var ibFileCustom = document.getElementById("ib-file-custom");
     var ibColor0 = document.getElementById("ib-color-0");
     var ibColor1 = document.getElementById("ib-color-1");
     var ibColorAuto = document.getElementById("ib-color-auto");
-    var ibColorStandard = document.getElementById("ib-color-standard");
+    var ibColorCustom = document.getElementById("ib-color-custom");
 
     function initCardData(element, id, src) {
         var elementRect = element.getBoundingClientRect();
@@ -327,22 +327,22 @@ function initRecolorers() {
         });
     }
 
-    initCardData(bg, "bgStandard", "img/bg/large/Background_01.jpg");
-    initCardData(np, "npStandard", "img/Nome.png");
-    initCardData(ib, "ibStandardChar", "img/Colonna.png");
-    initCardData(ib, "ibStandardArmor", "img/Armor.png");
-    initCardData(ib, "ibStandardAgon", "img/Agon.png");
+    initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
+    initCardData(np, "npDefault", "img/Nome.png");
+    initCardData(ib, "ibDefaultChar", "img/Colonna.png");
+    initCardData(ib, "ibDefaultArmor", "img/Armor.png");
+    initCardData(ib, "ibDefaultAgon", "img/Agon.png");
 
-    initRecolorer(bg, "bg", bgFile, bgFileStandard, bgColor0, bgColor1, bgColorAuto, bgColorStandard);
-    initRecolorer(np, "np", npFile, npFileStandard, npColor0, npColor1, npColorAuto, npColorStandard);
-    initRecolorer(ib, "ib", ibFile, ibFileStandard, ibColor0, ibColor1, ibColorAuto, ibColorStandard);
+    initRecolorer(bg, "bg", bgFile, bgFileCustom, bgColor0, bgColor1, bgColorAuto, bgColorCustom);
+    initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor1, npColorAuto, npColorCustom);
+    initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor1, ibColorAuto, ibColorCustom);
 }
 
 function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
     var ibTemplate = document.getElementById("ib-template");
-    var ibTemplateURLs = {
+    var ibTemplateURLs = { /* todo: make templates */
         "char": "img/Colonna.png",
         "armor": "img/Armor.png",
         "agon": "img/Agon.png"
