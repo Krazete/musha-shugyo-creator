@@ -119,8 +119,8 @@
                 <label for="ib-color-auto">Auto</label>
             </div>
 
-            <div class="menu-title blocked">Card Art</div>
-            <div class="row blocked">
+            <div class="menu-title">Card Art</div>
+            <div class="row">
                 <input id="art" type="file" accept="image/*">
             </div>
             <div class="row blocked">
@@ -143,7 +143,7 @@
                 <input type="number">
                 <label>Width</label>
             </div>
-            <div class="menu-title blocked">Export</div>
+            <div class="menu-title">Export</div>
             <div class="row blocked">
                 <input type="button" value="PNG">
                 <input type="button" value="PDF">

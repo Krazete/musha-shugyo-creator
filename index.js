@@ -360,6 +360,17 @@ function initTypes() {
     defaultType.click();
 }
 
+function initArt() {
+    var cardArt = document.getElementById("card-art");
+    var art = document.getElementById("art");
+
+    function onInputArt(dataURL) {
+        cardArt.src = dataURL;
+    }
+
+    initFileInput(art, onInputArt);
+}
+
 function initStats() {
     var stat = document.getElementById("info-stat");
     var statArmor = document.getElementById("info-stat-armor");
@@ -443,6 +454,9 @@ function init() {
     initRecolorers();
     initName();
     initTypes();
+
+    initArt();
+
     initInfo();
 
     /**/

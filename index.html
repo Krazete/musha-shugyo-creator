@@ -17,137 +17,198 @@
             <input id="type-agon" type="radio" name="type" value="agon">
             <label for="type-agon">Agon</label>
         </div>
-        <div id="card">
-            <img id="card-bg" class="bg-img" src="img/bg/large/Background_01.jpg">
-            <div id="artlayer">
-                <img id="art" src="img/A.gif">
+        <div id="card" class="armor"><!-- todo: temp -->
+            <div id="card-art-controller">
+                <img id="card-art">
             </div>
-            <img id="moniker-bg" class="bg-img" src="img/Nome.png">
-            <input id="moniker" type="text" placeholder="Modifica nome PG" autocomplete="undefined" spellcheck="false">
-            <canvas id="moniker-canvas"></canvas>
-            <div id="infobox-bg" class="bg-img"></div>
-            <div id="infobox">
-                <input id="type" type="text" placeholder="Type">
-                <div id="stat">
+            <div id="card-name-bg"></div>
+            <input id="card-name" type="text" placeholder="Card Name" autocomplete="off" spellcheck="false"><!-- todo -->
+            <canvas id="card-name-canvas"></canvas>
+            <div id="card-info-bg"></div>
+            <div id="card-info">
+                <input id="info-type" type="text" placeholder="Type">
+                <div id="info-stat">
                     <div id="ra">
-                        <label><input type="radio" name="ra"></label>
-                        <label><input type="radio" name="ra"></label>
-                        <label><input type="radio" name="ra"></label>
-                        <label><input type="radio" name="ra"></label>
-                        <label><input type="radio" name="ra"></label>
-                        <label><input type="radio" name="ra"></label>
+                        <label><input type="checkbox" name="ra"></label>
+                        <label><input type="checkbox" name="ra"></label>
+                        <label><input type="checkbox" name="ra"></label>
+                        <label><input type="checkbox" name="ra"></label>
+                        <label><input type="checkbox" name="ra"></label>
+                        <label><input type="checkbox" name="ra"></label>
                     </div>
                     <div id="at">
-                        <label><input type="radio" name="at"></label>
-                        <label><input type="radio" name="at"></label>
-                        <label><input type="radio" name="at"></label>
-                        <label><input type="radio" name="at"></label>
-                        <label><input type="radio" name="at"></label>
-                        <label><input type="radio" name="at"></label>
+                        <label><input type="checkbox" name="at"></label>
+                        <label><input type="checkbox" name="at"></label>
+                        <label><input type="checkbox" name="at"></label>
+                        <label><input type="checkbox" name="at"></label>
+                        <label><input type="checkbox" name="at"></label>
+                        <label><input type="checkbox" name="at"></label>
                     </div>
                     <div id="de">
-                        <label><input type="radio" name="de"></label>
-                        <label><input type="radio" name="de"></label>
-                        <label><input type="radio" name="de"></label>
-                        <label><input type="radio" name="de"></label>
-                        <label><input type="radio" name="de"></label>
-                        <label><input type="radio" name="de"></label>
+                        <label><input type="checkbox" name="de"></label>
+                        <label><input type="checkbox" name="de"></label>
+                        <label><input type="checkbox" name="de"></label>
+                        <label><input type="checkbox" name="de"></label>
+                        <label><input type="checkbox" name="de"></label>
+                        <label><input type="checkbox" name="de"></label>
                     </div>
                     <div id="vo">
-                        <label><input type="radio" name="vo"></label>
-                        <label><input type="radio" name="vo"></label>
-                        <label><input type="radio" name="vo"></label>
-                        <label><input type="radio" name="vo"></label>
-                        <label><input type="radio" name="vo"></label>
-                        <label><input type="radio" name="vo"></label>
+                        <label><input type="checkbox" name="vo"></label>
+                        <label><input type="checkbox" name="vo"></label>
+                        <label><input type="checkbox" name="vo"></label>
+                        <label><input type="checkbox" name="vo"></label>
+                        <label><input type="checkbox" name="vo"></label>
+                        <label><input type="checkbox" name="vo"></label>
                     </div>
                     <div id="eq">
-                        <label><input type="radio" name="eq"></label>
-                        <label><input type="radio" name="eq"></label>
-                        <label><input type="radio" name="eq"></label>
-                        <label><input type="radio" name="eq"></label>
-                        <label><input type="radio" name="eq"></label>
-                        <label><input type="radio" name="eq"></label>
+                        <label><input type="checkbox" name="eq"></label>
+                        <label><input type="checkbox" name="eq"></label>
+                        <label><input type="checkbox" name="eq"></label>
+                        <label><input type="checkbox" name="eq"></label>
+                        <label><input type="checkbox" name="eq"></label>
+                        <label><input type="checkbox" name="eq"></label>
                     </div>
                 </div>
-                <div id="armorstat">
+                <div id="info-sp" class="blocked"></div>
+                <div id="info-stat-armor">
                     <div id="st">
-                        <label><input type="radio" name="st"></label>
-                        <label><input type="radio" name="st"></label>
-                        <label><input type="radio" name="st"></label>
-                        <label><input type="radio" name="st"></label>
-                        <label><input type="radio" name="st"></label>
-                        <label><input type="radio" name="st"></label>
-                        <label><input type="radio" name="st"></label>
+                        <label><input type="checkbox" name="st"></label>
+                        <label><input type="checkbox" name="st"></label>
+                        <label><input type="checkbox" name="st"></label>
+                        <label><input type="checkbox" name="st"></label>
+                        <label><input type="checkbox" name="st"></label>
+                        <label><input type="checkbox" name="st"></label>
+                        <label><input type="checkbox" name="st"></label>
                     </div>
                     <div id="da">
-                        <label><input type="radio" name="da"></label>
-                        <label><input type="radio" name="da"></label>
-                        <label><input type="radio" name="da"></label>
-                        <label><input type="radio" name="da"></label>
-                        <label><input type="radio" name="da"></label>
-                        <label><input type="radio" name="da"></label>
-                        <label><input type="radio" name="da"></label>
+                        <label><input type="checkbox" name="da"></label>
+                        <label><input type="checkbox" name="da"></label>
+                        <label><input type="checkbox" name="da"></label>
+                        <label><input type="checkbox" name="da"></label>
+                        <label><input type="checkbox" name="da"></label>
+                        <label><input type="checkbox" name="da"></label>
+                        <label><input type="checkbox" name="da"></label>
                     </div>
                 </div>
-                <div id="moves">
+                <div id="info-moves">
                     <div id="move-0">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                     <div id="move-1">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                     <div id="move-2">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                     <div id="move-3">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                     <div id="move-4">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                     <div id="move-5">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                     <div id="move-6">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                     <div id="move-7">
-                        <input class="name" type="text" placeholder="Nome tecnica">
-                        <input class="pa" type="text" placeholder="PA">
-                        <input class="bonus" type="text" placeholder="Bonus">
+                        <input class="move-name" type="text" placeholder="Nome tecnica">
+                        <input class="move-pa" type="text" placeholder="PA">
+                        <div class="move-icons blocked"></div>
+                        <input class="move-bonus" type="text" placeholder="Bonus">
                     </div>
                 </div>
             </div>
         </div>
         <div id="menu">
-            <div class="option-label">Name Color</div>
-            <input id="moniker-color-top" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-            <input id="moniker-color-bottom" class="jscolor" data-jscolor="{hash: true}" value="#fe6207" disabled>
-            <input type="checkbox" checked>
-            <label id="autograd">Automatic Gradient</label>
-            <div class="option-label">Background Color</div>
-            <input id="bg-color-hi" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
-            <input id="bg-color-lo" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-            <input type="checkbox" checked>
-            <label id="autograd2">Automatic Gradient</label>
-            <div class="option-label">Card Art</div>
-            <input type="file">
-            <div>
+            <div class="menu-title">Background</div>
+            <div class="row">
+                <input id="bg-file-standard" type="checkbox">
+                <label for="bg-file-standard">Default</label>
+                <input id="bg-file" type="file" accept="image/*">
+                (2:3)
+                <a href="img/bg/large/Background_01.jpg" download>Template</a>
+            </div>
+            <div class="row">
+                <input id="bg-color-standard" type="checkbox">
+                <label for="bg-color-standard">Default</label>
+                <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="bg-color-auto" type="checkbox">
+                <label for="bg-color-auto">Auto</label>
+            </div>
+
+            <div class="menu-title">Nameplate</div>
+            <div class="row">
+                <input id="np-file-standard" type="checkbox">
+                <label for="np-file-standard">Default</label>
+                <input id="np-file" type="file" accept="image/*">
+                (1:6)
+                <a href="img/Nome.png" download>Template</a>
+            </div>
+            <div class="row">
+                <input id="np-color-standard" type="checkbox">
+                <label for="np-color-standard">Default</label>
+                <input id="np-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="np-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="np-color-auto" type="checkbox">
+                <label for="np-color-auto">Auto</label>
+            </div>
+
+            <div class="menu-title">Name</div>
+            <div class="row">
+                <input id="name-color-standard" type="checkbox">
+                <label for="name-color-standard">Default</label>
+                <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
+                <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
+                <input id="name-color-auto" type="checkbox">
+                <label for="name-color-auto">Auto</label>
+            </div>
+
+            <div class="menu-title">Infobox</div>
+            <div class="row">
+                <input id="ib-file-standard" type="checkbox">
+                <label for="ib-file-standard">Default</label>
+                <input id="ib-file" type="file" accept="image/*">
+                (4:9)
+                <a id="ib-template" href="img/Colonna.png" download>Template</a>
+            </div>
+            <div class="row">
+                <input id="ib-color-standard" type="checkbox">
+                <label for="ib-color-standard">Default</label>
+                <input id="ib-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                <input id="ib-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                <input id="ib-color-auto" type="checkbox">
+                <label for="ib-color-auto">Auto</label>
+            </div>
+
+            <div class="menu-title">Card Art</div>
+            <div class="row">
+                <input id="art" type="file" accept="image/*">
+            </div>
+            <div class="row blocked">
                 <input type="radio">
                 <label>Translate</label>
                 <input type="number">
@@ -155,40 +216,25 @@
                 <input type="number">
                 <label>Y</label>
             </div>
-            <div>
+            <div class="row blocked">
                 <input type="radio">
                 <label>Rotate</label>
                 <input type="number">
                 <label>Degrees</label>
             </div>
-            <div>
+            <div class="row blocked">
                 <input type="radio">
                 <label>Scale</label>
                 <input type="number">
                 <label>Width</label>
             </div>
-            <div class="option-label">Custom Assets</div>
-            <div>
-                <input type="file">
-                <label>Card Background</label>
+            <div class="menu-title">Export</div>
+            <div class="row blocked">
+                <input type="button" value="PNG">
+                <input type="button" value="PDF">
+                <input type="button" value="JSON">
             </div>
-            <div>
-                <input type="file">
-                <label>Name Background</label>
-            </div>
-            <div>
-                <input type="file">
-                <label>Infobox Background</label>
-            </div>
-            <div class="option-label">Export</div>
-            <input type="button" value="PNG">
-            <input type="button" value="PDF">
-            <input type="button" value="JSON">
         </div>
-    </div>
-    <div id="aide" class="hidden">
-        <img id="bgbg" src="img/bg/large/Background_01.jpg">
-        <canvas id="bg-grad" width="256" height="1"></canvas>
     </div>
     <canvas id="card-canvas"></canvas>
 </body>
