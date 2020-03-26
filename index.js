@@ -371,6 +371,40 @@ function initArt() {
     initFileInput(art, onInputArt);
 }
 
+function initTransformer() {
+    var artPosition = document.getElementById("art-position");
+    var artWidth = document.getElementById("art-width");
+    var artAngle = document.getElementById("art-angle");
+    var artX = document.getElementById("art-x");
+    var artY = document.getElementById("art-y");
+    var artW = document.getElementById("art-w");
+    var artD = document.getElementById("art-d");
+    var mode;
+
+    function onInputArtX() {
+    }
+
+    function onInputArtY() {
+    }
+
+    function onInputArtW() {
+    }
+
+    function onInputArtD() {
+    }
+
+    function onInputTransform(e) {
+        mode = this.id;
+        console.log(e, mode);
+    }
+
+    artPosition.addEventListener("input", onInputTransform);
+    artWidth.addEventListener("input", onInputTransform);
+    artAngle.addEventListener("input", onInputTransform);
+
+    artPosition.click();
+}
+
 function initStats() {
     var stat = document.getElementById("info-stat");
     var statArmor = document.getElementById("info-stat-armor");

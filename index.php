@@ -4,6 +4,7 @@
     <link type="text/css" rel="stylesheet" href="index.css">
     <title>Musha Shugyo Creator</title>
     <script type="text/javascript" src="script/jscolor.js"></script>
+    <script type="text/javascript" src="script/jsscrub.js"></script>
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
@@ -71,8 +72,7 @@
                 <input id="bg-file-custom" type="checkbox">
                 <label for="bg-file-custom">Custom</label>
                 <input id="bg-file" type="file" accept="image/*">
-                (2:3)
-                <a href="img/bg/large/Background_01.jpg" download>Template</a>
+                (2:3) <a href="img/bg/large/Background_01.jpg" download>Template</a>
             </div>
 
             <div class="menu-title">Nameplate</div>
@@ -88,8 +88,7 @@
                 <input id="np-file-custom" type="checkbox">
                 <label for="np-file-custom">Custom</label>
                 <input id="np-file" type="file" accept="image/*">
-                (1:6)
-                <a href="img/Nome.png" download>Template</a>
+                (1:6) <a href="img/Nome.png" download>Template</a>
             </div>
 
             <div class="menu-title">Name</div>
@@ -115,29 +114,28 @@
                 <input id="ib-file-custom" type="checkbox">
                 <label for="ib-file-custom">Custom</label>
                 <input id="ib-file" type="file" accept="image/*">
-                (4:9)
-                <a id="ib-template" href="img/Colonna.png" download>Template</a>
+                (4:9) <a id="ib-template" href="img/Colonna.png" download>Template</a>
             </div>
 
             <div class="menu-title">Card Art</div>
             <div class="row">
                 <input id="art" type="file" accept="image/*">
             </div>
-            <div class="row blocked">
+            <div class="row">
                 <input id="art-position" type="radio" name="art-transform">
                 <label for="art-position">Position</label>
-                <input id="art-x" type="number" value="378">X
-                <input id="art-y" type="number" value="567">Y
+                X <input id="art-x" class="jsscrub" type="number" value="378" step="2">
+                Y <input id="art-y" class="jsscrub" type="number" value="567" step="2">
             </div>
-            <div class="row blocked">
-                <input id="art-angle" type="radio" name="art-transform">
-                <label for="art-angle">Angle</label>
-                <input id="art-degrees" type="number" value="0">°
-            </div>
-            <div class="row blocked">
+            <div class="row">
                 <input id="art-width" type="radio" name="art-transform">
                 <label for="art-width">Width</label>
-                <input id="art-px" type="number" value="756">px
+                <input id="art-w" class="jsscrub" type="number" value="756"> px
+            </div>
+            <div class="row">
+                <input id="art-angle" type="radio" name="art-transform">
+                <label for="art-angle">Angle</label>
+                <input id="art-d" class="jsscrub" type="number" value="0" min="-180" max="180"> °
             </div>
             <div class="menu-title">Export</div>
             <div class="row blocked">
