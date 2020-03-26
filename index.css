@@ -66,8 +66,10 @@ input[type='radio'], input[type='checkbox'] {
 
 #card-art { /* todo */
 	position: absolute;
-	right: 0;
-	bottom: 0;
+	width: 756px;
+	left: 378px;
+	top: 567px;
+	transform: translate(-50%, -50%);
 }
 
 #card-name-bg {
@@ -359,6 +361,11 @@ input[type='radio'], input[type='checkbox'] {
 	border-color: gray;
 	border-style: dashed;
 	pointer-events: none;
+}
+
+#menu input[type='number'] {
+	text-align: right;
+	width: 80px;
 }
 
 /* *{outline:auto!important} */

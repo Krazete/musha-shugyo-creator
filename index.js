@@ -16,7 +16,7 @@ var cardData = { /* todo */
 
 var updateInfoboxBackground;
 
-function initColorInput(color0, color1, colorAuto, depth, update) {
+function initColorInput(color0, color1, colorAuto, autoOn, depth, update) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
 
@@ -69,7 +69,7 @@ function initColorInput(color0, color1, colorAuto, depth, update) {
     color0.jscolor.onFineChange = onChangeColor;
     color1.jscolor.onFineChange = onChangeColor;
 
-    colorAuto.checked = false;
+    colorAuto.checked = !autoOn;
     colorAuto.addEventListener("input", onInputColorAuto);
     colorAuto.click();
 }
@@ -145,7 +145,7 @@ function initName() {
     nameContext.font = "112px Regular"; /* todo: getComputedStyle */
 
     cardName.addEventListener("input", onInputCardName);
-    initColorInput(nameColor0, nameColor1, nameColorAuto, 3.7, updateGradient);
+    initColorInput(nameColor0, nameColor1, nameColorAuto, true, 3.7, updateGradient);
     initStandardButton(nameColorStandard, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onCheckColorStandard, onUncheckColorStandard);
 }
 
@@ -279,7 +279,7 @@ function initRecolorer(element, code, file, fileStandard, color0, color1, colorA
     updateInfoboxBackground = updateCanvas;
 
     initFileInput(file, updateFile);
-    initColorInput(color0, color1, colorAuto, 37, updateBackground);
+    initColorInput(color0, color1, colorAuto, false, 37, updateBackground);
     initStandardButton(fileStandard, [file], undefined, updateCanvas, updateCanvas);
     initStandardButton(colorStandard, [color0, color1, colorAuto], ignoreColor1, onInputColorStandard, onInputColorStandard);
 }
