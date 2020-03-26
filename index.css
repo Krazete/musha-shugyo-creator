@@ -33,8 +33,8 @@ input[type='radio'], input[type='checkbox'] {
 	cursor: pointer;
 }
 #types input:checked + label {
-	background: white;
-	text-shadow: 0 0 1px black;
+	background: black;
+	color: white;
 }
 
 #card {
@@ -45,7 +45,7 @@ input[type='radio'], input[type='checkbox'] {
     width: 756px;
 	height: 1134px;
 	display: inline-block;
-	border: 10px solid white;
+	border: 10px solid black;
 	border-radius: 10px;
 	overflow: hidden;
 }
@@ -352,7 +352,10 @@ input[type='radio'], input[type='checkbox'] {
 	cursor: pointer;
 }
 #menu input:checked + label {
-	background: white;
+	background: black;
+	color: white;
+	box-shadow: 0 0 3px white;
+	border-color: white;
 }
 
 #menu input:disabled, #menu input:disabled + label {
