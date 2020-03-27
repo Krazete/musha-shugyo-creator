@@ -363,15 +363,6 @@ function initTypes() {
 function initArt() {
     var cardArt = document.getElementById("card-art");
     var art = document.getElementById("art");
-
-    function onInputArt(dataURL) {
-        cardArt.src = dataURL;
-    }
-
-    initFileInput(art, onInputArt);
-}
-
-function initTransformer() {
     var artPosition = document.getElementById("art-position");
     var artWidth = document.getElementById("art-width");
     var artAngle = document.getElementById("art-angle");
@@ -381,26 +372,32 @@ function initTransformer() {
     var artD = document.getElementById("art-d");
     var mode;
 
+    function onInputArt(dataURL) {
+        cardArt.src = dataURL;
+    }
+
     function onInputArtX() {
-        console.log(this.value);
+        cardArt.style.left = this.value + "px";
     }
 
     function onInputArtY() {
-        console.log(this.value);
+        cardArt.style.top = this.value + "px";
     }
 
     function onInputArtW() {
-        console.log(this.value);
+        cardArt.style.width = this.value + "px";
     }
 
     function onInputArtD() {
-        console.log(this.value);
+        cardArt.style.transform = "rotate(" + this.value + "deg)";
     }
 
     function onInputTransform(e) {
         mode = this.id;
         console.log(e, mode);
     }
+
+    initFileInput(art, onInputArt);
 
     artX.addEventListener("input", onInputArtX);
     artY.addEventListener("input", onInputArtY);
@@ -499,7 +496,6 @@ function init() {
     initTypes();
 
     initArt();
-    initTransformer();
 
     initInfo();
 

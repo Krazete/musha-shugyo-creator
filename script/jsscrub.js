@@ -24,11 +24,17 @@ function convertToScrubber(input) {
             dx *= nonNaN(input.step);
         }
         var i1 = i0 + dx;
-        if (input.min && input.max) {
+        if ("jsscrub" in input.dataset && input.dataset.jsscrub.includes("continuous")) {
             min = nonNaN(input.min);
             max = nonNaN(input.max);
             var dm = max - min;
             i1 = ((i1 - min) % dm + dm) % dm + min;
+        }
+        if (input.min) {
+            i1 = Math.max(i1, input.min);
+        }
+        if (input.max) {
+            i1 = Math.min(i1, input.max);
         }
         input.value = i1;
         input.dispatchEvent(new InputEvent("input"));
