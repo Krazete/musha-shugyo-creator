@@ -31,6 +31,7 @@ function convertToScrubber(input) {
             i1 = ((i1 - min) % dm + dm) % dm + min;
         }
         input.value = i1;
+        input.dispatchEvent(new InputEvent("input"));
     }
 
     function onMouseDown(e) {

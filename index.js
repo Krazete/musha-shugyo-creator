@@ -382,21 +382,30 @@ function initTransformer() {
     var mode;
 
     function onInputArtX() {
+        console.log(this.value);
     }
 
     function onInputArtY() {
+        console.log(this.value);
     }
 
     function onInputArtW() {
+        console.log(this.value);
     }
 
     function onInputArtD() {
+        console.log(this.value);
     }
 
     function onInputTransform(e) {
         mode = this.id;
         console.log(e, mode);
     }
+
+    artX.addEventListener("input", onInputArtX);
+    artY.addEventListener("input", onInputArtY);
+    artW.addEventListener("input", onInputArtW);
+    artD.addEventListener("input", onInputArtD);
 
     artPosition.addEventListener("input", onInputTransform);
     artWidth.addEventListener("input", onInputTransform);
@@ -490,6 +499,7 @@ function init() {
     initTypes();
 
     initArt();
+    initTransformer();
 
     initInfo();
 
