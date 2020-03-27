@@ -49,7 +49,7 @@ function convertToScrubber(input) {
     }
 
     input.style.cursor = "ew-resize";
-    style.innerHTML = "body {pointer-events: none;} * {cursor: ew-resize !important;}";
+    style.innerHTML = "html {cursor: ew-resize;} body {pointer-events: none;}";
 
     input.addEventListener("mousedown", onMouseDown);
 }

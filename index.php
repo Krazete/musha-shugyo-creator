@@ -130,7 +130,7 @@
             <div class="row">
                 <input id="art-width" type="radio" name="art-transform">
                 <label for="art-width">Width</label>
-                <input id="art-w" class="jsscrub" type="number" value="756" min="0"> px
+                <input id="art-w" class="jsscrub" type="number" value="756" min="0" step="2"> px
             </div>
             <div class="row">
                 <input id="art-angle" type="radio" name="art-transform">

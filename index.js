@@ -361,6 +361,7 @@ function initTypes() {
 }
 
 function initArt() {
+    var cardArtController = document.getElementById("card-art-controller");
     var cardArt = document.getElementById("card-art");
     var art = document.getElementById("art");
     var artPosition = document.getElementById("art-position");
@@ -370,7 +371,9 @@ function initArt() {
     var artY = document.getElementById("art-y");
     var artW = document.getElementById("art-w");
     var artD = document.getElementById("art-d");
+    var style = document.createElement("style");
     var mode;
+    var e0;
 
     function onInputArt(dataURL) {
         cardArt.src = dataURL;
@@ -381,7 +384,7 @@ function initArt() {
     }
 
     function onInputArtY() {
-        cardArt.style.top = this.value + "px";
+        cardArt.style.top = 1134 - this.value + "px";
     }
 
     function onInputArtW() {
@@ -389,13 +392,33 @@ function initArt() {
     }
 
     function onInputArtD() {
-        cardArt.style.transform = "rotate(" + this.value + "deg)";
+        cardArt.style.transform = "translate(-50%, -50%) rotate(" + this.value + "deg)";
     }
 
-    function onInputTransform(e) {
-        mode = this.id;
-        console.log(e, mode);
+    function onInputTransform() {
+        mode = this.id.split("-")[1];
     }
+
+    function controlEnd(e) {
+        style.remove();
+        window.removeEventListener("mouseup", controlEnd);
+        window.removeEventListener("mousemove", control);
+    }
+
+    function control(e) {
+        var e1 = e;
+        if (mode == "position") {
+        }
+    }
+
+    function controlStart(e) {
+        e0 = e;
+        document.body.appendChild(style);
+        window.addEventListener("mouseup", controlEnd);
+        window.addEventListener("mousemove", control);
+    }
+
+    style.innerHTML = "html {cursor: move;} body {pointer-events: none;}";
 
     initFileInput(art, onInputArt);
 
@@ -407,6 +430,8 @@ function initArt() {
     artPosition.addEventListener("input", onInputTransform);
     artWidth.addEventListener("input", onInputTransform);
     artAngle.addEventListener("input", onInputTransform);
+
+    cardArtController.addEventListener("mousedown", controlStart);
 
     artPosition.click();
 }
