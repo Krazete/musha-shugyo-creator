@@ -59,6 +59,11 @@
             </div>
         </div>
         <div id="menu">
+            <div class="row">
+                <input id="preview" type="checkbox">
+                <label for="preview">Preview</label>
+            </div>
+
             <div class="menu-title">Background</div>
             <div class="row">
                 <input id="bg-color-custom" type="checkbox">
@@ -137,6 +142,7 @@
                 <label for="art-angle">Angle</label>
                 <input id="art-d" class="jsscrub" data-jsscrub="continuous" type="number" value="0" min="-180" max="180"> °
             </div>
+
             <div class="menu-title">Export</div>
             <div class="row blocked">
                 <input id="export-png" type="button" value="PNG">

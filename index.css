@@ -49,6 +49,11 @@ input[type='radio'], input[type='checkbox'] {
 	border-radius: 10px;
 	overflow: hidden;
 }
+#card.preview { /* todo */
+	transform: scale(0.5);
+	transform-origin: top left;
+	margin-right: -25%;
+}
 
 #card input[type='text'] {
 	background: none;

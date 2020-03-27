@@ -407,6 +407,10 @@ function initArt() {
 
     function control(e) {
         var e1 = e;
+        console.log(
+            e1.x - e0.x,
+            e1.y - e0.y
+        );
         if (mode == "position") {
         }
     }
