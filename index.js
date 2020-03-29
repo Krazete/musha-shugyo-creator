@@ -462,6 +462,7 @@ function initArt() {
 
     function control(e1) {
         if (e1.touches) {
+            e1.preventDefault();
             e1 = {"x": e1.touches[0].clientX, "y": e1.touches[0].clientY};
         }
         if (mode == "position") {
@@ -500,6 +501,7 @@ function initArt() {
 
     function controlStart(e) {
         if (e.touches) {
+            e.preventDefault();
             e = {"x": e.touches[0].clientX, "y": e.touches[0].clientY};
         }
         e0 = e;
