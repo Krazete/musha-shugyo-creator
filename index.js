@@ -11,7 +11,7 @@ var cardData = { /* todo */
     "ibDefaultAgon": undefined,
     "ibUpload": undefined,
     "ib": undefined,
-    "art": undefined
+    "artURL": undefined
 };
 
 var updateInfoboxBackground;
@@ -399,6 +399,7 @@ function initArt() {
     function onInputArt(dataURL) {
         cardArt.src = dataURL;
         cardArt.addEventListener("load", updateBounds)
+        cardData.artURL = dataURL;
     }
 
     function onInputArtX() {
@@ -518,6 +519,7 @@ function initArt() {
         window.addEventListener("mousemove", control);
     }
 
+    updateBounds();
     circle.id = "circle";
     style.innerHTML = "html {cursor: move;} body {pointer-events: none;}";
 
@@ -607,6 +609,63 @@ function renderCard() {
     canvas.height = 1134;
 }
 
+function initExport() {
+    var exportPNG = document.getElementById("export-png");
+    var exportPDF = document.getElementById("export-pdf");
+    var exportJSON = document.getElementById("export-json");
+
+    function createPNG() {
+    }
+
+    function createPDF() {
+    }
+
+    function createJSON() {
+        var inputData = [];
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "radio" || inputs[i].type == "checkbox") {
+                inputData.push(inputs[i].checked);
+            }
+            else if (inputs[i].type == "text" || inputs[i].type == "number") {
+                inputData.push(inputs[i].value);
+            }
+            else {
+                inputData.push(undefined);
+            }
+        }
+        console.log(JSON.stringify(inputData));
+        // var bgColor0 = document.getElementById("bg-color-0");
+        // var bgColor1 = document.getElementById("bg-color-1");
+        // var npColor0 = document.getElementById("np-color-0");
+        // var npColor1 = document.getElementById("np-color-1");
+        // var nameColor0 = document.getElementById("name-color-0");
+        // var nameColor1 = document.getElementById("name-color-1");
+        // var ibColor0 = document.getElementById("ib-color-0");
+        // var ibColor1 = document.getElementById("ib-color-1");
+        // var artX = document.getElementById("art-x");
+        // var artY = document.getElementById("art-y");
+        // var artW = document.getElementById("art-w");
+        // var artA = document.getElementById("art-a");
+        // var inputData = {
+        //     "type": card.className,
+        //     "bg": [bgColor0.value, bgColor1.value],
+        //     "np": [npColor0.value, npColor1.value],
+        //     "name": [nameColor0.value, nameColor1.value],
+        //     "ib": [ibColor0.value, ibColor1.value],
+        //     "x": artX.value,
+        //     "y": artY.value,
+        //     "w": artW.value,
+        //     "a": artA.value,
+        // }
+        // console.log(inputData);
+    }
+
+    exportPNG.addEventListener("click", createPNG);
+    exportPDF.addEventListener("click", createPDF);
+    exportJSON.addEventListener("click", createJSON);
+}
+
 function warn(e) {
     e.preventDefault();
     e.returnValue = "Changes you made may not be saved.";
@@ -623,6 +682,8 @@ function init() {
     initArt();
 
     initInfo();
+
+    initExport();
 
     /**/
 
