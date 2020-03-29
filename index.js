@@ -464,7 +464,7 @@ function initArt() {
 
     function control(e1) {
         if (e1.touches) {
-            e1 = e1.touches[0];
+            e1 = {"x": e1.touches[0].clientX, "y": e1.touches[0].clientY};
         }
         if (mode == "position") {
             var dx = e1.x - e0.x;
@@ -502,7 +502,7 @@ function initArt() {
 
     function controlStart(e) {
         if (e.touches) {
-            e = e.touches[0];
+            e = {"x": e.touches[0].clientX, "y": e.touches[0].clientY};
         }
         e0 = e;
         x0 = Number(artX.value);
