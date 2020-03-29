@@ -106,12 +106,11 @@ function initName() {
     var nameColor = document.getElementById("name-color-1");
     var nameColorAuto = document.getElementById("name-color-auto");
     var nameColorCustom = document.getElementById("name-color-custom");
+    var m = 2; /* devicePixelRatio */
 
     function onInputCardName() {
-        var w = nameCanvas.width / devicePixelRatio;
-        var h = nameCanvas.height / devicePixelRatio;
         nameContext.clearRect(0, 0, nameCanvas.width, nameCanvas.height);
-        nameContext.fillText(cardName.value, w, h);
+        nameContext.fillText(cardName.value, nameCanvas.width / 2, nameCanvas.height / 2);
     }
 
     function updateGradient(color0, color) {
@@ -137,12 +136,14 @@ function initName() {
         updateGradient(nameColor0, nameColor);
     }
 
-    nameCanvas.width = Math.round(nameRect.width * devicePixelRatio);
-    nameCanvas.height = Math.round(nameRect.height * devicePixelRatio);
+    nameCanvas.width = Math.round(nameRect.width * m);
+    nameCanvas.height = Math.round(nameRect.height * m);
 
-    nameContext.textAlign = "center";
+    var nameStyle = getComputedStyle(cardName);
+    var nameFont = nameStyle.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
+    nameContext.font = m * nameFont[1] + nameFont[2] + " " + nameStyle.fontFamily;
+    nameContext.textAlign = nameStyle.textAlign;
     nameContext.textBaseline = "middle";
-    nameContext.font = "112px Regular"; /* todo: getComputedStyle */
 
     cardName.addEventListener("input", onInputCardName);
     initColorInput(nameColor0, nameColor, nameColorAuto, true, 3.7, updateGradient);
