@@ -444,7 +444,7 @@ function initArt() {
         circle.style.width = 2 * r + "px";
         circle.style.height = 2 * r + "px";
         if (a) {
-            circle.style.borderWidth = "0 5px 0 0";
+            circle.style.borderWidth = "1px 5px 1px 0";
             circle.style.transform = "translate(-50%, -50%) rotate(" + -a + "deg)";
         }
         else {
@@ -458,9 +458,14 @@ function initArt() {
         style.remove();
         window.removeEventListener("mouseup", controlEnd);
         window.removeEventListener("mousemove", control);
+        window.removeEventListener("touchend", controlEnd);
+        window.removeEventListener("touchmove", control);
     }
 
     function control(e1) {
+        if (e1.touches) {
+            e1 = e1.touches[0];
+        }
         if (mode == "position") {
             var dx = e1.x - e0.x;
             var dy = e1.y - e0.y;
@@ -496,6 +501,9 @@ function initArt() {
     }
 
     function controlStart(e) {
+        if (e.touches) {
+            e = e.touches[0];
+        }
         e0 = e;
         x0 = Number(artX.value);
         y0 = Number(artY.value);
@@ -517,6 +525,8 @@ function initArt() {
         document.body.appendChild(style);
         window.addEventListener("mouseup", controlEnd);
         window.addEventListener("mousemove", control);
+        window.addEventListener("touchend", controlEnd);
+        window.addEventListener("touchmove", control);
     }
 
     updateBounds();
@@ -535,6 +545,7 @@ function initArt() {
     artAngle.addEventListener("input", onInputTransform);
 
     cardArtController.addEventListener("mousedown", controlStart);
+    cardArtController.addEventListener("touchstart", controlStart);
 
     artPosition.checked = false;
     artPosition.click();
@@ -602,11 +613,16 @@ function initInfo() {
 }
 
 function renderCard() {
-    var canvas = document.getElementById("card-render");
+    var cardRender = document.getElementById("card-render");
+
+    var canvas = newCanvas(756, 1134);
     var context = canvas.getContext("2d");
 
-    canvas.width = 756;
-    canvas.height = 1134;
+    context.fillStyle = "blue";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.putImageData(cardData.bgDefault, 100, 100);
+
+    cardRender.src = canvas.toDataURL();
 }
 
 function initExport() {
@@ -635,30 +651,6 @@ function initExport() {
             }
         }
         console.log(JSON.stringify(inputData));
-        // var bgColor0 = document.getElementById("bg-color-0");
-        // var bgColor1 = document.getElementById("bg-color-1");
-        // var npColor0 = document.getElementById("np-color-0");
-        // var npColor1 = document.getElementById("np-color-1");
-        // var nameColor0 = document.getElementById("name-color-0");
-        // var nameColor1 = document.getElementById("name-color-1");
-        // var ibColor0 = document.getElementById("ib-color-0");
-        // var ibColor1 = document.getElementById("ib-color-1");
-        // var artX = document.getElementById("art-x");
-        // var artY = document.getElementById("art-y");
-        // var artW = document.getElementById("art-w");
-        // var artA = document.getElementById("art-a");
-        // var inputData = {
-        //     "type": card.className,
-        //     "bg": [bgColor0.value, bgColor1.value],
-        //     "np": [npColor0.value, npColor1.value],
-        //     "name": [nameColor0.value, nameColor1.value],
-        //     "ib": [ibColor0.value, ibColor1.value],
-        //     "x": artX.value,
-        //     "y": artY.value,
-        //     "w": artW.value,
-        //     "a": artA.value,
-        // }
-        // console.log(inputData);
     }
 
     exportPNG.addEventListener("click", createPNG);

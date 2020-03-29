@@ -417,8 +417,23 @@ input[type='radio'], input[type='checkbox'] {
 /* *{outline:auto!important} */
 /* *{outline:auto!important} */
 
-#card-canvas {
+#card-render {
 	width: 10cm;
 	height: 15cm;
 	display: none;
+}
+
+@media print {
+	body {
+	    background: none;
+		margin: 0;
+	}
+
+	#creator {
+	    display: none;
+	}
+
+	#card-render {
+	    display: initial;
+	}
 }
