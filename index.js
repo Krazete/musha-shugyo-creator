@@ -30,58 +30,79 @@ var cardImage = {
 
 var updateInfoboxBackground;
 
-function initColorInput(color0, color, colorAuto, autoOn, depth, update) {
+/* Generic Functions */
+
+var deeperHex = function () {
+    function deeperHexSlice(hexslice, depth) {
+        var n = parseInt(hexslice, 16);
+        var value = Math.pow(n, depth) / Math.pow(16, 2 * (depth - 1));
+        return Math.floor(value).toString(16).padStart(2, 0);
+    }
+
+    return function (hex, depth) {
+        if (hex.length == 4 || hex.length == 5) {
+            shortHex = hex;
+            hex = "";
+            for (var i = 0; i < shortHex.length; i++) {
+                hex += shortHex.slice(i, i + 2);
+            }
+        }
+        if (hex.length != 7 && hex.length != 9) {
+            throw "Error: Invalid hexadecimal value.";
+        }
+        var r = deeperHexSlice(hex.slice(1, 3), depth);
+        var g = deeperHexSlice(hex.slice(3, 5), depth);
+        var b = deeperHexSlice(hex.slice(5, 7), depth);
+        var a = hex.slice(7, 9);
+        return "#" + r + g + b + a;
+    };
+}();
+
+function newCanvas(width, height) {
+    var canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
+}
+
+function newImage(src, onLoad) {
+    var img = new Image();
+    img.src = src;
+    img.addEventListener("load", onLoad);
+}
+
+/**/
+
+function initColorInput(color0, color1, colorAuto, autoOn, depth, update) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
-
-    var deeperHex = function() {
-        function deeperSubHex(subhex, d) {
-            var c = parseInt(subhex, 16);
-            var value = Math.floor(Math.pow(c, d) / Math.pow(16, 2 * (d - 1)));
-            return value.toString(16).padStart(2, 0);
-        }
-
-        return function(hex, d) {
-            if (hex.length == 4) {
-                shortHex = hex;
-                hex = "";
-                for (var i = 0; i < shortHex.length; i++) {
-                    hex += shortHex.slice(i, i + 2);
-                }
-            }
-            var r = deeperSubHex(hex.slice(1, 3), d);
-            var g = deeperSubHex(hex.slice(3, 5), d);
-            var b = deeperSubHex(hex.slice(5, 7), d);
-            return "#" + r + g + b;
-        };
-    }();
 
     function onChangeColor() {
         if (color0.value.length == 4 || color0.value.length == 7) {
             if (colorAuto.checked && depth) {
-                color.jscolor.fromString(deeperHex(color0.value, depth));
+                color1.jscolor.fromString(deeperHex(color0.value, depth));
             }
-            if (color.value.length == 4 || color.value.length == 7) {
-                update(color0, color);
+            if (color1.value.length == 4 || color1.value.length == 7) {
+                update(color0, color1);
             }
         }
     }
 
     function onInputColorAuto() {
         if (colorAuto.checked) {
-            color.setAttribute("disabled", true);
+            color1.setAttribute("disabled", true);
             if (!depth) {
-                color.jscolor.fromString("#000000");
+                color1.jscolor.fromString("#000000");
             }
         }
         else {
-            color.removeAttribute("disabled");
+            color1.removeAttribute("disabled");
         }
         onChangeColor();
     }
 
     color0.jscolor.onFineChange = onChangeColor;
-    color.jscolor.onFineChange = onChangeColor;
+    color1.jscolor.onFineChange = onChangeColor;
 
     colorAuto.checked = !autoOn;
     colorAuto.addEventListener("input", onInputColorAuto);
@@ -117,7 +138,7 @@ function initName() {
     var nameCanvas = document.getElementById("card-name-canvas");
     var nameContext = nameCanvas.getContext("2d");
     var nameColor0 = document.getElementById("name-color-0");
-    var nameColor = document.getElementById("name-color-1");
+    var nameColor1 = document.getElementById("name-color-1");
     var nameColorAuto = document.getElementById("name-color-auto");
     var nameColorCustom = document.getElementById("name-color-custom");
     var m = 2; /* devicePixelRatio */
@@ -127,10 +148,10 @@ function initName() {
         nameContext.fillText(cardName.value, nameCanvas.width / 2, nameCanvas.height / 2);
     }
 
-    function updateGradient(color0, color) {
+    function updateGradient(color0, color1) {
         var lg = nameContext.createLinearGradient(0, 0, 0, nameCanvas.height);
         lg.addColorStop(0, color0.value);
-        lg.addColorStop(1, color.value);
+        lg.addColorStop(1, color1.value);
         nameContext.fillStyle = lg;
         onInputCardName();
     }
@@ -147,7 +168,7 @@ function initName() {
     }
 
     function onCheckColorCustom(inputs) {
-        updateGradient(nameColor0, nameColor);
+        updateGradient(nameColor0, nameColor1);
     }
 
     nameCanvas.width = Math.round(nameRect.width * m);
@@ -160,15 +181,8 @@ function initName() {
     nameContext.textBaseline = "middle";
 
     cardName.addEventListener("input", onInputCardName);
-    initColorInput(nameColor0, nameColor, nameColorAuto, true, 3.7, updateGradient);
-    initCustomButton(nameColorCustom, [nameColor0, nameColor, nameColorAuto], ignoreColor, onUncheckColorCustom, onCheckColorCustom);
-}
-
-function newCanvas(width, height) {
-    var canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    return canvas;
+    initColorInput(nameColor0, nameColor1, nameColorAuto, true, 3.7, updateGradient);
+    initCustomButton(nameColorCustom, [nameColor0, nameColor1, nameColorAuto], ignoreColor, onUncheckColorCustom, onCheckColorCustom);
 }
 
 function initFileInput(file, update) {
@@ -188,16 +202,16 @@ function initFileInput(file, update) {
     file.addEventListener("input", onInputFile);
 }
 
-function initRecolorer(canvas, code, file, fileCustom, color0, color, colorAuto, colorCustom) {
+function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto, colorCustom) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
     var gradientData;
     var context = canvas.getContext("2d");
 
-    function updateGradient(color0, color) {
+    function updateGradient(color0, color1) {
         var lg = gradientContext.createLinearGradient(0, 0, 256, 0);
         lg.addColorStop(1, color0.value);
-        lg.addColorStop(0, color.value);
+        lg.addColorStop(0, color1.value);
         gradientContext.fillStyle = lg;
         gradientContext.fillRect(0, 0, 256, 1);
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
@@ -261,8 +275,8 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color, colorAuto,
         context.putImageData(cardData[code], 0, 0);
     }
 
-    function updateBackground(color0, color) {
-        updateGradient(color0, color);
+    function updateBackground(color0, color1) {
+        updateGradient(color0, color1);
         updateCanvas();
     }
 
@@ -290,15 +304,9 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color, colorAuto,
     updateInfoboxBackground = updateCanvas;
 
     initFileInput(file, updateFile);
-    initColorInput(color0, color, colorAuto, false, 37, updateBackground);
+    initColorInput(color0, color1, colorAuto, false, 37, updateBackground);
     initCustomButton(fileCustom, [file], undefined, updateCanvas, updateCanvas);
-    initCustomButton(colorCustom, [color0, color, colorAuto], ignoreColor, onInputColorCustom, onInputColorCustom);
-}
-
-function newImage(src, onLoad) {
-    var img = new Image();
-    img.src = src;
-    img.addEventListener("load", onLoad);
+    initCustomButton(colorCustom, [color0, color1, colorAuto], ignoreColor, onInputColorCustom, onInputColorCustom);
 }
 
 function initRecolorers() {
@@ -306,21 +314,21 @@ function initRecolorers() {
     var bgFile = document.getElementById("bg-file");
     var bgFileCustom = document.getElementById("bg-file-custom");
     var bgColor0 = document.getElementById("bg-color-0");
-    var bgColor = document.getElementById("bg-color-1");
+    var bgColor1 = document.getElementById("bg-color-1");
     var bgColorAuto = document.getElementById("bg-color-auto");
     var bgColorCustom = document.getElementById("bg-color-custom");
     var np = document.getElementById("card-name-bg");
     var npFile = document.getElementById("np-file");
     var npFileCustom = document.getElementById("np-file-custom");
     var npColor0 = document.getElementById("np-color-0");
-    var npColor = document.getElementById("np-color-1");
+    var npColor1 = document.getElementById("np-color-1");
     var npColorAuto = document.getElementById("np-color-auto");
     var npColorCustom = document.getElementById("np-color-custom");
     var ib = document.getElementById("card-info-bg");
     var ibFile = document.getElementById("ib-file");
     var ibFileCustom = document.getElementById("ib-file-custom");
     var ibColor0 = document.getElementById("ib-color-0");
-    var ibColor = document.getElementById("ib-color-1");
+    var ibColor1 = document.getElementById("ib-color-1");
     var ibColorAuto = document.getElementById("ib-color-auto");
     var ibColorCustom = document.getElementById("ib-color-custom");
 
@@ -341,9 +349,9 @@ function initRecolorers() {
     initCardData(ib, "ibDefaultArmor", "img/Armor.png");
     initCardData(ib, "ibDefaultAgon", "img/Agon.png");
 
-    initRecolorer(bg, "bg", bgFile, bgFileCustom, bgColor0, bgColor, bgColorAuto, bgColorCustom);
-    initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor, npColorAuto, npColorCustom);
-    initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor, ibColorAuto, ibColorCustom);
+    initRecolorer(bg, "bg", bgFile, bgFileCustom, bgColor0, bgColor1, bgColorAuto, bgColorCustom);
+    initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor1, npColorAuto, npColorCustom);
+    initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor1, ibColorAuto, ibColorCustom);
 }
 
 function initTypes() {
