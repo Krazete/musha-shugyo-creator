@@ -16,7 +16,7 @@ var cardData = { /* todo */
 
 var updateInfoboxBackground;
 
-function initColorInput(color0, color1, colorAuto, autoOn, depth, update) {
+function initColorInput(color0, color, colorAuto, autoOn, depth, update) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
 
@@ -45,29 +45,29 @@ function initColorInput(color0, color1, colorAuto, autoOn, depth, update) {
     function onChangeColor() {
         if (color0.value.length == 4 || color0.value.length == 7) {
             if (colorAuto.checked && depth) {
-                color1.jscolor.fromString(deeperHex(color0.value, depth));
+                color.jscolor.fromString(deeperHex(color0.value, depth));
             }
-            if (color1.value.length == 4 || color1.value.length == 7) {
-                update(color0, color1);
+            if (color.value.length == 4 || color.value.length == 7) {
+                update(color0, color);
             }
         }
     }
 
     function onInputColorAuto() {
         if (colorAuto.checked) {
-            color1.setAttribute("disabled", true);
+            color.setAttribute("disabled", true);
             if (!depth) {
-                color1.jscolor.fromString("#000000");
+                color.jscolor.fromString("#000000");
             }
         }
         else {
-            color1.removeAttribute("disabled");
+            color.removeAttribute("disabled");
         }
         onChangeColor();
     }
 
     color0.jscolor.onFineChange = onChangeColor;
-    color1.jscolor.onFineChange = onChangeColor;
+    color.jscolor.onFineChange = onChangeColor;
 
     colorAuto.checked = !autoOn;
     colorAuto.addEventListener("input", onInputColorAuto);
@@ -103,7 +103,7 @@ function initName() {
     var nameCanvas = document.getElementById("card-name-canvas");
     var nameContext = nameCanvas.getContext("2d");
     var nameColor0 = document.getElementById("name-color-0");
-    var nameColor1 = document.getElementById("name-color-1");
+    var nameColor = document.getElementById("name-color-1");
     var nameColorAuto = document.getElementById("name-color-auto");
     var nameColorCustom = document.getElementById("name-color-custom");
 
@@ -114,15 +114,15 @@ function initName() {
         nameContext.fillText(cardName.value, w, h);
     }
 
-    function updateGradient(color0, color1) {
+    function updateGradient(color0, color) {
         var lg = nameContext.createLinearGradient(0, 0, 0, nameCanvas.height);
         lg.addColorStop(0, color0.value);
-        lg.addColorStop(1, color1.value);
+        lg.addColorStop(1, color.value);
         nameContext.fillStyle = lg;
         onInputCardName();
     }
 
-    function ignoreColor1(inputs, i) {
+    function ignoreColor(inputs, i) {
         if (i == 1 && inputs[2].checked) {
             return false;
         }
@@ -134,7 +134,7 @@ function initName() {
     }
 
     function onCheckColorCustom(inputs) {
-        updateGradient(nameColor0, nameColor1);
+        updateGradient(nameColor0, nameColor);
     }
 
     nameCanvas.width = Math.round(nameRect.width * devicePixelRatio);
@@ -145,8 +145,8 @@ function initName() {
     nameContext.font = "112px Regular"; /* todo: getComputedStyle */
 
     cardName.addEventListener("input", onInputCardName);
-    initColorInput(nameColor0, nameColor1, nameColorAuto, true, 3.7, updateGradient);
-    initCustomButton(nameColorCustom, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onUncheckColorCustom, onCheckColorCustom);
+    initColorInput(nameColor0, nameColor, nameColorAuto, true, 3.7, updateGradient);
+    initCustomButton(nameColorCustom, [nameColor0, nameColor, nameColorAuto], ignoreColor, onUncheckColorCustom, onCheckColorCustom);
 }
 
 function newCanvas(width, height) {
@@ -173,7 +173,7 @@ function initFileInput(file, update) {
     file.addEventListener("input", onInputFile);
 }
 
-function initRecolorer(element, code, file, fileCustom, color0, color1, colorAuto, colorCustom) {
+function initRecolorer(element, code, file, fileCustom, color0, color, colorAuto, colorCustom) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
     var gradientData;
@@ -184,10 +184,10 @@ function initRecolorer(element, code, file, fileCustom, color0, color1, colorAut
     );
     var imgContext = imgCanvas.getContext("2d");
 
-    function updateGradient(color0, color1) {
+    function updateGradient(color0, color) {
         var lg = gradientContext.createLinearGradient(0, 0, 256, 0);
         lg.addColorStop(1, color0.value);
-        lg.addColorStop(0, color1.value);
+        lg.addColorStop(0, color.value);
         gradientContext.fillStyle = lg;
         gradientContext.fillRect(0, 0, 256, 1);
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
@@ -251,8 +251,8 @@ function initRecolorer(element, code, file, fileCustom, color0, color1, colorAut
         element.style.backgroundImage = "url('" + imgCanvas.toDataURL() + "')";
     }
 
-    function updateBackground(color0, color1) {
-        updateGradient(color0, color1);
+    function updateBackground(color0, color) {
+        updateGradient(color0, color);
         updateCanvas();
     }
 
@@ -265,7 +265,7 @@ function initRecolorer(element, code, file, fileCustom, color0, color1, colorAut
         });
     }
 
-    function ignoreColor1(inputs, i) {
+    function ignoreColor(inputs, i) {
         if (i == 1 && inputs[2].checked) {
             return false;
         }
@@ -279,9 +279,9 @@ function initRecolorer(element, code, file, fileCustom, color0, color1, colorAut
     updateInfoboxBackground = updateCanvas;
 
     initFileInput(file, updateFile);
-    initColorInput(color0, color1, colorAuto, false, 37, updateBackground);
+    initColorInput(color0, color, colorAuto, false, 37, updateBackground);
     initCustomButton(fileCustom, [file], undefined, updateCanvas, updateCanvas);
-    initCustomButton(colorCustom, [color0, color1, colorAuto], ignoreColor1, onInputColorCustom, onInputColorCustom);
+    initCustomButton(colorCustom, [color0, color, colorAuto], ignoreColor, onInputColorCustom, onInputColorCustom);
 }
 
 function newImage(src, onLoad) {
@@ -295,21 +295,21 @@ function initRecolorers() {
     var bgFile = document.getElementById("bg-file");
     var bgFileCustom = document.getElementById("bg-file-custom");
     var bgColor0 = document.getElementById("bg-color-0");
-    var bgColor1 = document.getElementById("bg-color-1");
+    var bgColor = document.getElementById("bg-color-1");
     var bgColorAuto = document.getElementById("bg-color-auto");
     var bgColorCustom = document.getElementById("bg-color-custom");
     var np = document.getElementById("card-name-bg");
     var npFile = document.getElementById("np-file");
     var npFileCustom = document.getElementById("np-file-custom");
     var npColor0 = document.getElementById("np-color-0");
-    var npColor1 = document.getElementById("np-color-1");
+    var npColor = document.getElementById("np-color-1");
     var npColorAuto = document.getElementById("np-color-auto");
     var npColorCustom = document.getElementById("np-color-custom");
     var ib = document.getElementById("card-info-bg");
     var ibFile = document.getElementById("ib-file");
     var ibFileCustom = document.getElementById("ib-file-custom");
     var ibColor0 = document.getElementById("ib-color-0");
-    var ibColor1 = document.getElementById("ib-color-1");
+    var ibColor = document.getElementById("ib-color-1");
     var ibColorAuto = document.getElementById("ib-color-auto");
     var ibColorCustom = document.getElementById("ib-color-custom");
 
@@ -333,9 +333,9 @@ function initRecolorers() {
     initCardData(ib, "ibDefaultArmor", "img/Armor.png");
     initCardData(ib, "ibDefaultAgon", "img/Agon.png");
 
-    initRecolorer(bg, "bg", bgFile, bgFileCustom, bgColor0, bgColor1, bgColorAuto, bgColorCustom);
-    initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor1, npColorAuto, npColorCustom);
-    initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor1, ibColorAuto, ibColorCustom);
+    initRecolorer(bg, "bg", bgFile, bgFileCustom, bgColor0, bgColor, bgColorAuto, bgColorCustom);
+    initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor, npColorAuto, npColorCustom);
+    initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor, ibColorAuto, ibColorCustom);
 }
 
 function initTypes() {
@@ -362,7 +362,9 @@ function initTypes() {
 
 function initArt() {
     var cardArtController = document.getElementById("card-art-controller");
+    var cardArtControllerRect = cardArtController.getBoundingClientRect();
     var cardArt = document.getElementById("card-art");
+    var cardArtRect0;
     var art = document.getElementById("art");
     var artPosition = document.getElementById("art-position");
     var artWidth = document.getElementById("art-width");
@@ -370,10 +372,11 @@ function initArt() {
     var artX = document.getElementById("art-x");
     var artY = document.getElementById("art-y");
     var artW = document.getElementById("art-w");
-    var artD = document.getElementById("art-d");
+    var artA = document.getElementById("art-a");
     var style = document.createElement("style");
+    var circle = document.createElement("div");
     var mode;
-    var e0;
+    var e0, x0, y0, w0, a0;
 
     function onInputArt(dataURL) {
         cardArt.src = dataURL;
@@ -387,41 +390,130 @@ function initArt() {
         cardArt.style.top = 1134 - this.value + "px";
     }
 
-    function onInputArtW() {
-        cardArt.style.width = this.value + "px";
+    function bound(input, n) {
+        return Math.max(input.min, Math.min(n, input.max));
     }
 
-    function onInputArtD() {
-        cardArt.style.transform = "translate(-50%, -50%) rotate(" + this.value + "deg)";
+    function updateBounds() {
+        var cardArtRect1 = cardArt.getBoundingClientRect();
+        artX.min = Math.floor(-cardArtRect1.width / 2);
+        artX.max = Math.ceil(cardArtControllerRect.width + cardArtRect1.width / 2);
+        artY.min = Math.floor(-cardArtRect1.height / 2);
+        artY.max = Math.ceil(cardArtControllerRect.height + cardArtRect1.height / 2);
+
+        artX.value = bound(artX, artX.value);
+        artY.value = bound(artY, artY.value);
+        artX.dispatchEvent(new InputEvent("input"));
+        artY.dispatchEvent(new InputEvent("input"));
+    }
+
+    function onInputArtW() {
+        cardArt.style.width = this.value + "px";
+        updateBounds();
+    }
+
+    function onInputArtA() {
+        cardArt.style.transform = "translate(-50%, -50%) rotate(" + -this.value + "deg)";
+        updateBounds();
     }
 
     function onInputTransform() {
         mode = this.id.split("-")[1];
     }
 
+    function distance(p0, p1) {
+        var dx = p1.x - p0.x;
+        var dy = p1.y - p0.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function angle(p0, p1) {
+        var theta = Math.atan((p0.y - p1.y) / (p1.x - p0.x));
+        return 180 * theta / Math.PI - 180 * (p1.x < p0.x);
+    }
+
+    function updateCircle(x, y, r, a) {
+        circle.style.left = x + "px";
+        circle.style.top = y + "px";
+        circle.style.width = 2 * r + "px";
+        circle.style.height = 2 * r + "px";
+        if (a) {
+            circle.style.borderWidth = "0 5px 0 0";
+            circle.style.transform = "translate(-50%, -50%) rotate(" + -a + "deg)";
+        }
+        else {
+            circle.style.transform = "translate(-50%, -50%)";
+        }
+    }
+
     function controlEnd(e) {
+        circle.removeAttribute("style");
+        circle.remove();
         style.remove();
         window.removeEventListener("mouseup", controlEnd);
         window.removeEventListener("mousemove", control);
     }
 
-    function control(e) {
-        var e1 = e;
-        console.log(
-            e1.x - e0.x,
-            e1.y - e0.y
-        );
+    function control(e1) {
         if (mode == "position") {
+            var dx = e1.x - e0.x;
+            var dy = e1.y - e0.y;
+            artX.value = bound(artX, x0 + dx);
+            artY.value = bound(artY, y0 - dy);
+
+            artX.dispatchEvent(new InputEvent("input"));
+            artY.dispatchEvent(new InputEvent("input"));
+            updateCircle(artX.value, 1134 - artY.value, 100);
+        }
+        else if (mode == "width") {
+            var r0 = distance(cardArtCenter, e0);
+            var r1 = distance(cardArtCenter, e1);
+            var w1 = cardArtRect0.width * r1 / r0;
+            artW.value = Math.max(1, Math.floor(w1));
+
+            artW.dispatchEvent(new InputEvent("input"));
+            updateCircle(x0, 1134 - y0, r1);
+        }
+        else if (mode == "angle") {
+            var t0 = angle(cardArtCenter, e0);
+            var t1 = angle(cardArtCenter, e1);
+            var dt = t1 - t0;
+
+            var min = Number(artA.min);
+            var max = Number(artA.max);
+            var dm = artA.max - artA.min;
+            artA.value = ((Math.floor(a0 + dt) - min) % dm + dm) % dm + min;
+
+            artA.dispatchEvent(new InputEvent("input"));
+            updateCircle(x0, 1134 - y0, 100, t1);
         }
     }
 
     function controlStart(e) {
         e0 = e;
+        x0 = Number(artX.value);
+        y0 = Number(artY.value);
+        w0 = Number(artW.value);
+        a0 = Number(artA.value);
+
+        var savedTransform = cardArt.style.transform;
+        cardArt.style.transform = "";
+        cardArtRect0 = cardArt.getBoundingClientRect();
+        cardArt.style.transform = savedTransform;
+        cardArtCenter = {
+            "x": Math.round((cardArtRect0.left + cardArtRect0.right) / 2),
+            "y": Math.round((cardArtRect0.top + cardArtRect0.bottom) / 2)
+        };
+        updateBounds();
+
+        updateCircle(x0, 1134 - y0, 0, 0);
+        cardArtController.appendChild(circle);
         document.body.appendChild(style);
         window.addEventListener("mouseup", controlEnd);
         window.addEventListener("mousemove", control);
     }
 
+    circle.id = "circle";
     style.innerHTML = "html {cursor: move;} body {pointer-events: none;}";
 
     initFileInput(art, onInputArt);
@@ -429,7 +521,7 @@ function initArt() {
     artX.addEventListener("input", onInputArtX);
     artY.addEventListener("input", onInputArtY);
     artW.addEventListener("input", onInputArtW);
-    artD.addEventListener("input", onInputArtD);
+    artA.addEventListener("input", onInputArtA);
 
     artPosition.addEventListener("input", onInputTransform);
     artWidth.addEventListener("input", onInputTransform);
@@ -437,6 +529,7 @@ function initArt() {
 
     cardArtController.addEventListener("mousedown", controlStart);
 
+    artPosition.checked = false;
     artPosition.click();
 }
 
@@ -507,8 +600,6 @@ function renderCard() {
 
     canvas.width = 756;
     canvas.height = 1134;
-
-    context.putImage
 }
 
 function warn(e) {

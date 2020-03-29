@@ -57,6 +57,8 @@
 <?php } ?>
                 </div>
             </div>
+            <div id="handle-vertical"></div>
+            <div id="handle-horizontal"></div>
         </div>
         <div id="menu">
             <div class="row">
@@ -135,12 +137,12 @@
             <div class="row">
                 <input id="art-width" type="radio" name="art-transform">
                 <label for="art-width">Width</label>
-                <input id="art-w" class="jsscrub" type="number" value="756" min="0" step="2"> px
+                <input id="art-w" class="jsscrub" type="number" value="756" min="1" step="2"> px
             </div>
             <div class="row">
                 <input id="art-angle" type="radio" name="art-transform">
                 <label for="art-angle">Angle</label>
-                <input id="art-d" class="jsscrub" data-jsscrub="continuous" type="number" value="0" min="-180" max="180"> °
+                <input id="art-a" class="jsscrub" data-jsscrub="continuous" type="number" value="0" min="-180" max="180"> °
             </div>
 
             <div class="menu-title">Export</div>
