@@ -512,7 +512,7 @@ function initArt() {
         };
         updateBounds();
 
-        updateCircle(x0, 1134 - y0, 0, 0);
+        updateCircle(x0, 1134 - y0, 0);
         cardArtController.appendChild(circle);
         document.body.appendChild(style);
         window.addEventListener("mouseup", controlEnd);
