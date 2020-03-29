@@ -1,5 +1,5 @@
 var card;
-var cardData = { /* todo */
+var cardData = {
     "bgDefault": undefined,
     "bgUpload": undefined,
     "bg": undefined,
@@ -12,6 +12,20 @@ var cardData = { /* todo */
     "ibUpload": undefined,
     "ib": undefined,
     "artURL": undefined
+};
+var cardImage = {
+    "bgDefault": new Image(),
+    "bgUpload": new Image(),
+    "bg": new Image(),
+    "npDefault": new Image(),
+    "npUpload": new Image(),
+    "np": new Image(),
+    "ibDefaultChar": new Image(),
+    "ibDefaultArmor": new Image(),
+    "ibDefaultAgon": new Image(),
+    "ibUpload": new Image(),
+    "ib": new Image(),
+    "artURL": new Image()
 };
 
 var updateInfoboxBackground;
@@ -174,16 +188,11 @@ function initFileInput(file, update) {
     file.addEventListener("input", onInputFile);
 }
 
-function initRecolorer(element, code, file, fileCustom, color0, color, colorAuto, colorCustom) {
+function initRecolorer(canvas, code, file, fileCustom, color0, color, colorAuto, colorCustom) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
     var gradientData;
-    var elementRect = element.getBoundingClientRect();
-    var imgCanvas = newCanvas(
-        Math.round(elementRect.width),
-        Math.round(elementRect.height)
-    );
-    var imgContext = imgCanvas.getContext("2d");
+    var context = canvas.getContext("2d");
 
     function updateGradient(color0, color) {
         var lg = gradientContext.createLinearGradient(0, 0, 256, 0);
@@ -241,15 +250,15 @@ function initRecolorer(element, code, file, fileCustom, color0, color, colorAuto
             });
 
             cardData[code] = newData;
+            // cardImage[code].src =
         }
         else {
             cardData[code] = cardData[id];
+            cardImage[code] = cardImage[id];
         }
 
-        imgContext.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
-        imgContext.putImageData(cardData[code], 0, 0);
-
-        element.style.backgroundImage = "url('" + imgCanvas.toDataURL() + "')";
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.putImageData(cardData[code], 0, 0);
     }
 
     function updateBackground(color0, color) {
@@ -259,9 +268,10 @@ function initRecolorer(element, code, file, fileCustom, color0, color, colorAuto
 
     function updateFile(dataURL) {
         newImage(dataURL, function () {
-            imgContext.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
-            imgContext.drawImage(this, 0, 0, imgCanvas.width, imgCanvas.height);
-            cardData[code + "Upload"] = imgContext.getImageData(0, 0, imgCanvas.width, imgCanvas.height);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(this, 0, 0, canvas.width, canvas.height);
+            cardData[code + "Upload"] = context.getImageData(0, 0, canvas.width, canvas.height);
+            cardImage[code + "Upload"] = this;
             updateCanvas();
         });
     }
@@ -292,7 +302,7 @@ function newImage(src, onLoad) {
 }
 
 function initRecolorers() {
-    var bg = document.getElementById("card");
+    var bg = document.getElementById("card-bg");
     var bgFile = document.getElementById("bg-file");
     var bgFileCustom = document.getElementById("bg-file-custom");
     var bgColor0 = document.getElementById("bg-color-0");
@@ -314,17 +324,14 @@ function initRecolorers() {
     var ibColorAuto = document.getElementById("ib-color-auto");
     var ibColorCustom = document.getElementById("ib-color-custom");
 
-    function initCardData(element, id, src) {
-        var elementRect = element.getBoundingClientRect();
-        var canvas = newCanvas(
-            Math.round(elementRect.width),
-            Math.round(elementRect.height)
-        );
+    function initCardData(canvas, id, src) {
         var context = canvas.getContext("2d");
 
         newImage(src, function () {
+            context.clearRect(0, 0, canvas.width, canvas.height);
             context.drawImage(this, 0, 0, canvas.width, canvas.height);
             cardData[id] = context.getImageData(0, 0, canvas.width, canvas.height);
+            cardImage[id] = this;
         });
     }
 
@@ -618,9 +625,13 @@ function renderCard() {
     var canvas = newCanvas(756, 1134);
     var context = canvas.getContext("2d");
 
-    context.fillStyle = "blue";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.putImageData(cardData.bgDefault, 100, 100);
+    function putImage(code, x, y) {
+        context.drawImage(cardImage[code], x, y, x + cardData[code].width, y + cardData[code].height);
+    }
+
+    putImage("bgDefault", 0, 0);
+    putImage("npDefault", 10, 10);
+    putImage("ibDefaultChar", 20, 20);
 
     cardRender.src = canvas.toDataURL();
 }
@@ -631,6 +642,7 @@ function initExport() {
     var exportJSON = document.getElementById("export-json");
 
     function createPNG() {
+        renderCard();
     }
 
     function createPDF() {

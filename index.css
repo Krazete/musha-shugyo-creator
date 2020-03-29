@@ -38,9 +38,6 @@ input[type='radio'], input[type='checkbox'] {
 }
 
 #card {
-	background-color: black;
-	background-image: url('img/bg/large/Background_01.jpg');
-	background-size: 100% 100%;
     position: relative;
     width: 756px;
 	height: 1134px;
@@ -59,6 +56,12 @@ input[type='radio'], input[type='checkbox'] {
 	padding: 0;
 	border: none;
 	outline: none;
+}
+
+#card-bg {
+	position: absolute;
+    width: 756px;
+	height: 1134px;
 }
 
 #card-art-controller {
@@ -95,8 +98,6 @@ input[type='radio'], input[type='checkbox'] {
 }
 
 #card-name-bg {
-	background-image: url('img/Nome.png');
-	background-size: 100% 100%;
 	position: absolute;
     left: 18px;
     top: 40px;
@@ -126,22 +127,14 @@ input[type='radio'], input[type='checkbox'] {
 }
 
 #card-info-bg {
-	background-size: 100% 100%;
 	position: absolute;
 	bottom: 0;
 	width: 436px;
 	height: 981px;
 	pointer-events: none;
 }
-.char #card-info-bg {
-	background-image: url('img/Colonna.png');
-}
 .armor #card-info-bg {
-	background-image: url('img/Armor.png');
 	right: 0;
-}
-.agon #card-info-bg {
-	background-image: url('img/Agon.png');
 }
 
 #card-info {
@@ -420,7 +413,7 @@ input[type='radio'], input[type='checkbox'] {
 #card-render {
 	width: 10cm;
 	height: 15cm;
-	display: none;
+	/* display: none; */
 }
 
 @media print {
