@@ -378,18 +378,6 @@ function initArt() {
     var mode;
     var e0, x0, y0, w0, a0;
 
-    function onInputArt(dataURL) {
-        cardArt.src = dataURL;
-    }
-
-    function onInputArtX() {
-        cardArt.style.left = this.value + "px";
-    }
-
-    function onInputArtY() {
-        cardArt.style.top = 1134 - this.value + "px";
-    }
-
     function bound(input, n) {
         return Math.max(input.min, Math.min(n, input.max));
     }
@@ -401,10 +389,25 @@ function initArt() {
         artY.min = Math.floor(-cardArtRect1.height / 2);
         artY.max = Math.ceil(cardArtControllerRect.height + cardArtRect1.height / 2);
 
-        artX.value = bound(artX, artX.value);
-        artY.value = bound(artY, artY.value);
+        artX.value = artX.value;
+        artY.value = artY.value;
         artX.dispatchEvent(new InputEvent("input"));
         artY.dispatchEvent(new InputEvent("input"));
+    }
+
+    function onInputArt(dataURL) {
+        cardArt.src = dataURL;
+        cardArt.addEventListener("load", updateBounds)
+    }
+
+    function onInputArtX() {
+        this.value = bound(this, this.value);
+        cardArt.style.left = this.value + "px";
+    }
+
+    function onInputArtY() {
+        this.value = bound(this, this.value);
+        cardArt.style.top = 1134 - this.value + "px";
     }
 
     function onInputArtW() {
@@ -458,8 +461,8 @@ function initArt() {
         if (mode == "position") {
             var dx = e1.x - e0.x;
             var dy = e1.y - e0.y;
-            artX.value = bound(artX, x0 + dx);
-            artY.value = bound(artY, y0 - dy);
+            artX.value = x0 + dx;
+            artY.value = y0 - dy;
 
             artX.dispatchEvent(new InputEvent("input"));
             artY.dispatchEvent(new InputEvent("input"));
