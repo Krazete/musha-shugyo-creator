@@ -417,6 +417,7 @@ function initArt() {
     }
 
     function onInputArtA() {
+        this.value = Number(this.value).toFixed(3).replace(/\.?0+$/, "");
         cardArt.style.transform = "translate(-50%, -50%) rotate(" + -this.value + "deg)";
         updateBounds();
     }
@@ -486,7 +487,7 @@ function initArt() {
             var min = Number(artA.min);
             var max = Number(artA.max);
             var dm = artA.max - artA.min;
-            artA.value = ((Math.floor(a0 + dt) - min) % dm + dm) % dm + min;
+            artA.value = ((a0 + dt - min) % dm + dm) % dm + min;
 
             artA.dispatchEvent(new InputEvent("input"));
             updateCircle(x0, 1134 - y0, 100, t1);
