@@ -390,8 +390,6 @@ function initArt() {
         artY.min = Math.floor(-cardArtRect1.height / 2);
         artY.max = Math.ceil(cardArtControllerRect.height + cardArtRect1.height / 2);
 
-        artX.value = artX.value;
-        artY.value = artY.value;
         artX.dispatchEvent(new InputEvent("input"));
         artY.dispatchEvent(new InputEvent("input"));
     }
@@ -676,14 +674,6 @@ function init() {
     initInfo();
 
     initExport();
-
-    /**/
-
-    var cardBox = card.getBoundingClientRect();
-    var cardCanvas = document.getElementById("card-canvas");
-    cardCanvas.width = cardBox.width;
-    cardCanvas.height = cardBox.height;
-    cardContext = cardCanvas.getContext("2d");
 }
 
 window.addEventListener("load", init);

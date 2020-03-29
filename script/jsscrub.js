@@ -21,6 +21,7 @@ function convertToScrubber(input) {
 
     function onMouseMove(e) {
         if (e.touches) {
+            e.preventDefault();
             e = {"x": e.touches[0].clientX, "y": e.touches[0].clientY};
         }
         var x1 = e.x;
@@ -47,6 +48,7 @@ function convertToScrubber(input) {
 
     function onMouseDown(e) {
         if (e.touches) {
+            e.preventDefault();
             e = {"x": e.touches[0].clientX, "y": e.touches[0].clientY};
         }
         i0 = nonNaN(input.value);
