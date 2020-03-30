@@ -388,6 +388,11 @@ function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
     var ibTemplate = document.getElementById("ib-template");
+    var ibTemplateURLs = { /* todo: make templates */
+        "char": "img/Colonna.png",
+        "armor": "img/Armor.png",
+        "agon": "img/Agon.png"
+    };
 
     function onClickTypes(e) {
         if (e.target.tagName == "INPUT") {
