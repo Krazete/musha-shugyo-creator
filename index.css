@@ -352,7 +352,7 @@ input[type='radio'], input[type='checkbox'] {
 }
 
 #handle:hover {
-	background: linear-gradient(black, white, black);
+	background: linear-gradient(black, gray, black);
 }
 
 #menu {
