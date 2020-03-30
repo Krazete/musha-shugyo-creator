@@ -49,6 +49,7 @@ input[type='radio'], input[type='checkbox'] {
 	display: inline-block;
 	border: 10px solid black;
 	border-radius: 10px;
+	user-select: none;
 }
 
 #card input[type='text'] {
