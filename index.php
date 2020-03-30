@@ -155,7 +155,7 @@
             </div>
         </div>
     </div>
-    <div id="card-size"></div>
+    <div id="card-size">200%</div>
     <img id="card-render">
 </body>
 </html>

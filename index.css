@@ -332,9 +332,14 @@ input[type='radio'], input[type='checkbox'] {
 /* *{outline:auto!important} */
 
 #card-size {
-	position: absolute;
+	background: white;
+	font-family: sans-serif;
+	position: fixed;
 	right: 0;
-	top: 0;
+	bottom: 0;
+	display: none;
+	padding: 5px;
+	border-radius: 5px 0 0 0;
 }
 
 #handle {
