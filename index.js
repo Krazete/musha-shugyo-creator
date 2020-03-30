@@ -39,7 +39,7 @@ var cardUpdater = {
 };
 
 var q = 2; /* canvas quality */
-var m = 0.5; /* card scale */
+var m = 1; /* card scale */
 
 /* Generic Functions */
 
