@@ -351,8 +351,8 @@ input[type='radio'], input[type='checkbox'] {
 	cursor: ew-resize;
 }
 
-#handle:hover { /* todo */
-	background: linear-gradient(45deg, transparent, gray, transparent);
+#handle:hover {
+	background: linear-gradient(black, white, black);
 }
 
 #menu {
