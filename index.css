@@ -141,7 +141,8 @@ input[type='radio'], input[type='checkbox'] {
     position: absolute;
 	width: 288px;
 }
-.char #card-info {
+.char #card-info,
+.dragon #card-info {
 	left: 92px;
 	top: 265px;
 }
@@ -201,6 +202,7 @@ input[type='radio'], input[type='checkbox'] {
 	left: 64px;
 }
 .char #info-type,
+.dragon #info-type,
 .agon #info-type {
 	display: none;
 }
@@ -210,7 +212,8 @@ input[type='radio'], input[type='checkbox'] {
 #info-stat {
     position: absolute;
 }
-.char #info-stat {
+.char #info-stat,
+.dragon #info-stat {
 	left: 34px;
 }
 .armor #info-stat {
@@ -222,6 +225,8 @@ input[type='radio'], input[type='checkbox'] {
 }
 .char #info-stat div:nth-last-child(2),
 .char #info-stat div:last-child,
+.dragon #info-stat div:nth-last-child(2),
+.dragon #info-stat div:last-child,
 .armor #info-stat div:nth-last-child(2),
 .armor #info-stat div:last-child {
 	display: none;
@@ -234,7 +239,8 @@ input[type='radio'], input[type='checkbox'] {
 	height: 20px;
 	margin: 5px;
 }
-.char #info-sp {
+.char #info-sp,
+.dragon #info-sp {
 	left: 204px;
 }
 .armor #info-sp {
@@ -250,6 +256,7 @@ input[type='radio'], input[type='checkbox'] {
 	top: 170px;
 }
 .char #info-stat-armor,
+.dragon #info-stat-armor,
 .agon #info-stat-armor {
 	display: none;
 }
@@ -259,7 +266,8 @@ input[type='radio'], input[type='checkbox'] {
 #info-moves {
 	position: relative;
 }
-.char #info-moves {
+.char #info-moves,
+.dragon #info-moves {
 	margin-top: 182px;
 }
 .armor #info-moves {
@@ -273,7 +281,8 @@ input[type='radio'], input[type='checkbox'] {
 	width: 288px;
 	margin-bottom: 8px;
 }
-.char #info-moves > div {
+.char #info-moves > div,
+.dragon #info-moves > div {
 	height: 65px;
 }
 .armor #info-moves > div {
@@ -283,6 +292,7 @@ input[type='radio'], input[type='checkbox'] {
 	height: 67px;
 }
 .char #info-moves > div:nth-child(6),
+.dragon #info-moves > div:nth-child(6),
 .agon #info-moves > div:nth-child(6) {
 	visibility: hidden;
 }
