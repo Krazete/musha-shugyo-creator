@@ -18,14 +18,15 @@
             <input id="type-agon" type="radio" name="type" value="agon">
             <label for="type-agon">Agon</label>
         </div>
-        <div id="card" class="armor"><!-- todo: temp -->
+        <div id="card" class="char">
+            <canvas id="card-bg" width="756" height="1134"></canvas>
             <div id="card-art-controller">
                 <img id="card-art">
             </div>
-            <div id="card-name-bg"></div>
+            <canvas id="card-name-bg" width="720" height="120"></canvas>
             <input id="card-name" type="text" placeholder="Card Name" autocomplete="off" spellcheck="false"><!-- todo -->
             <canvas id="card-name-canvas"></canvas>
-            <div id="card-info-bg"></div>
+            <canvas id="card-info-bg" width="436" height="981"></canvas>
             <div id="card-info">
                 <input id="info-type" type="text" placeholder="Type">
                 <div id="info-stat">
