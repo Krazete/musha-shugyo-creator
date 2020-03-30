@@ -38,6 +38,9 @@ var cardUpdater = {
     "ib": undefined
 };
 
+var q = 2; /* canvas quality */
+var m = 0.5; /* card scale */
+
 /* Generic Functions */
 
 var deeperHex = function () {
@@ -152,14 +155,6 @@ function initCustomButton(custom, inputs, ignore, onUncheck, onCheck) {
     custom.addEventListener("input", onInputCustom);
     custom.click();
 }
-
-// function fitCanvas(canvas, element) {
-//     var rect = element.getBoundingClientRect();
-//     canvas.width = Math.round(2 * rect.width);
-//     canvas.height = Math.round(2 * rect.height);
-// }
-
-var q = 0.2;
 
 function initName() {
     var cardName = document.getElementById("card-name");
@@ -409,9 +404,71 @@ function initTypes() {
     defaultType.click();
 }
 
+function getScaledRect(element, n) {
+    var rect = element.getBoundingClientRect();
+    var scaled = {};
+    for (var id in rect) {
+        scaled[id] = n * rect[id];
+    }
+    return scaled;
+}
+
+function getScaledMouse(e, n) {
+    if (e.touches) {
+        e.preventDefault();
+        return {
+            "x": n * e.touches[0].clientX,
+            "y": n * e.touches[0].clientY
+        };
+    }
+    return {
+        "x": n * e.x,
+        "y": n * e.y,
+    };
+}
+
+function initHandle() {
+    var cardSize = document.getElementById("card-size");
+    var handle = document.getElementById("handle");
+    var cardRect = card.getBoundingClientRect();
+    var style = document.createElement("style");
+    var e0, m1;
+
+    function onHandleEnd(e) {
+        style.remove();
+        window.removeEventListener("mouseup", onHandleEnd);
+        window.removeEventListener("mousemove", onHandle);
+        window.removeEventListener("touchend", onHandleEnd);
+        window.removeEventListener("touchmove", onHandle);
+    }
+
+    function onHandle(e) {
+        e = getScaledMouse(e, 1);
+        n = (e.x - cardRect.left - m * 10) / 756; /* 10 for the border */
+        m = Math.max(0.5, Math.min(n, 1));
+        cardSize.innerHTML = Math.round(200 * m) + "%";
+        card.style.transform = "scale(" + m + ")";
+        card.style.transform = "scale(" + m + ")";
+        var marg = (m - 1) / m * 30;
+        card.style.margin = "0 " + marg + "% " + marg + "% 0";
+    }
+
+    function onHandleStart(e) {
+        document.body.appendChild(style);
+        window.addEventListener("mouseup", onHandleEnd);
+        window.addEventListener("mousemove", onHandle);
+        window.addEventListener("touchend", onHandleEnd);
+        window.addEventListener("touchmove", onHandle);
+    }
+
+    style.innerHTML = "html {cursor: ew-resize;} body {pointer-events: none;}";
+
+    handle.addEventListener("mousedown", onHandleStart);
+    handle.addEventListener("touchstart", onHandleStart);
+}
+
 function initArt() {
     var cardArtController = document.getElementById("card-art-controller");
-    var cardArtControllerRect = cardArtController.getBoundingClientRect();
     var cardArt = document.getElementById("card-art");
     var cardArtRect0;
     var art = document.getElementById("art");
@@ -432,7 +489,8 @@ function initArt() {
     }
 
     function updateBounds() {
-        var cardArtRect1 = cardArt.getBoundingClientRect();
+        var cardArtControllerRect = getScaledRect(cardArtController, 1 / m);
+        var cardArtRect1 = getScaledRect(cardArt, 1 / m);
         artX.min = Math.floor(-cardArtRect1.width / 2);
         artX.max = Math.ceil(cardArtControllerRect.width + cardArtRect1.width / 2);
         artY.min = Math.floor(-cardArtRect1.height / 2);
@@ -498,21 +556,18 @@ function initArt() {
         }
     }
 
-    function controlEnd(e) {
+    function onControlEnd(e) {
         circle.removeAttribute("style");
         circle.remove();
         style.remove();
-        window.removeEventListener("mouseup", controlEnd);
-        window.removeEventListener("mousemove", control);
-        window.removeEventListener("touchend", controlEnd);
-        window.removeEventListener("touchmove", control);
+        window.removeEventListener("mouseup", onControlEnd);
+        window.removeEventListener("mousemove", onControl);
+        window.removeEventListener("touchend", onControlEnd);
+        window.removeEventListener("touchmove", onControl);
     }
 
-    function control(e1) {
-        if (e1.touches) {
-            e1.preventDefault();
-            e1 = {"x": e1.touches[0].clientX, "y": e1.touches[0].clientY};
-        }
+    function onControl(e) {
+        e1 = getScaledMouse(e, 1 / m);
         if (mode == "position") {
             var dx = e1.x - e0.x;
             var dy = e1.y - e0.y;
@@ -547,12 +602,8 @@ function initArt() {
         }
     }
 
-    function controlStart(e) {
-        if (e.touches) {
-            e.preventDefault();
-            e = {"x": e.touches[0].clientX, "y": e.touches[0].clientY};
-        }
-        e0 = e;
+    function onControlStart(e) {
+        e0 = getScaledMouse(e, 1 / m);
         x0 = Number(artX.value);
         y0 = Number(artY.value);
         w0 = Number(artW.value);
@@ -560,7 +611,7 @@ function initArt() {
 
         var savedTransform = cardArt.style.transform;
         cardArt.style.transform = "";
-        cardArtRect0 = cardArt.getBoundingClientRect();
+        cardArtRect0 = getScaledRect(cardArt, 1 / m);
         cardArt.style.transform = savedTransform;
         cardArtCenter = {
             "x": Math.round((cardArtRect0.left + cardArtRect0.right) / 2),
@@ -571,10 +622,10 @@ function initArt() {
         updateCircle(x0, 1134 - y0, 0);
         cardArtController.appendChild(circle);
         document.body.appendChild(style);
-        window.addEventListener("mouseup", controlEnd);
-        window.addEventListener("mousemove", control);
-        window.addEventListener("touchend", controlEnd);
-        window.addEventListener("touchmove", control);
+        window.addEventListener("mouseup", onControlEnd);
+        window.addEventListener("mousemove", onControl);
+        window.addEventListener("touchend", onControlEnd);
+        window.addEventListener("touchmove", onControl);
     }
 
     updateBounds();
@@ -592,8 +643,8 @@ function initArt() {
     artWidth.addEventListener("input", onInputTransform);
     artAngle.addEventListener("input", onInputTransform);
 
-    cardArtController.addEventListener("mousedown", controlStart);
-    cardArtController.addEventListener("touchstart", controlStart);
+    cardArtController.addEventListener("mousedown", onControlStart);
+    cardArtController.addEventListener("touchstart", onControlStart);
 
     artPosition.checked = false;
     artPosition.click();
@@ -724,6 +775,7 @@ function init() {
     initName();
     initTypes();
 
+    initHandle();
     initArt();
 
     initInfo();

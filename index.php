@@ -8,7 +8,7 @@
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-    <div id="creator">
+    <div id="creator" class="preview">
         <div id="types">
             <input id="type-dragon" type="radio" name="type" value="dragon">
             <label for="type-dragon">Dragon</label>
@@ -60,8 +60,7 @@
 <?php } ?>
                 </div>
             </div>
-            <div id="handle-vertical"></div>
-            <div id="handle-horizontal"></div>
+            <div id="handle"></div>
         </div>
         <div id="menu">
             <div class="row">
@@ -156,6 +155,7 @@
             </div>
         </div>
     </div>
+    <div id="card-size"></div>
     <img id="card-render">
 </body>
 </html>
