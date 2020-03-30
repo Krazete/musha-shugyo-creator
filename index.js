@@ -272,9 +272,11 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
 
             dataLoop(cardData[id], function (i, r, g, b, a) { /* to maximize contrast */
                 var intensity = Math.floor((r + g + b) / 3);
-                dataMin = Math.min(dataMin, intensity);
-                dataMax = Math.max(dataMax, intensity);
+                dataMin = Math.min(dataMin, intensity - 1);
+                dataMax = Math.max(dataMax, intensity + 1);
             });
+            dataMin = Math.max(0, dataMin);
+            dataMax = Math.min(255, dataMax);
 
             dataLoop(cardData[id], function (i, r, g, b, a) {
                 var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
