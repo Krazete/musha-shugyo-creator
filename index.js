@@ -449,8 +449,8 @@ function initHandle() {
         cardSize.innerHTML = Math.round(200 * m) + "%";
         card.style.transform = "scale(" + m + ")";
         card.style.transform = "scale(" + m + ")";
-        var marg = (m - 1) / m * 30;
-        card.style.margin = "0 " + marg + "% " + marg + "% 0";
+        var margin = (m - 1) / m * 30;
+        card.style.margin = "0 " + margin + "% " + margin + "% 0";
     }
 
     function onHandleStart(e) {
