@@ -570,8 +570,8 @@ function initArt() {
         if (mode == "position") {
             var dx = e1.x - e0.x;
             var dy = e1.y - e0.y;
-            artX.value = x0 + dx;
-            artY.value = y0 - dy;
+            artX.value = Math.round(x0 + dx);
+            artY.value = Math.round(y0 - dy);
 
             artX.dispatchEvent(new InputEvent("input"));
             artY.dispatchEvent(new InputEvent("input"));
@@ -581,7 +581,7 @@ function initArt() {
             var r0 = distance(cardArtCenter, e0);
             var r1 = distance(cardArtCenter, e1);
             var w1 = cardArtRect0.width * r1 / r0;
-            artW.value = Math.max(1, Math.floor(w1));
+            artW.value = Math.max(1, Math.round(w1));
 
             artW.dispatchEvent(new InputEvent("input"));
             updateCircle(x0, 1134 - y0, r1);
