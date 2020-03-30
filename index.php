@@ -8,7 +8,7 @@
     <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-    <div id="creator" class="preview">
+    <div id="creator">
         <div id="types">
             <input id="type-dragon" type="radio" name="type" value="dragon">
             <label for="type-dragon">Dragon</label>
@@ -63,11 +63,6 @@
             <div id="handle"></div>
         </div>
         <div id="menu">
-            <div class="row">
-                <input id="preview" type="checkbox">
-                <label for="preview">Preview</label>
-            </div>
-
             <div class="menu-title">Background</div>
             <div class="row">
                 <input id="bg-color-custom" type="checkbox">
