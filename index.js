@@ -1,9 +1,12 @@
 var card;
+var cardType;
 var cardData = {
     "bgDefault": undefined,
+    "bgDefaultDragon": undefined,
     "bgUpload": undefined,
     "bg": undefined,
     "npDefault": undefined,
+    "npDefaultDragon": undefined,
     "npUpload": undefined,
     "np": undefined,
     "ibDefaultChar": undefined,
@@ -15,9 +18,11 @@ var cardData = {
 };
 var cardImage = {
     "bgDefault": new Image(),
+    "bgDefaultDragon": new Image(),
     "bgUpload": new Image(),
     "bg": new Image(),
     "npDefault": new Image(),
+    "npDefaultDragon": new Image(),
     "npUpload": new Image(),
     "np": new Image(),
     "ibDefaultChar": new Image(),
@@ -27,8 +32,11 @@ var cardImage = {
     "ib": new Image(),
     "artURL": new Image()
 };
-
-var updateInfoboxBackground;
+var cardUpdater = {
+    "bg": undefined,
+    "np": undefined,
+    "ib": undefined
+};
 
 /* Generic Functions */
 
@@ -58,6 +66,19 @@ var deeperHex = function () {
     };
 }();
 
+function dataLoop(data, f) { /* for ImageData objects */
+    for (var y = 0; y < data.height; y++) {
+        for (var x = 0; x < data.width; x++) {
+            var i = 4 * (y * data.width + x);
+            var r = data.data[i];
+            var g = data.data[i + 1];
+            var b = data.data[i + 2];
+            var a = data.data[i + 3];
+            f(i, r, g, b, a);
+        }
+    }
+}
+
 function newCanvas(width, height) {
     var canvas = document.createElement("canvas");
     canvas.width = width;
@@ -65,15 +86,15 @@ function newCanvas(width, height) {
     return canvas;
 }
 
-function newImage(src, onLoad) {
+function newImage(src, callback) {
     var img = new Image();
     img.src = src;
-    img.addEventListener("load", onLoad);
+    img.addEventListener("load", callback);
 }
 
 /**/
 
-function initColorInput(color0, color1, colorAuto, autoOn, depth, update) {
+function initColorInput(color0, color1, colorAuto, colorAutoChecked, depth, update) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
 
@@ -104,7 +125,7 @@ function initColorInput(color0, color1, colorAuto, autoOn, depth, update) {
     color0.jscolor.onFineChange = onChangeColor;
     color1.jscolor.onFineChange = onChangeColor;
 
-    colorAuto.checked = !autoOn;
+    colorAuto.checked = !colorAutoChecked;
     colorAuto.addEventListener("input", onInputColorAuto);
     colorAuto.click();
 }
@@ -132,16 +153,22 @@ function initCustomButton(custom, inputs, ignore, onUncheck, onCheck) {
     custom.click();
 }
 
+// function fitCanvas(canvas, element) {
+//     var rect = element.getBoundingClientRect();
+//     canvas.width = Math.round(2 * rect.width);
+//     canvas.height = Math.round(2 * rect.height);
+// }
+
+var q = 0.2;
+
 function initName() {
     var cardName = document.getElementById("card-name");
-    var nameRect = cardName.getBoundingClientRect();
     var nameCanvas = document.getElementById("card-name-canvas");
     var nameContext = nameCanvas.getContext("2d");
     var nameColor0 = document.getElementById("name-color-0");
     var nameColor1 = document.getElementById("name-color-1");
     var nameColorAuto = document.getElementById("name-color-auto");
     var nameColorCustom = document.getElementById("name-color-custom");
-    var m = 2; /* devicePixelRatio */
 
     function onInputCardName() {
         nameContext.clearRect(0, 0, nameCanvas.width, nameCanvas.height);
@@ -156,7 +183,7 @@ function initName() {
         onInputCardName();
     }
 
-    function ignoreColor(inputs, i) {
+    function ignoreColor1(inputs, i) {
         if (i == 1 && inputs[2].checked) {
             return false;
         }
@@ -171,30 +198,31 @@ function initName() {
         updateGradient(nameColor0, nameColor1);
     }
 
-    nameCanvas.width = Math.round(nameRect.width * m);
-    nameCanvas.height = Math.round(nameRect.height * m);
+    var nameRect = cardName.getBoundingClientRect();
+    nameCanvas.width = Math.round(q * nameRect.width);
+    nameCanvas.height = Math.round(q * nameRect.height);
 
     var nameStyle = getComputedStyle(cardName);
-    var nameFont = nameStyle.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
-    nameContext.font = m * nameFont[1] + nameFont[2] + " " + nameStyle.fontFamily;
+    var fontSize = nameStyle.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
+    nameContext.font = q * fontSize[1] + fontSize[2] + " " + nameStyle.fontFamily;
     nameContext.textAlign = nameStyle.textAlign;
     nameContext.textBaseline = "middle";
 
     cardName.addEventListener("input", onInputCardName);
     initColorInput(nameColor0, nameColor1, nameColorAuto, true, 3.7, updateGradient);
-    initCustomButton(nameColorCustom, [nameColor0, nameColor1, nameColorAuto], ignoreColor, onUncheckColorCustom, onCheckColorCustom);
+    initCustomButton(nameColorCustom, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onUncheckColorCustom, onCheckColorCustom);
 }
 
 function initFileInput(file, update) {
     function onInputFile() {
         if (this.files.length > 0) {
-            var f = this.files[0];
-            if (/image\//.test(f.type)) {
+            var fp = this.files[0];
+            if (/image\//.test(fp.type)) {
                 var reader = new FileReader();
                 reader.addEventListener("load", function() {
                     update(this.result);
-                })
-                reader.readAsDataURL(f);
+                });
+                reader.readAsDataURL(fp);
             }
         }
     }
@@ -217,26 +245,24 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
     }
 
-    function dataLoop(data, f) {
-        for (var y = 0; y < data.height; y++) {
-            for (var x = 0; x < data.width; x++) {
-                var i = 4 * (y * data.width + x);
-                var r = data.data[i];
-                var g = data.data[i + 1];
-                var b = data.data[i + 2];
-                var a = data.data[i + 3];
-                f(i, r, g, b, a);
-            }
-        }
-    }
-
     function updateCanvas() {
         var id = code + "Default";
         if (fileCustom.checked && file.files.length > 0) {
             id = code + "Upload";
         }
+        else if ((code == "bg" || code == "np") && cardType == "dragon") {
+            id += "Dragon";
+        }
         else if (code == "ib") {
-            id += card.className[0].toUpperCase() + card.className.slice(1); /* todo: this is flimsy */
+            if (cardType == "char" || cardType == "dragon") {
+                id += "Char";
+            }
+            else if (cardType == "armor") {
+                id += "Armor";
+            }
+            else if (cardType == "agon") {
+                id += "Agon";
+            }
         }
 
         if (!cardData[id]) {
@@ -264,7 +290,6 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
             });
 
             cardData[code] = newData;
-            // cardImage[code].src =
         }
         else {
             cardData[code] = cardData[id];
@@ -273,6 +298,7 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.putImageData(cardData[code], 0, 0);
+        cardImage[code] = canvas.toDataURL();
     }
 
     function updateBackground(color0, color1) {
@@ -290,7 +316,7 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         });
     }
 
-    function ignoreColor(inputs, i) {
+    function ignoreColor1(inputs, i) {
         if (i == 1 && inputs[2].checked) {
             return false;
         }
@@ -301,12 +327,12 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         updateBackground(inputs[0], inputs[1]);
     }
 
-    updateInfoboxBackground = updateCanvas;
-
     initFileInput(file, updateFile);
     initColorInput(color0, color1, colorAuto, false, 37, updateBackground);
     initCustomButton(fileCustom, [file], undefined, updateCanvas, updateCanvas);
-    initCustomButton(colorCustom, [color0, color1, colorAuto], ignoreColor, onInputColorCustom, onInputColorCustom);
+    initCustomButton(colorCustom, [color0, color1, colorAuto], ignoreColor1, onInputColorCustom, onInputColorCustom);
+
+    cardUpdater[code] = updateCanvas;
 }
 
 function initRecolorers() {
@@ -333,6 +359,7 @@ function initRecolorers() {
     var ibColorCustom = document.getElementById("ib-color-custom");
 
     function initCardData(canvas, id, src) {
+        var canvas = newCanvas(canvas.width, canvas.height);
         var context = canvas.getContext("2d");
 
         newImage(src, function () {
@@ -340,11 +367,14 @@ function initRecolorers() {
             context.drawImage(this, 0, 0, canvas.width, canvas.height);
             cardData[id] = context.getImageData(0, 0, canvas.width, canvas.height);
             cardImage[id] = this;
+            cardUpdater[id.slice(0, 2)]();
         });
     }
 
     initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
+    initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_10.jpg");
     initCardData(np, "npDefault", "img/Nome.png");
+    initCardData(np, "npDefaultDragon", "img/NomeDragon.png");
     initCardData(ib, "ibDefaultChar", "img/Colonna.png");
     initCardData(ib, "ibDefaultArmor", "img/Armor.png");
     initCardData(ib, "ibDefaultAgon", "img/Agon.png");
@@ -358,17 +388,15 @@ function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
     var ibTemplate = document.getElementById("ib-template");
-    var ibTemplateURLs = { /* todo: make templates */
-        "char": "img/Colonna.png",
-        "armor": "img/Armor.png",
-        "agon": "img/Agon.png"
-    };
 
     function onClickTypes(e) {
         if (e.target.tagName == "INPUT") {
             card.className = e.target.value;
+            cardType = e.target.value;
             ibTemplate.href = ibTemplateURLs[e.target.value];
-            updateInfoboxBackground();
+            cardUpdater.bg();
+            cardUpdater.np();
+            cardUpdater.ib();
         }
     }
 

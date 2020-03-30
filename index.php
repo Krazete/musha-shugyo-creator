@@ -10,6 +10,8 @@
 <body>
     <div id="creator">
         <div id="types">
+            <input id="type-dragon" type="radio" name="type" value="dragon">
+            <label for="type-dragon">Dragon</label>
             <input id="type-char" type="radio" name="type" value="char">
             <label for="type-char">Character</label>
             <input id="type-armor" type="radio" name="type" value="armor">
