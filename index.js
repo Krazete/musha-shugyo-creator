@@ -448,7 +448,7 @@ function initHandle() {
     function onHandle(e) {
         e = getScaledMouse(e, 1);
         n = (e.x - cardRect.left - m * 15) / 756; /* +15m for border */
-        m = Math.max(0.5, Math.min(n, 2));
+        m = Math.max(0.5, Math.min(n, 1));
 
         card.style.transform = "scale(" + m + ")";
         card.style.marginRight = (m - 1) * 776 + "px"; /* +20 for border */
