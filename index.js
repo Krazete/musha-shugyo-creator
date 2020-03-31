@@ -452,6 +452,7 @@ function initHandle() {
 
         card.style.transform = "scale(" + m + ")";
         card.style.marginRight = (m - 1) * 776 + "px"; /* +20 for border */
+        card.style.marginBottom = (m - 1) * 1154 + "px"; /* +20 for border */
         cardSize.innerHTML = Math.round(200 * m) + "%";
     }
 
