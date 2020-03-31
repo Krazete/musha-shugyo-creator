@@ -76,7 +76,7 @@
                 <input id="bg-file-custom" type="checkbox">
                 <label for="bg-file-custom">Custom</label>
                 <input id="bg-file" type="file" accept="image/*">
-                (2:3) <a href="img/bg/large/Background_01.jpg" download>Template</a>
+                (2:3) <a href="template/Background.png" download>Template</a>
             </div>
 
             <div class="menu-title">Nameplate</div>
@@ -92,7 +92,7 @@
                 <input id="np-file-custom" type="checkbox">
                 <label for="np-file-custom">Custom</label>
                 <input id="np-file" type="file" accept="image/*">
-                (1:6) <a href="img/Nome.png" download>Template</a>
+                (1:6) <a href="template/Nome.png" download>Template</a>
             </div>
 
             <div class="menu-title">Name</div>

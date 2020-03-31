@@ -386,9 +386,10 @@ function initTypes() {
     var defaultType = document.getElementById("type-char");
     var ibTemplate = document.getElementById("ib-template");
     var ibTemplateURLs = { /* todo: make templates */
-        "char": "img/Colonna.png",
-        "armor": "img/Armor.png",
-        "agon": "img/Agon.png"
+        "dragon": "template/Colonna.png",
+        "char": "template/Colonna.png",
+        "armor": "template/Armor.png",
+        "agon": "template/Agon.png"
     };
 
     function onClickTypes(e) {
