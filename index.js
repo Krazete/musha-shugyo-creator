@@ -447,11 +447,11 @@ function initHandle() {
 
     function onHandle(e) {
         e = getScaledMouse(e, 1);
-        n = (e.x - cardRect.left - m * 10) / 756; /* m * 10 for border */
-        m = Math.max(0.5, Math.min(n, 1));
+        n = (e.x - cardRect.left - m * 15) / 756; /* +15m for border */
+        m = Math.max(0.5, Math.min(n, 2));
 
         card.style.transform = "scale(" + m + ")";
-        card.style.marginRight = (m - 1) * 776 + "px";
+        card.style.marginRight = (m - 1) * 776 + "px"; /* +20 for border */
         cardSize.innerHTML = Math.round(200 * m) + "%";
     }
 
