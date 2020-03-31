@@ -451,7 +451,7 @@ function initHandle() {
         m = Math.max(0.5, Math.min(n, 1));
 
         card.style.transform = "scale(" + m + ")";
-        card.style.marginRight = (m - 1) * 756 + "px";
+        card.style.marginRight = (m - 1) * 776 + "px";
         cardSize.innerHTML = Math.round(200 * m) + "%";
     }
 
