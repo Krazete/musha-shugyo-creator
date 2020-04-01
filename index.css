@@ -187,7 +187,7 @@ input[type='radio'], input[type='checkbox'] {
 		box-shadow: inset 0 0 6px white;
 	}
 	#card label.click.over:after {
-		background: grey;
+		background: gray;
 	}
 }
 
@@ -418,6 +418,38 @@ input[type='radio'], input[type='checkbox'] {
 #menu input[type='number'] {
 	text-align: right;
 	width: 80px;
+}
+
+.symbol {
+	background: white;
+	box-shadow: inset 0 0 10px black;
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	padding: 10px;
+	border: 1px solid black;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.symbol:hover {
+	background: gray;
+}
+.symbol img {
+	max-width: 100%;
+	max-height: 100%;
+}
+.symbol:hover img {
+	filter: drop-shadow(0 0 5px white);
+}
+
+#symbols > div {
+	display: none;
+}
+#symbols.stdsp .stdsp,
+#symbols.stdtc .stdtc,
+#symbols.advtc .advtc,
+#symbols.drgtc .drgtc {
+	display: block;
 }
 
 /* *{outline:auto!important} */
