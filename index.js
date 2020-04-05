@@ -14,23 +14,26 @@ var cardData = {
     "ibDefaultAgon": undefined,
     "ibUpload": undefined,
     "ib": undefined,
-    "artURL": undefined
+    "art": {
+        "width": undefined,
+        "height": undefined
+    }
 };
 var cardImage = {
-    "bgDefault": new Image(),
-    "bgDefaultDragon": new Image(),
-    "bgUpload": new Image(),
-    "bg": new Image(),
-    "npDefault": new Image(),
-    "npDefaultDragon": new Image(),
-    "npUpload": new Image(),
-    "np": new Image(),
-    "ibDefaultChar": new Image(),
-    "ibDefaultArmor": new Image(),
-    "ibDefaultAgon": new Image(),
-    "ibUpload": new Image(),
-    "ib": new Image(),
-    "artURL": new Image()
+    "bgDefault": undefined,
+    "bgDefaultDragon": undefined,
+    "bgUpload": undefined,
+    "bg": undefined,
+    "npDefault": undefined,
+    "npDefaultDragon": undefined,
+    "npUpload": undefined,
+    "np": undefined,
+    "ibDefaultChar": undefined,
+    "ibDefaultArmor": undefined,
+    "ibDefaultAgon": undefined,
+    "ibUpload": undefined,
+    "ib": undefined,
+    "art": undefined
 };
 var cardUpdater = {
     "bg": undefined,
@@ -295,7 +298,9 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.putImageData(cardData[code], 0, 0);
-        cardImage[code] = canvas.toDataURL();
+        newImage(canvas.toDataURL(), function () {
+            cardImage[code] = this;
+        });
     }
 
     function updateBackground(color0, color1) {
@@ -505,8 +510,7 @@ function initArt() {
 
     function onInputArt(dataURL) {
         cardArt.src = dataURL;
-        cardArt.addEventListener("load", updateBounds)
-        cardData.artURL = dataURL;
+        cardArt.addEventListener("load", updateBounds);
     }
 
     function onInputArtX() {
@@ -651,6 +655,8 @@ function initArt() {
 
     artPosition.checked = false;
     artPosition.click();
+
+    cardImage.art = cardArt;
 }
 
 function initStats() {
@@ -715,20 +721,76 @@ function initInfo() {
 }
 
 function renderCard() {
-    var cardRender = document.getElementById("card-render");
-
-    var canvas = newCanvas(756, 1134);
+    var canvas = document.getElementById("card-canvas");
     var context = canvas.getContext("2d");
+    var render = document.getElementById("card-render");
+
+    canvas.width = q * 756;
+    canvas.height = q * 1134;
 
     function putImage(code, x, y) {
-        context.drawImage(cardImage[code], x, y, x + cardData[code].width, y + cardData[code].height);
+        context.drawImage(
+            cardImage[code],
+            q * x,
+            q * y,
+            q * cardData[code].width,
+            q * cardData[code].height
+        );
     }
 
-    putImage("bgDefault", 0, 0);
-    putImage("npDefault", 10, 10);
-    putImage("ibDefaultChar", 20, 20);
+    function putArt() {
+        var pattern = /-?\d+(\.\d+)?(px|%)?/g;
 
-    cardRender.src = canvas.toDataURL();
+        var style = getComputedStyle(cardImage.art);
+        var matrix = style.transform.match(pattern) || [
+            1, 0, 0,
+            1, 0, 0
+        ];
+        console.log(style.transform, matrix);
+        var a = parseFloat(matrix[0]);
+        var b = parseFloat(matrix[1]);
+        var c = parseFloat(matrix[2]);
+        var d = parseFloat(matrix[3]);
+        var e = parseFloat(matrix[4]);
+        var f = parseFloat(matrix[5]);
+        var origin = style.transformOrigin.match(pattern) || [
+            parseFloat(style.width) / 2,
+            parseFloat(style.height) / 2
+        ];
+        var x0 = parseFloat(style.left) + parseFloat(origin[0]);
+        var y0 = parseFloat(style.top) + parseFloat(origin[1]);
+
+        cardData.art = {
+            "width": parseFloat(style.width),
+            "height": parseFloat(style.height)
+        };
+
+        context.save();
+
+        context.imageSmoothingEnabled = false;
+
+        context.translate(x0, y0);
+        context.transform(a, b, c, d, e, f);
+        context.translate(-x0, -y0);
+
+        context.fillRect(-50, -50, 100, 100);
+
+        putImage(
+            "art",
+            parseFloat(style.left) - parseFloat(style.width) / 2,
+            parseFloat(style.top) - parseFloat(style.height) / 2
+        );
+
+        context.restore();
+        context.fillStyle = "black";
+    }
+
+    putImage("bg", 0, 0);
+    putArt();
+    putImage("np", 20, 20);
+    putImage("ib", 30, 30);
+
+    render.src = canvas.toDataURL();
 }
 
 function initExport() {
@@ -741,6 +803,7 @@ function initExport() {
     }
 
     function createPDF() {
+        createPNG();
     }
 
     function createJSON() {

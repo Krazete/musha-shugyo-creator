@@ -202,6 +202,7 @@
         </div>
     </div>
     <div id="card-size">200%</div>
+    <canvas id="card-canvas"></canvas>
     <img id="card-render">
 </body>
 </html>
