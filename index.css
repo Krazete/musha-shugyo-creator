@@ -80,7 +80,10 @@ input[type='radio'], input[type='checkbox'] {
 	top: 567px;
 	transform: translate(-50%, -50%);
 	pointer-events: none;
-	image-rendering: pixelated; /* todo: temp */
+}
+#card-art.pixel {
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
 }
 
 #circle {

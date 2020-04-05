@@ -480,6 +480,7 @@ function initArt() {
     var cardArt = document.getElementById("card-art");
     var cardArtRect0;
     var art = document.getElementById("art");
+    var artPixel = document.getElementById("art-pixel");
     var artPosition = document.getElementById("art-position");
     var artWidth = document.getElementById("art-width");
     var artAngle = document.getElementById("art-angle");
@@ -532,6 +533,15 @@ function initArt() {
         this.value = Number(this.value).toFixed(3).replace(/\.?0+$/, "");
         cardArt.style.transform = "translate(-50%, -50%) rotate(" + -this.value + "deg)";
         updateBounds();
+    }
+
+    function onInputPixel() {
+        if (artPixel.checked) {
+            cardArt.classList.add("pixel");
+        }
+        else {
+            cardArt.classList.remove("pixel");
+        }
     }
 
     function onInputTransform() {
@@ -646,6 +656,7 @@ function initArt() {
     artW.addEventListener("input", onInputArtW);
     artA.addEventListener("input", onInputArtA);
 
+    artPixel.addEventListener("input", onInputPixel);
     artPosition.addEventListener("input", onInputTransform);
     artWidth.addEventListener("input", onInputTransform);
     artAngle.addEventListener("input", onInputTransform);
@@ -653,6 +664,7 @@ function initArt() {
     cardArtController.addEventListener("mousedown", onControlStart);
     cardArtController.addEventListener("touchstart", onControlStart);
 
+    artPixel.checked = false;
     artPosition.checked = false;
     artPosition.click();
 
@@ -746,7 +758,6 @@ function renderCard() {
             1, 0, 0,
             1, 0, 0
         ];
-        console.log(style.transform, style.transformOrigin);
         var a = parseFloat(matrix[0]);
         var b = parseFloat(matrix[1]);
         var c = parseFloat(matrix[2]);
@@ -767,7 +778,7 @@ function renderCard() {
 
         context.save();
 
-        if (style.imageRendering == "pixelated") {
+        if (style.imageRendering == "pixelated" || style.imageRendering == "crisp-edges") {
             context.imageSmoothingEnabled = false;
         }
 

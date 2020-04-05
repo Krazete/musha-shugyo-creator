@@ -124,6 +124,8 @@
             <div class="menu-title">Card Art</div>
             <div class="row">
                 <input id="art" type="file" accept="image/*">
+                <input id="art-pixel" type="checkbox">
+                <label for="art-pixel">Pixelated</label>
             </div>
             <div class="row">
                 <input id="art-position" type="radio" name="art-transform">
