@@ -739,26 +739,26 @@ function renderCard() {
     }
 
     function putArt() {
-        var pattern = /-?\d+(\.\d+)?(px|%)?/g;
+        var pattern = /-?\d+(\.\d+)?(e-?\d+)?(px|%)?/g;
 
         var style = getComputedStyle(cardImage.art);
         var matrix = style.transform.match(pattern) || [
             1, 0, 0,
             1, 0, 0
         ];
-        console.log(style.transform, matrix);
+        console.log(style.transform, style.transformOrigin);
         var a = parseFloat(matrix[0]);
         var b = parseFloat(matrix[1]);
         var c = parseFloat(matrix[2]);
         var d = parseFloat(matrix[3]);
-        var e = parseFloat(matrix[4]);
-        var f = parseFloat(matrix[5]);
+        var e = q * parseFloat(matrix[4]);
+        var f = q * parseFloat(matrix[5]);
         var origin = style.transformOrigin.match(pattern) || [
             parseFloat(style.width) / 2,
             parseFloat(style.height) / 2
         ];
-        var x0 = parseFloat(style.left) + parseFloat(origin[0]);
-        var y0 = parseFloat(style.top) + parseFloat(origin[1]);
+        var x0 = q * (parseFloat(style.left) + parseFloat(origin[0]));
+        var y0 = q * (parseFloat(style.top) + parseFloat(origin[1]));
 
         cardData.art = {
             "width": parseFloat(style.width),
@@ -767,7 +767,9 @@ function renderCard() {
 
         context.save();
 
-        context.imageSmoothingEnabled = false;
+        if (style.imageRendering == "pixelated") {
+            context.imageSmoothingEnabled = false;
+        }
 
         context.translate(x0, y0);
         context.transform(a, b, c, d, e, f);
@@ -775,11 +777,7 @@ function renderCard() {
 
         context.fillRect(-50, -50, 100, 100);
 
-        putImage(
-            "art",
-            parseFloat(style.left) - parseFloat(style.width) / 2,
-            parseFloat(style.top) - parseFloat(style.height) / 2
-        );
+        putImage("art", parseFloat(style.left), parseFloat(style.top));
 
         context.restore();
         context.fillStyle = "black";

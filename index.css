@@ -73,13 +73,14 @@ input[type='radio'], input[type='checkbox'] {
 	cursor: move;
 }
 
-#card-art { /* todo */
+#card-art {
 	position: absolute;
 	width: 756px;
 	left: 378px;
 	top: 567px;
 	transform: translate(-50%, -50%);
 	pointer-events: none;
+	image-rendering: pixelated; /* todo: temp */
 }
 
 #circle {
