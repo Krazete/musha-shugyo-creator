@@ -752,7 +752,6 @@ function renderCard() {
 
     function putArt() {
         var pattern = /-?\d+(\.\d+)?(e-?\d+)?(px|%)?/g;
-
         var style = getComputedStyle(cardImage.art);
         var matrix = style.transform.match(pattern) || [
             1, 0, 0,
@@ -777,21 +776,14 @@ function renderCard() {
         };
 
         context.save();
-
         if (style.imageRendering == "pixelated" || style.imageRendering == "crisp-edges") {
             context.imageSmoothingEnabled = false;
         }
-
         context.translate(x0, y0);
         context.transform(a, b, c, d, e, f);
         context.translate(-x0, -y0);
-
-        context.fillRect(-50, -50, 100, 100);
-
         putImage("art", parseFloat(style.left), parseFloat(style.top));
-
         context.restore();
-        context.fillStyle = "black";
     }
 
     putImage("bg", 0, 0);
