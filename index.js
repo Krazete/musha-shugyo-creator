@@ -254,7 +254,7 @@ function initFileInput(file, update) {
         }
     }
 
-    file.addEventListener("input", onInputFile);
+    file.addEventListener("change", onInputFile);
 }
 
 function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto, colorCustom) {
