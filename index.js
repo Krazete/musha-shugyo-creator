@@ -826,7 +826,6 @@ function renderCard() {
     }
 
     function renderRadio(element) {
-        console.log(element.parentElement);
         var rect = getScaledRect(element.parentElement);
 
         context.save();
@@ -851,21 +850,23 @@ function renderCard() {
     renderName();
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
-        if (input.type == "text" && input.id != "card-name") {
-            var style = getComputedStyle(input);
-            if (style.visibility != "hidden" && style.display != "none") {
-                renderText(input);
-            }
+        if (input.type == "text" && input.id != "card-name" && isVisible(input)) {
+            renderText(input);
         }
-        else if (input.type == "checkbox") {
-            var style = getComputedStyle(input.parentElement);
-            if (style.display != "none") {
-                renderRadio(input);
-            }
+        else if (input.type == "checkbox" && isVisible(input.parentElement)) {
+            renderRadio(input);
         }
     }
 
     render.src = canvas.toDataURL();
+}
+
+function isVisible(element) {
+    if (element == card) {
+        return true;
+    }
+    var style = getComputedStyle(element);
+    return style.display != "none" && style.visibility != "hidden" && isVisible(element.parentElement);
 }
 
 function initExport() {
