@@ -738,7 +738,7 @@ function renderCard() {
     var context = canvas.getContext("2d");
     var render = document.getElementById("card-render");
 
-    function putImage(code, element) {
+    function renderImage(code, element) {
         var style = getComputedStyle(element);
         context.drawImage(
             cardImage[code],
@@ -749,7 +749,7 @@ function renderCard() {
         );
     }
 
-    function putArt() {
+    function renderArt() {
         var pattern = /-?\d+(\.\d+)?(e-?\d+)?(px|%)?/g;
         var style = getComputedStyle(cardImage.art);
         var matrix = style.transform.match(pattern) || [
@@ -776,11 +776,11 @@ function renderCard() {
         context.translate(x0, y0);
         context.transform(a, b, c, d, e, f);
         context.translate(-x0, -y0);
-        putImage("art", cardImage.art);
+        renderImage("art", cardImage.art);
         context.restore();
     }
 
-    function putName() {
+    function renderName() {
         var cardName = document.getElementById("card-name");
         var color0 = document.getElementById("name-color-0");
         var color1 = document.getElementById("name-color-1");
@@ -804,20 +804,20 @@ function renderCard() {
         context.restore();
     }
 
-    function putText() {}
+    function renderText() {}
 
-    function putRadio() {}
+    function renderRadio() {}
 
     canvas.width = q * 756;
     canvas.height = q * 1134;
 
-    putImage("bg", document.getElementById("card-bg"));
-    putArt();
-    putImage("np", document.getElementById("card-name-bg"));
-    putImage("ib", document.getElementById("card-info-bg"));
-    putName();
-    putText();
-    putRadio();
+    renderImage("bg", document.getElementById("card-bg"));
+    renderArt();
+    renderImage("np", document.getElementById("card-name-bg"));
+    renderImage("ib", document.getElementById("card-info-bg"));
+    renderName();
+    renderText();
+    renderRadio();
 
     render.src = canvas.toDataURL();
 }
