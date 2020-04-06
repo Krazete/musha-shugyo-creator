@@ -825,18 +825,23 @@ function renderCard() {
         context.restore();
     }
 
-    function renderRadio(element) {
+    function renderCheckbox(element) {
         var rect = getScaledRect(element.parentElement);
 
         context.save();
-        context.fillStyle = "#ff00ff80";
-        context.fillRect(
-            element.value,
-            q * (rect.left - cardRect.left - 10),
-            q * (rect.top - cardRect.top - 10),
-            q * rect.width,
-            q * rect.height
+        context.lineWidth = q * 2;
+        context.beginPath();
+        context.arc(
+            q * (rect.left + rect.width / 2 - cardRect.left - 10),
+            q * (rect.top + rect.height / 2 - cardRect.top - 10),
+            q * (rect.width / 2 - 3),
+            0,
+            2 * Math.PI
         );
+        if (element.parentElement.classList.contains("click")) {
+            context.fill();
+        }
+        context.stroke();
         context.restore();
     }
 
@@ -854,7 +859,7 @@ function renderCard() {
             renderText(input);
         }
         else if (input.type == "checkbox" && isVisible(input.parentElement)) {
-            renderRadio(input);
+            renderCheckbox(input);
         }
     }
 
