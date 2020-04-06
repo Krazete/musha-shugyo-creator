@@ -738,9 +738,6 @@ function renderCard() {
     var context = canvas.getContext("2d");
     var render = document.getElementById("card-render");
 
-    canvas.width = q * 756;
-    canvas.height = q * 1134;
-
     function putImage(code, element) {
         var style = getComputedStyle(element);
         context.drawImage(
@@ -784,14 +781,35 @@ function renderCard() {
     }
 
     function putName() {
-        var name;
+        var cardName = document.getElementById("card-name");
         var color0 = document.getElementById("name-color-0");
         var color1 = document.getElementById("name-color-1");
+
+        var style = getComputedStyle(cardName);
+        var lg = context.createLinearGradient(
+            0, q * parseFloat(style.top),
+            0, q * (parseFloat(style.top) + parseFloat(style.height))
+        );
+
+        context.save();
+        matchFont(cardName, context);
+        lg.addColorStop(0, color0.value);
+        lg.addColorStop(1, color1.value);
+        context.fillStyle = lg;
+        context.fillText(
+            cardName.value,
+            q * (parseFloat(style.left) + parseFloat(style.width) / 2),
+            q * (parseFloat(style.top) + parseFloat(style.height) / 2)
+        );
+        context.restore();
     }
 
     function putText() {}
 
     function putRadio() {}
+
+    canvas.width = q * 756;
+    canvas.height = q * 1134;
 
     putImage("bg", document.getElementById("card-bg"));
     putArt();
