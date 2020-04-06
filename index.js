@@ -734,6 +734,8 @@ function initInfo() {
 }
 
 function renderCard() {
+    var inputs = card.getElementsByTagName("input");
+
     var canvas = document.getElementById("card-canvas");
     var context = canvas.getContext("2d");
     var render = document.getElementById("card-render");
@@ -804,9 +806,22 @@ function renderCard() {
         context.restore();
     }
 
-    function renderText() {}
+    function renderText(element) {
+        var rect = getScaledRect(element, 1 / m);
+        var cardRect = getScaledRect(card, 1 / m);
 
-    function renderRadio() {}
+        context.save();
+        matchFont(element, context);
+        context.fillText(
+            element.value,
+            q * (rect.left - cardRect.left - 10),
+            q * (rect.top + rect.height / 2 - cardRect.top - 10)
+        );
+        context.restore();
+    }
+
+    function renderRadio(element) {
+    }
 
     canvas.width = q * 756;
     canvas.height = q * 1134;
@@ -816,8 +831,19 @@ function renderCard() {
     renderImage("np", document.getElementById("card-name-bg"));
     renderImage("ib", document.getElementById("card-info-bg"));
     renderName();
-    renderText();
-    renderRadio();
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        var style = getComputedStyle(input);
+        if (input.id == "card-name" || style.visibility == "hidden" || style.display == "none") {
+            continue;
+        }
+        else if (input.type == "text") {
+            renderText(input);
+        }
+        else if (input.type == "checkbox") {
+            renderRadio(input);
+        }
+    }
 
     render.src = canvas.toDataURL();
 }
