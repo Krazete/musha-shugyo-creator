@@ -13,11 +13,7 @@ var cardData = {
     "ibDefaultArmor": undefined,
     "ibDefaultAgon": undefined,
     "ibUpload": undefined,
-    "ib": undefined,
-    "art": {
-        "width": undefined,
-        "height": undefined
-    }
+    "ib": undefined
 };
 var cardImage = {
     "bgDefault": undefined,
@@ -33,7 +29,8 @@ var cardImage = {
     "ibDefaultAgon": undefined,
     "ibUpload": undefined,
     "ib": undefined,
-    "art": undefined
+    "art": undefined,
+    "name": undefined
 };
 var cardUpdater = {
     "bg": undefined,
@@ -96,6 +93,37 @@ function newImage(src, callback) {
     var img = new Image();
     img.src = src;
     img.addEventListener("load", callback);
+}
+
+function getScaledRect(element, n) {
+    var rect = element.getBoundingClientRect();
+    var scaled = {};
+    for (var id in rect) {
+        scaled[id] = n * rect[id];
+    }
+    return scaled;
+}
+
+function getScaledMouse(e, n) {
+    if (e.touches) {
+        e.preventDefault();
+        return {
+            "x": n * e.touches[0].clientX,
+            "y": n * e.touches[0].clientY
+        };
+    }
+    return {
+        "x": n * e.x,
+        "y": n * e.y,
+    };
+}
+
+function matchFont(element, context) {
+    var style = getComputedStyle(element);
+    var fontSize = style.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
+    context.font = q * fontSize[1] + fontSize[2] + " " + style.fontFamily;
+    context.textAlign = style.textAlign;
+    context.textBaseline = "middle";
 }
 
 /**/
@@ -200,11 +228,7 @@ function initName() {
     nameCanvas.width = Math.round(q * nameRect.width);
     nameCanvas.height = Math.round(q * nameRect.height);
 
-    var nameStyle = getComputedStyle(cardName);
-    var fontSize = nameStyle.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
-    nameContext.font = q * fontSize[1] + fontSize[2] + " " + nameStyle.fontFamily;
-    nameContext.textAlign = nameStyle.textAlign;
-    nameContext.textBaseline = "middle";
+    matchFont(cardName, nameContext);
 
     cardName.addEventListener("input", onInputCardName);
     initColorInput(nameColor0, nameColor1, nameColorAuto, true, 3.7, updateGradient);
@@ -410,29 +434,6 @@ function initTypes() {
 
     types.addEventListener("click", onClickTypes);
     defaultType.click();
-}
-
-function getScaledRect(element, n) {
-    var rect = element.getBoundingClientRect();
-    var scaled = {};
-    for (var id in rect) {
-        scaled[id] = n * rect[id];
-    }
-    return scaled;
-}
-
-function getScaledMouse(e, n) {
-    if (e.touches) {
-        e.preventDefault();
-        return {
-            "x": n * e.touches[0].clientX,
-            "y": n * e.touches[0].clientY
-        };
-    }
-    return {
-        "x": n * e.x,
-        "y": n * e.y,
-    };
 }
 
 function initHandle() {
@@ -740,13 +741,14 @@ function renderCard() {
     canvas.width = q * 756;
     canvas.height = q * 1134;
 
-    function putImage(code, x, y) {
+    function putImage(code, element) {
+        var style = getComputedStyle(element);
         context.drawImage(
             cardImage[code],
-            q * x,
-            q * y,
-            q * cardData[code].width,
-            q * cardData[code].height
+            q * parseFloat(style.left),
+            q * parseFloat(style.top),
+            q * parseFloat(style.width),
+            q * parseFloat(style.height)
         );
     }
 
@@ -770,11 +772,6 @@ function renderCard() {
         var x0 = q * (parseFloat(style.left) + parseFloat(origin[0]));
         var y0 = q * (parseFloat(style.top) + parseFloat(origin[1]));
 
-        cardData.art = {
-            "width": parseFloat(style.width),
-            "height": parseFloat(style.height)
-        };
-
         context.save();
         if (style.imageRendering == "pixelated" || style.imageRendering == "crisp-edges") {
             context.imageSmoothingEnabled = false;
@@ -782,14 +779,27 @@ function renderCard() {
         context.translate(x0, y0);
         context.transform(a, b, c, d, e, f);
         context.translate(-x0, -y0);
-        putImage("art", parseFloat(style.left), parseFloat(style.top));
+        putImage("art", cardImage.art);
         context.restore();
     }
 
-    putImage("bg", 0, 0);
+    function putName() {
+        var name;
+        var color0 = document.getElementById("name-color-0");
+        var color1 = document.getElementById("name-color-1");
+    }
+
+    function putText() {}
+
+    function putRadio() {}
+
+    putImage("bg", document.getElementById("card-bg"));
     putArt();
-    putImage("np", 20, 20);
-    putImage("ib", 30, 30);
+    putImage("np", document.getElementById("card-name-bg"));
+    putImage("ib", document.getElementById("card-info-bg"));
+    putName();
+    putText();
+    putRadio();
 
     render.src = canvas.toDataURL();
 }
