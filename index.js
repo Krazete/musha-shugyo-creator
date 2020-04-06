@@ -734,8 +734,27 @@ function initStats() {
     initStat(statArmor);
 }
 
+function initTexts() {
+    var pas = document.getElementsByClassName("move-pa");
+    function autoresizethistextthing() {
+        var context = newCanvas(0, 0).getContext("2d");
+
+        var style = getComputedStyle(this);
+        context.font = style.fontSize + " " + style.fontFamily;
+
+        var p = context.measureText(this.value);
+        this.style.width = Math.max(52, p.width) + "px";
+        console.log(p);
+    }
+
+    for (var i = 0; i < pas.length; i++) {
+        pas[i].addEventListener("input", autoresizethistextthing);
+    }
+}
+
 function initInfo() {
     initStats();
+    initTexts();
 }
 
 function renderCard() {
