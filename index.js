@@ -95,26 +95,31 @@ function newImage(src, callback) {
     img.addEventListener("load", callback);
 }
 
-function getScaledRect(element, n) {
+function getScaledRect(element) {
     var rect = element.getBoundingClientRect();
     var scaled = {};
     for (var id in rect) {
-        scaled[id] = n * rect[id];
+        scaled[id] = rect[id] / m;
     }
     return scaled;
 }
 
-function getScaledMouse(e, n) {
+function getMouse(e) {
+    e.preventDefault();
     if (e.touches) {
-        e.preventDefault();
         return {
-            "x": n * e.touches[0].clientX,
-            "y": n * e.touches[0].clientY
+            "x": e.touches[0].clientX,
+            "y": e.touches[0].clientY
         };
     }
+    return e;
+}
+
+function getScaledMouse(e) {
+    e = getMouse(e);
     return {
-        "x": n * e.x,
-        "y": n * e.y,
+        "x": e.x / m,
+        "y": e.y / m
     };
 }
 
@@ -452,7 +457,7 @@ function initHandle() {
     }
 
     function onHandle(e) {
-        e = getScaledMouse(e, 1);
+        e = getMouse(e);
         n = (e.x - cardRect.left - m * 15) / 756; /* +15m for border */
         m = Math.max(0.5, Math.min(n, 1));
 
@@ -499,8 +504,8 @@ function initArt() {
     }
 
     function updateBounds() {
-        var cardArtControllerRect = getScaledRect(cardArtController, 1 / m);
-        var cardArtRect1 = getScaledRect(cardArt, 1 / m);
+        var cardArtControllerRect = getScaledRect(cardArtController);
+        var cardArtRect1 = getScaledRect(cardArt);
         artX.min = Math.floor(-cardArtRect1.width / 2);
         artX.max = Math.ceil(cardArtControllerRect.width + cardArtRect1.width / 2);
         artY.min = Math.floor(-cardArtRect1.height / 2);
@@ -585,7 +590,7 @@ function initArt() {
     }
 
     function onControl(e) {
-        e1 = getScaledMouse(e, 1 / m);
+        e1 = getScaledMouse(e);
         if (mode == "position") {
             var dx = e1.x - e0.x;
             var dy = e1.y - e0.y;
@@ -621,7 +626,7 @@ function initArt() {
     }
 
     function onControlStart(e) {
-        e0 = getScaledMouse(e, 1 / m);
+        e0 = getScaledMouse(e);
         x0 = Number(artX.value);
         y0 = Number(artY.value);
         w0 = Number(artW.value);
@@ -629,7 +634,7 @@ function initArt() {
 
         var savedTransform = cardArt.style.transform;
         cardArt.style.transform = "";
-        cardArtRect0 = getScaledRect(cardArt, 1 / m);
+        cardArtRect0 = getScaledRect(cardArt);
         cardArt.style.transform = savedTransform;
         cardArtCenter = {
             "x": Math.round((cardArtRect0.left + cardArtRect0.right) / 2),
@@ -734,11 +739,12 @@ function initInfo() {
 }
 
 function renderCard() {
-    var inputs = card.getElementsByTagName("input");
-
     var canvas = document.getElementById("card-canvas");
     var context = canvas.getContext("2d");
     var render = document.getElementById("card-render");
+
+    var cardRect = getScaledRect(card);
+    var inputs = card.getElementsByTagName("input");
 
     function renderImage(code, element) {
         var style = getComputedStyle(element);
@@ -807,8 +813,7 @@ function renderCard() {
     }
 
     function renderText(element) {
-        var rect = getScaledRect(element, 1 / m);
-        var cardRect = getScaledRect(card, 1 / m);
+        var rect = getScaledRect(element);
 
         context.save();
         matchFont(element, context);
@@ -821,6 +826,19 @@ function renderCard() {
     }
 
     function renderRadio(element) {
+        console.log(element.parentElement);
+        var rect = getScaledRect(element.parentElement);
+
+        context.save();
+        context.fillStyle = "#ff00ff80";
+        context.fillRect(
+            element.value,
+            q * (rect.left - cardRect.left - 10),
+            q * (rect.top - cardRect.top - 10),
+            q * rect.width,
+            q * rect.height
+        );
+        context.restore();
     }
 
     canvas.width = q * 756;
@@ -833,15 +851,17 @@ function renderCard() {
     renderName();
     for (var i = 0; i < inputs.length; i++) {
         var input = inputs[i];
-        var style = getComputedStyle(input);
-        if (input.id == "card-name" || style.visibility == "hidden" || style.display == "none") {
-            continue;
-        }
-        else if (input.type == "text") {
-            renderText(input);
+        if (input.type == "text" && input.id != "card-name") {
+            var style = getComputedStyle(input);
+            if (style.visibility != "hidden" && style.display != "none") {
+                renderText(input);
+            }
         }
         else if (input.type == "checkbox") {
-            renderRadio(input);
+            var style = getComputedStyle(input.parentElement);
+            if (style.display != "none") {
+                renderRadio(input);
+            }
         }
     }
 
