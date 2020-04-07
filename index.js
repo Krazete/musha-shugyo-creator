@@ -390,8 +390,8 @@ function initRecolorers() {
     var ibColorCustom = document.getElementById("ib-color-custom");
 
     function initCardData(canvas, id, src) {
-        var canvas = newCanvas(canvas.width, canvas.height);
-        var context = canvas.getContext("2d");
+        var canvasCopy = newCanvas(canvas.width, canvas.height); /* because image loading is syncronous */
+        var context = canvasCopy.getContext("2d");
 
         newImage(src, function () {
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -401,6 +401,13 @@ function initRecolorers() {
             cardUpdater[id.slice(0, 2)]();
         });
     }
+
+    bg.width = q * 756;
+    bg.height = q * 1134;
+    np.width = q * 720;
+    np.height = q * 120;
+    ib.width = q * 436;
+    ib.height = q * 981;
 
     initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
     initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_10.jpg");
@@ -934,6 +941,10 @@ function warn(e) {
 }
 
 function init() {
+    var match = location.search.match(/[\?&]q=(\d+(?:\.\d+)?)/);
+    if (match) {
+        q = Math.max(0.0625, Math.min(parseFloat(match[1]), 4));
+    }
     card = document.getElementById("card");
 
     initRecolorers();
