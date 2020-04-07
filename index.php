@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="shortcut icon" href="http://www.acchiappasogni.org/msrpg/wp-content/uploads/2014/09/Musha_Shugyo_Favicon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="http://www.acchiappasogni.org/msrpg/wp-content/uploads/2014/09/Musha_Shugyo_touch.png">
     <link type="text/css" rel="stylesheet" href="index.css">
     <title>Musha Shugyo Creator</title>
     <script type="text/javascript" src="script/jscolor.js"></script>

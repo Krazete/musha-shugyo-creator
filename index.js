@@ -742,9 +742,8 @@ function initTexts() {
         var style = getComputedStyle(this);
         context.font = style.fontSize + " " + style.fontFamily;
 
-        var p = context.measureText(this.value);
-        this.style.width = Math.max(52, p.width) + "px";
-        console.log(p);
+        var textSize = context.measureText(this.value);
+        this.style.width = Math.max(52, textSize.width) + "px";
     }
 
     for (var i = 0; i < pas.length; i++) {
