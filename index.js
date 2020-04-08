@@ -38,7 +38,8 @@ var cardUpdater = {
     "ib": undefined
 };
 
-var q = 2; /* canvas quality */
+var pq = 0.2; /* preview quality */
+var rq = 2; /* canvas quality */
 var m = 1; /* card scale */
 
 /* Generic Functions */
@@ -126,7 +127,7 @@ function getScaledMouse(e) {
 function matchFont(element, context) {
     var style = getComputedStyle(element);
     var fontSize = style.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
-    context.font = q * fontSize[1] + fontSize[2] + " " + style.fontFamily;
+    context.font = rq *  fontSize[1] + fontSize[2] + " " + style.fontFamily;
     context.textAlign = style.textAlign;
     context.textBaseline = "middle";
 }
@@ -230,8 +231,8 @@ function initName() {
     }
 
     var nameRect = cardName.getBoundingClientRect();
-    nameCanvas.width = Math.round(q * nameRect.width);
-    nameCanvas.height = Math.round(q * nameRect.height);
+    nameCanvas.width = Math.round(rq *  nameRect.width);
+    nameCanvas.height = Math.round(rq *  nameRect.height);
 
     matchFont(cardName, nameContext);
 
@@ -401,13 +402,6 @@ function initRecolorers() {
             cardUpdater[id.slice(0, 2)]();
         });
     }
-
-    bg.width = q * 756;
-    bg.height = q * 1134;
-    np.width = q * 720;
-    np.height = q * 120;
-    ib.width = q * 436;
-    ib.height = q * 981;
 
     initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
     initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_10.jpg");
@@ -775,10 +769,10 @@ function renderCard() {
         var style = getComputedStyle(element);
         context.drawImage(
             cardImage[code],
-            q * parseFloat(style.left),
-            q * parseFloat(style.top),
-            q * parseFloat(style.width),
-            q * parseFloat(style.height)
+            rq *  parseFloat(style.left),
+            rq *  parseFloat(style.top),
+            rq *  parseFloat(style.width),
+            rq *  parseFloat(style.height)
         );
     }
 
@@ -793,14 +787,14 @@ function renderCard() {
         var b = parseFloat(matrix[1]);
         var c = parseFloat(matrix[2]);
         var d = parseFloat(matrix[3]);
-        var e = q * parseFloat(matrix[4]);
-        var f = q * parseFloat(matrix[5]);
+        var e = rq *  parseFloat(matrix[4]);
+        var f = rq *  parseFloat(matrix[5]);
         var origin = style.transformOrigin.match(pattern) || [
             parseFloat(style.width) / 2,
             parseFloat(style.height) / 2
         ];
-        var x0 = q * (parseFloat(style.left) + parseFloat(origin[0]));
-        var y0 = q * (parseFloat(style.top) + parseFloat(origin[1]));
+        var x0 = rq *  (parseFloat(style.left) + parseFloat(origin[0]));
+        var y0 = rq *  (parseFloat(style.top) + parseFloat(origin[1]));
 
         context.save();
         if (style.imageRendering == "pixelated" || style.imageRendering == "crisp-edges") {
@@ -820,8 +814,8 @@ function renderCard() {
 
         var style = getComputedStyle(cardName);
         var lg = context.createLinearGradient(
-            0, q * parseFloat(style.top),
-            0, q * (parseFloat(style.top) + parseFloat(style.height))
+            0, rq *  parseFloat(style.top),
+            0, rq *  (parseFloat(style.top) + parseFloat(style.height))
         );
 
         context.save();
@@ -831,8 +825,8 @@ function renderCard() {
         context.fillStyle = lg;
         context.fillText(
             cardName.value,
-            q * (parseFloat(style.left) + parseFloat(style.width) / 2),
-            q * (parseFloat(style.top) + parseFloat(style.height) / 2)
+            rq *  (parseFloat(style.left) + parseFloat(style.width) / 2),
+            rq *  (parseFloat(style.top) + parseFloat(style.height) / 2)
         );
         context.restore();
     }
@@ -844,8 +838,8 @@ function renderCard() {
         matchFont(element, context);
         context.fillText(
             element.value,
-            q * (rect.left - cardRect.left - 10),
-            q * (rect.top + rect.height / 2 - cardRect.top - 10)
+            rq *  (rect.left - cardRect.left - 10),
+            rq *  (rect.top + rect.height / 2 - cardRect.top - 10)
         );
         context.restore();
     }
@@ -854,12 +848,12 @@ function renderCard() {
         var rect = getScaledRect(element.parentElement);
 
         context.save();
-        context.lineWidth = q * 2;
+        context.lineWidth = rq *  2;
         context.beginPath();
         context.arc(
-            q * (rect.left + rect.width / 2 - cardRect.left - 10),
-            q * (rect.top + rect.height / 2 - cardRect.top - 10),
-            q * (rect.width / 2 - 3),
+            rq *  (rect.left + rect.width / 2 - cardRect.left - 10),
+            rq *  (rect.top + rect.height / 2 - cardRect.top - 10),
+            rq *  (rect.width / 2 - 3),
             0,
             2 * Math.PI
         );
@@ -870,8 +864,8 @@ function renderCard() {
         context.restore();
     }
 
-    canvas.width = q * 756;
-    canvas.height = q * 1134;
+    canvas.width = rq *  756;
+    canvas.height = rq *  1134;
 
     renderImage("bg", document.getElementById("card-bg"));
     renderArt();
