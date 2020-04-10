@@ -937,7 +937,7 @@ function warn(e) {
 function init() {
     var match = location.search.match(/[\?&]q=(\d+(?:\.\d+)?)/);
     if (match) {
-        q = Math.max(0.0625, Math.min(parseFloat(match[1]), 4));
+        rq = Math.max(0.0625, Math.min(parseFloat(match[1]), 4));
     }
     card = document.getElementById("card");
 

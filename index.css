@@ -137,11 +137,15 @@ input[type='radio'], input[type='checkbox'] {
 
 #card-info-bg {
 	position: absolute;
-	left: 0;
 	bottom: 0;
 	width: 436px;
 	height: 981px;
 	pointer-events: none;
+}
+.char #card-info-bg,
+.dragon #card-info-bg,
+.agon #card-info-bg {
+	left: 0;
 }
 .armor #card-info-bg {
 	right: 0;
