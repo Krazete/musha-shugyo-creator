@@ -736,18 +736,22 @@ function initStats() {
 
 function initTexts() {
     var pas = document.getElementsByClassName("move-pa");
-    function autoresizethistextthing() {
-        var context = newCanvas(0, 0).getContext("2d");
+    var bonuses = document.getElementsByClassName("move-bonus");
 
+    function autoresize() {
+        var context = newCanvas(0, 0).getContext("2d");
         var style = getComputedStyle(this);
         context.font = style.fontSize + " " + style.fontFamily;
 
         var textSize = context.measureText(this.value);
-        this.style.width = Math.max(52, textSize.width) + "px";
+        this.style.width = Math.max(50, textSize.width + 10) + "px";
     }
 
     for (var i = 0; i < pas.length; i++) {
-        pas[i].addEventListener("input", autoresizethistextthing);
+        pas[i].addEventListener("input", autoresize);
+    }
+    for (var i = 0; i < bonuses.length; i++) {
+        bonuses[i].addEventListener("input", autoresize);
     }
 }
 
