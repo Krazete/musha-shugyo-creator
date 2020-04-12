@@ -39,8 +39,8 @@ var cardUpdater = {
 };
 
 var pq = 0.2; /* preview quality */
-var rq = 2; /* canvas quality */
-var m = 1; /* card scale */
+var rq = 1; /* render quality */
+var m = 1; /* magnification */
 
 /* Generic Functions */
 
@@ -96,15 +96,6 @@ function newImage(src, callback) {
     img.addEventListener("load", callback);
 }
 
-function getScaledRect(element) {
-    var rect = element.getBoundingClientRect();
-    var scaled = {};
-    for (var id in rect) {
-        scaled[id] = rect[id] / m;
-    }
-    return scaled;
-}
-
 function getMouse(e) {
     e.preventDefault();
     if (e.touches) {
@@ -122,6 +113,15 @@ function getScaledMouse(e) {
         "x": e.x / m,
         "y": e.y / m
     };
+}
+
+function getScaledRect(element) {
+    var rect = element.getBoundingClientRect();
+    var scaled = {};
+    for (var id in rect) {
+        scaled[id] = rect[id] / m;
+    }
+    return scaled;
 }
 
 function matchFont(element, context) {
@@ -165,32 +165,33 @@ function initColorInput(color0, color1, colorAuto, colorAutoChecked, depth, upda
     color0.jscolor.onFineChange = onChangeColor;
     color1.jscolor.onFineChange = onChangeColor;
 
-    colorAuto.checked = !colorAutoChecked;
     colorAuto.addEventListener("input", onInputColorAuto);
-    colorAuto.click();
+
+    colorAuto.checked = colorAutoChecked;
+    colorAuto.dispatchEvent(new InputEvent("input"));
 }
 
-function initCustomButton(custom, inputs, ignore, onUncheck, onCheck) {
+function initCustomButton(custom, inputs, onUncheck, onCheck) {
     function onInputCustom() {
         if (custom.checked) {
             for (var i = 0; i < inputs.length; i++) {
-                if (!ignore || ignore(inputs, i)) {
-                    inputs[i].removeAttribute("disabled");
-                }
+                inputs[i].removeAttribute("disabled");
+                inputs[i].dispatchEvent(new InputEvent("input")); /* reclick auto */
             }
-            onCheck(inputs);
+            onCheck();
         }
         else {
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].setAttribute("disabled", true);
             }
-            onUncheck(inputs);
+            onUncheck();
         }
     }
 
-    custom.checked = true;
     custom.addEventListener("input", onInputCustom);
-    custom.click();
+
+    custom.checked = false;
+    custom.dispatchEvent(new InputEvent("input"));
 }
 
 function initName() {
@@ -215,18 +216,11 @@ function initName() {
         onInputCardName();
     }
 
-    function ignoreColor1(inputs, i) {
-        if (i == 1 && inputs[2].checked) {
-            return false;
-        }
-        return true;
-    }
-
-    function onUncheckColorCustom(inputs) {
+    function onUncheckColorCustom() {
         updateGradient({"value": "#ffca1a"}, {"value": "#fe6207"});
     }
 
-    function onCheckColorCustom(inputs) {
+    function onCheckColorCustom() {
         updateGradient(nameColor0, nameColor1);
     }
 
@@ -238,7 +232,7 @@ function initName() {
 
     cardName.addEventListener("input", onInputCardName);
     initColorInput(nameColor0, nameColor1, nameColorAuto, true, 3.7, updateGradient);
-    initCustomButton(nameColorCustom, [nameColor0, nameColor1, nameColorAuto], ignoreColor1, onUncheckColorCustom, onCheckColorCustom);
+    initCustomButton(nameColorCustom, [nameColor0, nameColor1, nameColorAuto], onUncheckColorCustom, onCheckColorCustom);
 }
 
 function initFileInput(file, update) {
@@ -256,6 +250,34 @@ function initFileInput(file, update) {
     }
 
     file.addEventListener("change", onInputFile);
+    file.dispatchEvent(new InputEvent("change"));
+}
+
+function getDataID(code) {
+    var file = document.getElementById(code + "-file");
+    var fileCustom = document.getElementById(code + "-file-custom");
+    var id = code;
+
+    if (fileCustom.checked && file.files.length > 0) {
+        id += "Upload";
+    }
+    else {
+        id += "Default";
+        if ((code == "bg" || code == "np") && cardType == "dragon") {
+            id += "Dragon";
+        }
+        else if (code == "ib" && (cardType == "char" || cardType == "dragon")) {
+            id += "Char";
+        }
+        else if (code == "ib" && cardType == "armor") {
+            id += "Armor";
+        }
+        else if (code == "ib" && cardType == "agon") {
+            id += "Agon";
+        }
+    }
+
+    return id;
 }
 
 function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto, colorCustom) {
@@ -274,24 +296,7 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
     }
 
     function updateCanvas() {
-        var id = code + "Default";
-        if (fileCustom.checked && file.files.length > 0) {
-            id = code + "Upload";
-        }
-        else if ((code == "bg" || code == "np") && cardType == "dragon") {
-            id += "Dragon";
-        }
-        else if (code == "ib") {
-            if (cardType == "char" || cardType == "dragon") {
-                id += "Char";
-            }
-            else if (cardType == "armor") {
-                id += "Armor";
-            }
-            else if (cardType == "agon") {
-                id += "Agon";
-            }
-        }
+        var id = getDataID(code);
 
         if (!cardData[id]) {
             return;
@@ -348,21 +353,14 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         });
     }
 
-    function ignoreColor1(inputs, i) {
-        if (i == 1 && inputs[2].checked) {
-            return false;
-        }
-        return true;
-    }
-
-    function onInputColorCustom(inputs) {
-        updateBackground(inputs[0], inputs[1]);
+    function onInputColorCustom() {
+        updateBackground(color0, color1);
     }
 
     initFileInput(file, updateFile);
     initColorInput(color0, color1, colorAuto, false, 37, updateBackground);
-    initCustomButton(fileCustom, [file], undefined, updateCanvas, updateCanvas);
-    initCustomButton(colorCustom, [color0, color1, colorAuto], ignoreColor1, onInputColorCustom, onInputColorCustom);
+    initCustomButton(fileCustom, [file], updateCanvas, updateCanvas);
+    initCustomButton(colorCustom, [color0, color1, colorAuto], onInputColorCustom, onInputColorCustom);
 
     cardUpdater[code] = updateCanvas;
 }
@@ -391,10 +389,9 @@ function initRecolorers() {
     var ibColorCustom = document.getElementById("ib-color-custom");
 
     function initCardData(canvas, id, src) {
-        var canvasCopy = newCanvas(canvas.width, canvas.height); /* because image loading is syncronous */
-        var context = canvasCopy.getContext("2d");
-
         newImage(src, function () {
+            var canvasCopy = newCanvas(canvas.width, canvas.height);
+            var context = canvasCopy.getContext("2d");
             context.clearRect(0, 0, canvas.width, canvas.height);
             context.drawImage(this, 0, 0, canvas.width, canvas.height);
             cardData[id] = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -459,7 +456,7 @@ function initHandle() {
 
     function onHandle(e) {
         e = getMouse(e);
-        n = (e.x - cardRect.left - m * 15) / 756; /* +15m for border */
+        n = (e.x - cardRect.left - m * 15) / 756; /* +m*15 for border */
         m = Math.max(0.5, Math.min(n, 1));
 
         card.style.transform = "scale(" + m + ")";
@@ -483,10 +480,11 @@ function initHandle() {
 }
 
 function initArt() {
-    var cardArtController = document.getElementById("card-art-controller");
-    var cardArt = document.getElementById("card-art");
-    var cardArtRect0;
-    var art = document.getElementById("art");
+    var artController = document.getElementById("card-art-controller");
+    var art = document.getElementById("card-art");
+    var circle = document.createElement("div");
+    var style = document.createElement("style");
+    var artFile = document.getElementById("art-file");
     var artPixel = document.getElementById("art-pixel");
     var artPosition = document.getElementById("art-position");
     var artWidth = document.getElementById("art-width");
@@ -495,64 +493,61 @@ function initArt() {
     var artY = document.getElementById("art-y");
     var artW = document.getElementById("art-w");
     var artA = document.getElementById("art-a");
-    var style = document.createElement("style");
-    var circle = document.createElement("div");
-    var mode;
-    var e0, x0, y0, w0, a0;
+    var mode, artRect0, e0, x0, y0, w0, a0;
+
+    function onInputPixel() {
+        if (artPixel.checked) {
+            art.classList.add("pixel");
+        }
+        else {
+            art.classList.remove("pixel");
+        }
+    }
+
+    function onInputTransform() {
+        mode = this.id.split("-")[1];
+    }
 
     function bound(input, n) {
         return Math.max(input.min, Math.min(n, input.max));
     }
 
     function updateBounds() {
-        var cardArtControllerRect = getScaledRect(cardArtController);
-        var cardArtRect1 = getScaledRect(cardArt);
-        artX.min = Math.floor(-cardArtRect1.width / 2);
-        artX.max = Math.ceil(cardArtControllerRect.width + cardArtRect1.width / 2);
-        artY.min = Math.floor(-cardArtRect1.height / 2);
-        artY.max = Math.ceil(cardArtControllerRect.height + cardArtRect1.height / 2);
+        var artControllerRect = getScaledRect(artController);
+        var artRect1 = getScaledRect(art);
+        artX.min = Math.floor(-artRect1.width / 2);
+        artX.max = Math.ceil(artControllerRect.width + artRect1.width / 2);
+        artY.min = Math.floor(-artRect1.height / 2);
+        artY.max = Math.ceil(artControllerRect.height + artRect1.height / 2);
 
         artX.dispatchEvent(new InputEvent("input"));
         artY.dispatchEvent(new InputEvent("input"));
     }
 
     function onInputArt(dataURL) {
-        cardArt.src = dataURL;
-        cardArt.addEventListener("load", updateBounds);
+        art.src = dataURL;
+        art.addEventListener("load", updateBounds);
     }
 
     function onInputArtX() {
         this.value = bound(this, this.value);
-        cardArt.style.left = this.value + "px";
+        art.style.left = this.value + "px";
     }
 
     function onInputArtY() {
         this.value = bound(this, this.value);
-        cardArt.style.top = 1134 - this.value + "px";
+        art.style.top = 1134 - this.value + "px";
     }
 
     function onInputArtW() {
-        cardArt.style.width = this.value + "px";
+        art.style.width = this.value + "px";
         updateBounds();
     }
 
     function onInputArtA() {
         this.value = Number(this.value).toFixed(3).replace(/\.?0+$/, "");
-        cardArt.style.transform = "translate(-50%, -50%) rotate(" + -this.value + "deg)";
+        art.style.transform = "translate(-50%, -50%) rotate(" + -this.value + "deg)";
         updateBounds();
-    }
-
-    function onInputPixel() {
-        if (artPixel.checked) {
-            cardArt.classList.add("pixel");
-        }
-        else {
-            cardArt.classList.remove("pixel");
-        }
-    }
-
-    function onInputTransform() {
-        mode = this.id.split("-")[1];
     }
 
     function distance(p0, p1) {
@@ -603,17 +598,17 @@ function initArt() {
             updateCircle(artX.value, 1134 - artY.value, 100);
         }
         else if (mode == "width") {
-            var r0 = distance(cardArtCenter, e0);
-            var r1 = distance(cardArtCenter, e1);
-            var w1 = cardArtRect0.width * r1 / r0;
+            var r0 = distance(artCenter, e0);
+            var r1 = distance(artCenter, e1);
+            var w1 = artRect0.width * r1 / r0;
             artW.value = Math.max(1, Math.round(w1));
 
             artW.dispatchEvent(new InputEvent("input"));
             updateCircle(x0, 1134 - y0, r1);
         }
         else if (mode == "angle") {
-            var t0 = angle(cardArtCenter, e0);
-            var t1 = angle(cardArtCenter, e1);
+            var t0 = angle(artCenter, e0);
+            var t1 = angle(artCenter, e1);
             var dt = t1 - t0;
 
             var min = Number(artA.min);
@@ -633,18 +628,18 @@ function initArt() {
         w0 = Number(artW.value);
         a0 = Number(artA.value);
 
-        var savedTransform = cardArt.style.transform;
-        cardArt.style.transform = "";
-        cardArtRect0 = getScaledRect(cardArt);
-        cardArt.style.transform = savedTransform;
-        cardArtCenter = {
-            "x": Math.round((cardArtRect0.left + cardArtRect0.right) / 2),
-            "y": Math.round((cardArtRect0.top + cardArtRect0.bottom) / 2)
+        var savedTransform = art.style.transform;
+        art.style.transform = "";
+        artRect0 = getScaledRect(art);
+        art.style.transform = savedTransform;
+        artCenter = {
+            "x": Math.round((artRect0.left + artRect0.right) / 2),
+            "y": Math.round((artRect0.top + artRect0.bottom) / 2)
         };
         updateBounds();
 
         updateCircle(x0, 1134 - y0, 0);
-        cardArtController.appendChild(circle);
+        artController.appendChild(circle);
         document.body.appendChild(style);
         window.addEventListener("mouseup", onControlEnd);
         window.addEventListener("mousemove", onControl);
@@ -656,26 +651,30 @@ function initArt() {
     circle.id = "circle";
     style.innerHTML = "html {cursor: move;} body {pointer-events: none;}";
 
-    initFileInput(art, onInputArt);
+    initFileInput(artFile, onInputArt);
+    artPixel.addEventListener("input", onInputPixel);
+
+    artPosition.addEventListener("input", onInputTransform);
+    artWidth.addEventListener("input", onInputTransform);
+    artAngle.addEventListener("input", onInputTransform);
 
     artX.addEventListener("input", onInputArtX);
     artY.addEventListener("input", onInputArtY);
     artW.addEventListener("input", onInputArtW);
     artA.addEventListener("input", onInputArtA);
 
-    artPixel.addEventListener("input", onInputPixel);
-    artPosition.addEventListener("input", onInputTransform);
-    artWidth.addEventListener("input", onInputTransform);
-    artAngle.addEventListener("input", onInputTransform);
-
-    cardArtController.addEventListener("mousedown", onControlStart);
-    cardArtController.addEventListener("touchstart", onControlStart);
+    artController.addEventListener("mousedown", onControlStart);
+    artController.addEventListener("touchstart", onControlStart);
 
     artPixel.checked = false;
-    artPosition.checked = false;
-    artPosition.click();
+    artPosition.checked = true;
+    artPosition.dispatchEvent(new InputEvent("input"));
+    artX.dispatchEvent(new InputEvent("input"));
+    artY.dispatchEvent(new InputEvent("input"));
+    artW.dispatchEvent(new InputEvent("input"));
+    artA.dispatchEvent(new InputEvent("input"));
 
-    cardImage.art = cardArt;
+    cardImage.art = art;
 }
 
 function initStats() {
@@ -935,10 +934,15 @@ function warn(e) {
 }
 
 function init() {
-    var match = location.search.match(/[\?&]q=(\d+(?:\.\d+)?)/);
-    if (match) {
-        rq = Math.max(0.0625, Math.min(parseFloat(match[1]), 4));
+    var pqMatch = location.search.match(/[\?&]pq=(\d+(?:\.\d+)?)/);
+    var rqMatch = location.search.match(/[\?&]rq=(\d+(?:\.\d+)?)/);
+    if (pqMatch) {
+        pq = Math.max(0.0625, Math.min(parseFloat(pqMatch[1]), 4)); /* todo: lower */
     }
+    if (rqMatch) {
+        rq = Math.max(0.0625, Math.min(parseFloat(rqMatch[1]), 4)); /* todo: raise */
+    }
+
     card = document.getElementById("card");
 
     initRecolorers();
