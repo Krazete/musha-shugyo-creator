@@ -682,10 +682,10 @@ function initStats() {
     var statArmor = document.getElementById("info-stat-armor");
 
     function onOverStat(e) {
-        if (e.target.tagName == "LABEL") {
-            for (var child of e.target.parentElement.children) {
-                child.classList.add("over");
-                if (child == e.target) {
+        if (e.target.classList.contains("fake-radio")) {
+            for (var sibling of e.target.parentElement.children) {
+                sibling.classList.add("prospective");
+                if (sibling == e.target) {
                     break;
                 }
             }
@@ -693,10 +693,10 @@ function initStats() {
     }
 
     function onOutStat(e) {
-        if (e.target.tagName == "LABEL") {
-            for (var child of e.target.parentElement.children) {
-                child.classList.remove("over");
-                if (child == e.target) {
+        if (e.target.classList.contains("fake-radio")) {
+            for (var sibling of e.target.parentElement.children) {
+                sibling.classList.remove("prospective");
+                if (sibling == e.target) {
                     break;
                 }
             }
@@ -704,21 +704,21 @@ function initStats() {
     }
 
     function onClickStat(e) {
-        if (e.target.tagName == "LABEL") {
-            var fill = !e.target.classList.contains("selected");
-            for (var child of e.target.parentElement.children) {
-                if (fill) {
-                    child.classList.add("click");
+        if (e.target.classList.contains("fake-radio")) {
+            var check = !e.target.classList.contains("chosen");
+            for (var sibling of e.target.parentElement.children) {
+                if (check) {
+                    sibling.classList.add("checked");
                 }
                 else {
-                    child.classList.remove("click");
+                    sibling.classList.remove("checked");
                 }
-                child.classList.remove("selected");
-                if (child == e.target) {
-                    if (fill) {
-                        child.classList.add("selected");
+                sibling.classList.remove("chosen");
+                if (sibling == e.target) {
+                    if (check) {
+                        sibling.classList.add("chosen");
                     }
-                    fill = false;
+                    check = false;
                 }
             }
         }

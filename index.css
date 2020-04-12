@@ -174,13 +174,13 @@ input[type='radio'], input[type='checkbox'] {
 	font-size: 22px;
 }
 
-#card-info label {
+#card-info .fake-radio {
 	float: left;
     display: block;
 	padding: 6px 2px 6px 2px;
 	cursor: pointer;
 }
-#card-info label:after {
+#card-info .fake-radio:after {
 	content: '';
 	display: block;
 	width: 16px;
@@ -189,17 +189,14 @@ input[type='radio'], input[type='checkbox'] {
     border: 2px solid black;
     border-radius: 50%;
 }
-#card-info label.click:after {
+#card-info .fake-radio.checked:after {
 	background: black;
 }
 @media (pointer: fine) {
-	#card label.over:after {
+	#card .fake-radio.prospective:after {
 		box-shadow: inset 0 0 6px black;
 	}
-	#card .arr label.over:after {
-		box-shadow: inset 0 0 6px white;
-	}
-	#card label.click.over:after {
+	#card .fake-radio.checked.prospective:after {
 		background: gray;
 	}
 }
@@ -237,12 +234,12 @@ input[type='radio'], input[type='checkbox'] {
 .agon #info-stat {
 	left: 35px;
 }
-.char #info-stat div:nth-last-child(2),
-.char #info-stat div:last-child,
-.dragon #info-stat div:nth-last-child(2),
-.dragon #info-stat div:last-child,
-.armor #info-stat div:nth-last-child(2),
-.armor #info-stat div:last-child {
+.char #info-stat > div:nth-last-child(2),
+.char #info-stat > div:last-child,
+.dragon #info-stat > div:nth-last-child(2),
+.dragon #info-stat > div:last-child,
+.armor #info-stat > div:nth-last-child(2),
+.armor #info-stat > div:last-child {
 	display: none;
 }
 
