@@ -682,7 +682,7 @@ function initStats() {
     var statArmor = document.getElementById("info-stat-armor");
 
     function onOverStat(e) {
-        if (e.target.classList.contains("fake-radio")) {
+        if (e.target.classList.contains("bubble")) {
             for (var sibling of e.target.parentElement.children) {
                 sibling.classList.add("prospective");
                 if (sibling == e.target) {
@@ -693,7 +693,7 @@ function initStats() {
     }
 
     function onOutStat(e) {
-        if (e.target.classList.contains("fake-radio")) {
+        if (e.target.classList.contains("bubble")) {
             for (var sibling of e.target.parentElement.children) {
                 sibling.classList.remove("prospective");
                 if (sibling == e.target) {
@@ -704,7 +704,7 @@ function initStats() {
     }
 
     function onClickStat(e) {
-        if (e.target.classList.contains("fake-radio")) {
+        if (e.target.classList.contains("bubble")) {
             var check = !e.target.classList.contains("chosen");
             for (var sibling of e.target.parentElement.children) {
                 if (check) {
@@ -766,7 +766,10 @@ function renderCard() {
     var render = document.getElementById("card-render");
 
     var cardRect = getScaledRect(card);
-    var inputs = card.getElementsByTagName("input");
+
+    var infobox = document.getElementById("card-info");
+    var inputs = infobox.getElementsByTagName("input");
+    var bubbles = infobox.getElementsByClassName("bubble");
 
     function renderImage(code, element) {
         var style = getComputedStyle(element);
@@ -847,8 +850,8 @@ function renderCard() {
         context.restore();
     }
 
-    function renderCheckbox(element) {
-        var rect = getScaledRect(element.parentElement);
+    function renderBubble(element) {
+        var rect = getScaledRect(element);
 
         context.save();
         context.lineWidth = rq *  2;
@@ -860,7 +863,7 @@ function renderCard() {
             0,
             2 * Math.PI
         );
-        if (element.parentElement.classList.contains("click")) {
+        if (element.classList.contains("checked")) {
             context.fill();
         }
         context.stroke();
@@ -876,12 +879,13 @@ function renderCard() {
     renderImage("ib", document.getElementById("card-info-bg"));
     renderName();
     for (var i = 0; i < inputs.length; i++) {
-        var input = inputs[i];
-        if (input.type == "text" && input.id != "card-name" && isVisible(input)) {
-            renderText(input);
+        if (inputs[i].type == "text" && isVisible(inputs[i])) {
+            renderText(inputs[i]);
         }
-        else if (input.type == "checkbox" && isVisible(input.parentElement)) {
-            renderCheckbox(input);
+    }
+    for (var i = 0; i < bubbles.length; i++) {
+        if (isVisible(bubbles[i])) {
+            renderBubble(bubbles[i]);
         }
     }
 

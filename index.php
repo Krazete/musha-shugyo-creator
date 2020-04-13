@@ -36,7 +36,7 @@
 <?php foreach (array("ra", "at", "de", "vo", "eq") as $id) { ?>
                     <div id="<?php echo $id; ?>">
 <?php for ($i = 0; $i < 6; $i++) { ?>
-                        <div class="fake-radio"></div>
+                        <div class="bubble"></div>
 <?php } ?>
                     </div>
 <?php } ?>
@@ -46,7 +46,7 @@
 <?php foreach (array("st", "da") as $id) { ?>
                     <div id="<?php echo $id; ?>">
 <?php for ($i = 0; $i < 7; $i++) { ?>
-                        <label><input type="checkbox" name="<?php echo $id; ?>"></label>
+                        <div class="bubble"></div>
 <?php } ?>
                     </div>
 <?php } ?>
