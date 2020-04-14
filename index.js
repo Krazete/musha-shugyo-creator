@@ -90,10 +90,17 @@ function newCanvas(width, height) {
     return canvas;
 }
 
-function newImage(src, callback) {
-    var img = new Image();
-    img.src = src;
-    img.addEventListener("load", callback);
+function newImage(url) {
+    return new Promise(function (resolve, reject) {
+        var img = new Image();
+        img.addEventListener("load", function () {
+            resolve(img);
+        });
+        img.addEventListener("error", function () {
+            reject(img);
+        });
+        img.src = url;
+    });
 }
 
 function getMouse(e) {
@@ -280,6 +287,36 @@ function getDataID(code) {
     return id;
 }
 
+var cardGradient = {
+    "bg": undefined,
+    "np": undefined,
+    "ib": undefined
+};
+
+function applyGradient(data, gradientData) {
+    var newData = new ImageData(data.width, data.height);
+    var dataMin = 255;
+    var dataMax = 0;
+
+    dataLoop(data, function (i, r, g, b, a) { /* to maximize contrast */
+        var intensity = Math.floor((r + g + b) / 3);
+        dataMin = Math.min(dataMin, intensity - 1);
+        dataMax = Math.max(dataMax, intensity + 1);
+    });
+    dataMin = Math.max(0, dataMin);
+    dataMax = Math.min(255, dataMax);
+
+    dataLoop(data, function (i, r, g, b, a) {
+        var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
+        newData.data[i] = gradientData.data[4 * intensity];
+        newData.data[i + 1] = gradientData.data[4 * intensity + 1];
+        newData.data[i + 2] = gradientData.data[4 * intensity + 2];
+        newData.data[i + 3] = a;
+    });
+
+    return newData;
+}
+
 function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto, colorCustom) {
     var gradientCanvas = newCanvas(256, 1);
     var gradientContext = gradientCanvas.getContext("2d");
@@ -293,6 +330,7 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         gradientContext.fillStyle = lg;
         gradientContext.fillRect(0, 0, 256, 1);
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
+        cardGradient[code] = gradientData;
     }
 
     function updateCanvas() {
@@ -303,28 +341,7 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         }
 
         if (colorCustom.checked) {
-            var newData = new ImageData(cardData[id].width, cardData[id].height);
-
-            var dataMin = 255;
-            var dataMax = 0;
-
-            dataLoop(cardData[id], function (i, r, g, b, a) { /* to maximize contrast */
-                var intensity = Math.floor((r + g + b) / 3);
-                dataMin = Math.min(dataMin, intensity - 1);
-                dataMax = Math.max(dataMax, intensity + 1);
-            });
-            dataMin = Math.max(0, dataMin);
-            dataMax = Math.min(255, dataMax);
-
-            dataLoop(cardData[id], function (i, r, g, b, a) {
-                var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
-                newData.data[i] = gradientData.data[4 * intensity];
-                newData.data[i + 1] = gradientData.data[4 * intensity + 1];
-                newData.data[i + 2] = gradientData.data[4 * intensity + 2];
-                newData.data[i + 3] = a;
-            });
-
-            cardData[code] = newData;
+            cardData[code] = applyGradient(cardData[id], gradientData);
         }
         else {
             cardData[code] = cardData[id];
@@ -333,8 +350,8 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.putImageData(cardData[code], 0, 0);
-        newImage(canvas.toDataURL(), function () {
-            cardImage[code] = this;
+        newImage(canvas.toDataURL()).then(function (img) {
+            cardImage[code] = img;
         });
     }
 
@@ -344,11 +361,11 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
     }
 
     function updateFile(dataURL) {
-        newImage(dataURL, function () {
+        newImage(dataURL).then(function (img) {
             context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(this, 0, 0, canvas.width, canvas.height);
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
             cardData[code + "Upload"] = context.getImageData(0, 0, canvas.width, canvas.height);
-            cardImage[code + "Upload"] = this;
+            cardImage[code + "Upload"] = img;
             updateCanvas();
         });
     }
@@ -364,6 +381,12 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
 
     cardUpdater[code] = updateCanvas;
 }
+
+var elementSize = {
+    "bg": {"width": 756, "height": 1134},
+    "np": {"width": 720, "height": 120},
+    "ib": {"width": 436, "height": 981}
+};
 
 function initRecolorers() {
     var bg = document.getElementById("card-bg");
@@ -388,17 +411,25 @@ function initRecolorers() {
     var ibColorAuto = document.getElementById("ib-color-auto");
     var ibColorCustom = document.getElementById("ib-color-custom");
 
-    function initCardData(canvas, id, src) {
-        newImage(src, function () {
+    function initCardData(canvas, id, url) {
+        var code = id.slice(0, 2);
+        newImage(url).then(function (img) {
             var canvasCopy = newCanvas(canvas.width, canvas.height);
             var context = canvasCopy.getContext("2d");
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(this, 0, 0, canvas.width, canvas.height);
-            cardData[id] = context.getImageData(0, 0, canvas.width, canvas.height);
-            cardImage[id] = this;
-            cardUpdater[id.slice(0, 2)]();
+            context.clearRect(0, 0, canvasCopy.width, canvasCopy.height);
+            context.drawImage(img, 0, 0, canvasCopy.width, canvasCopy.height);
+            cardData[id] = context.getImageData(0, 0, canvasCopy.width, canvasCopy.height);
+            cardImage[id] = img;
+            cardUpdater[code]();
         });
     }
+
+    bg.width = pq * elementSize.bg.width;
+    bg.height = pq * elementSize.bg.height;
+    np.width = pq * elementSize.np.width;
+    np.height = pq * elementSize.np.height;
+    ib.width = pq * elementSize.ib.width;
+    ib.height = pq * elementSize.ib.height;
 
     initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
     initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_10.jpg");
@@ -525,8 +556,8 @@ function initArt() {
     }
 
     function onInputArt(dataURL) {
-        art.src = dataURL;
         art.addEventListener("load", updateBounds);
+        art.src = dataURL;
     }
 
     function onInputArtX() {
@@ -780,6 +811,35 @@ function renderCard() {
             rq *  parseFloat(style.width),
             rq *  parseFloat(style.height)
         );
+    }
+
+    function renderBG(code, element) {
+        var color0 = document.getElementById(code + "-color-0");
+        var color1 = document.getElementById(code + "-color-1");
+        var colorCustom = document.getElementById(code + "-color-custom");
+
+        var id = getCodeID(code);
+
+        if (colorCustom.checked) {
+            var ccanvas = newCanvas(rq * elementSize[id].width, rq * elementSize[id].height);
+            var ccontext = ccanvas.getContext("2d");
+            ccontext.drawImage(cardImage[id], 0, 0, ccanvas.width, ccanvas.height);
+            var k = applyGradient(ccontext.getImageData(0, 0, ccanvas.width, ccanvas.height), cardGradient[code]);
+            ccontext.putImageData(k, 0, 0);
+            newImage(ccanvas.toDataURL()).then(function (img) {
+                var style = getComputedStyle(element);
+                context.drawImage(
+                    img,
+                    q * parseFloat(style.left),
+                    q * parseFloat(style.top),
+                    q * parseFloat(style.width),
+                    q * parseFloat(style.height)
+                );
+            });
+        }
+        else {
+            renderImage(id, element);
+        }
     }
 
     function renderArt() {
