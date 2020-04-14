@@ -802,44 +802,33 @@ function renderCard() {
     var inputs = infobox.getElementsByTagName("input");
     var bubbles = infobox.getElementsByClassName("bubble");
 
-    function renderImage(code, element) {
+    function renderImage(img, element) {
         var style = getComputedStyle(element);
         context.drawImage(
-            cardImage[code],
-            rq *  parseFloat(style.left),
-            rq *  parseFloat(style.top),
-            rq *  parseFloat(style.width),
-            rq *  parseFloat(style.height)
+            img,
+            rq * parseFloat(style.left),
+            rq * parseFloat(style.top),
+            rq * parseFloat(style.width),
+            rq * parseFloat(style.height)
         );
     }
 
     function renderBG(code, element) {
-        var color0 = document.getElementById(code + "-color-0");
-        var color1 = document.getElementById(code + "-color-1");
         var colorCustom = document.getElementById(code + "-color-custom");
 
-        var id = getCodeID(code);
+        var id = getDataID(code);
+
+        var ccanvas = newCanvas(rq * elementSize[code].width, rq * elementSize[code].height);
+        var ccontext = ccanvas.getContext("2d");
+        ccontext.drawImage(cardImage[id], 0, 0, ccanvas.width, ccanvas.height);
 
         if (colorCustom.checked) {
-            var ccanvas = newCanvas(rq * elementSize[id].width, rq * elementSize[id].height);
-            var ccontext = ccanvas.getContext("2d");
-            ccontext.drawImage(cardImage[id], 0, 0, ccanvas.width, ccanvas.height);
-            var k = applyGradient(ccontext.getImageData(0, 0, ccanvas.width, ccanvas.height), cardGradient[code]);
-            ccontext.putImageData(k, 0, 0);
-            newImage(ccanvas.toDataURL()).then(function (img) {
-                var style = getComputedStyle(element);
-                context.drawImage(
-                    img,
-                    q * parseFloat(style.left),
-                    q * parseFloat(style.top),
-                    q * parseFloat(style.width),
-                    q * parseFloat(style.height)
-                );
-            });
+            var ccanvasData = ccontext.getImageData(0, 0, ccanvas.width, ccanvas.height);
+            var appgra = applyGradient(ccanvasData, cardGradient[code]);
+            ccontext.putImageData(appgra, 0, 0);
         }
-        else {
-            renderImage(id, element);
-        }
+
+        return newImage(ccanvas.toDataURL());
     }
 
     function renderArt() {
@@ -869,7 +858,7 @@ function renderCard() {
         context.translate(x0, y0);
         context.transform(a, b, c, d, e, f);
         context.translate(-x0, -y0);
-        renderImage("art", cardImage.art);
+        renderImage(cardImage.art, cardImage.art);
         context.restore();
     }
 
@@ -933,23 +922,30 @@ function renderCard() {
     canvas.width = rq *  756;
     canvas.height = rq *  1134;
 
-    renderImage("bg", document.getElementById("card-bg"));
-    renderArt();
-    renderImage("np", document.getElementById("card-name-bg"));
-    renderImage("ib", document.getElementById("card-info-bg"));
-    renderName();
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].type == "text" && isVisible(inputs[i])) {
-            renderText(inputs[i]);
-        }
-    }
-    for (var i = 0; i < bubbles.length; i++) {
-        if (isVisible(bubbles[i])) {
-            renderBubble(bubbles[i]);
-        }
-    }
+    return Promise.all([
+        renderBG("bg"),
+        renderBG("np"),
+        renderBG("ib")
+    ]).then(function (imgs) {
+        renderImage(imgs[0], document.getElementById("card-bg"));
+        renderArt();
+        renderImage(imgs[1], document.getElementById("card-name-bg"));
+        renderImage(imgs[2], document.getElementById("card-info-bg"));
+        renderName();
 
-    render.src = canvas.toDataURL();
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == "text" && isVisible(inputs[i])) {
+                renderText(inputs[i]);
+            }
+        }
+        for (var i = 0; i < bubbles.length; i++) {
+            if (isVisible(bubbles[i])) {
+                renderBubble(bubbles[i]);
+            }
+        }
+
+        render.src = canvas.toDataURL();
+    });
 }
 
 function isVisible(element) {

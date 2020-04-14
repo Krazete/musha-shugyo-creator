@@ -147,7 +147,7 @@
             </div>
 
             <div class="menu-title">Export</div>
-            <div class="row blocked">
+            <div class="row">
                 <input id="export-png" type="button" value="PNG">
                 <input id="export-pdf" type="button" value="PDF">
                 <input id="export-json" type="button" value="JSON">
