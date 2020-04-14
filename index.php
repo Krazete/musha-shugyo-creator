@@ -65,92 +65,96 @@
             <div id="handle"></div>
         </div>
         <div id="menu">
-            <div class="menu-title">Background</div>
-            <div class="row">
-                <input id="bg-color-custom" type="checkbox">
-                <label for="bg-color-custom">Custom</label>
-                <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
-                <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-                <input id="bg-color-auto" type="checkbox">
-                <label for="bg-color-auto">Auto</label>
-            </div>
-            <div class="row">
-                <input id="bg-file-custom" type="checkbox">
-                <label for="bg-file-custom">Custom</label>
-                <input id="bg-file" type="file" accept="image/*">
-                (2:3) <a href="template/Background.png" download>Template</a>
-            </div>
+            <div>
+                <div class="menu-title">Background</div>
+                <div class="row">
+                    <input id="bg-color-custom" type="checkbox">
+                    <label for="bg-color-custom">Custom</label>
+                    <input id="bg-color-0" class="jscolor" data-jscolor="{hash: true}" value="#c8c9c5">
+                    <input id="bg-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                    <input id="bg-color-auto" type="checkbox">
+                    <label for="bg-color-auto">Auto</label>
+                </div>
+                <div class="row">
+                    <input id="bg-file-custom" type="checkbox">
+                    <label for="bg-file-custom">Custom</label>
+                    <input id="bg-file" type="file" accept="image/*">
+                    (2:3) <a href="template/Background.png" download>Template</a>
+                </div>
 
-            <div class="menu-title">Nameplate</div>
-            <div class="row">
-                <input id="np-color-custom" type="checkbox">
-                <label for="np-color-custom">Custom</label>
-                <input id="np-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
-                <input id="np-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-                <input id="np-color-auto" type="checkbox">
-                <label for="np-color-auto">Auto</label>
-            </div>
-            <div class="row">
-                <input id="np-file-custom" type="checkbox">
-                <label for="np-file-custom">Custom</label>
-                <input id="np-file" type="file" accept="image/*">
-                (1:6) <a href="template/Nome.png" download>Template</a>
-            </div>
+                <div class="menu-title">Nameplate</div>
+                <div class="row">
+                    <input id="np-color-custom" type="checkbox">
+                    <label for="np-color-custom">Custom</label>
+                    <input id="np-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
+                    <input id="np-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                    <input id="np-color-auto" type="checkbox">
+                    <label for="np-color-auto">Auto</label>
+                </div>
+                <div class="row">
+                    <input id="np-file-custom" type="checkbox">
+                    <label for="np-file-custom">Custom</label>
+                    <input id="np-file" type="file" accept="image/*">
+                    (1:6) <a href="template/Nome.png" download>Template</a>
+                </div>
 
-            <div class="menu-title">Name</div>
-            <div class="row">
-                <input id="name-color-custom" type="checkbox">
-                <label for="name-color-custom">Custom</label>
-                <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-                <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
-                <input id="name-color-auto" type="checkbox">
-                <label for="name-color-auto">Auto</label>
-            </div>
+                <div class="menu-title">Name</div>
+                <div class="row">
+                    <input id="name-color-custom" type="checkbox">
+                    <label for="name-color-custom">Custom</label>
+                    <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
+                    <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
+                    <input id="name-color-auto" type="checkbox">
+                    <label for="name-color-auto">Auto</label>
+                </div>
 
-            <div class="menu-title">Infobox</div>
-            <div class="row">
-                <input id="ib-color-custom" type="checkbox">
-                <label for="ib-color-custom">Custom</label>
-                <input id="ib-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
-                <input id="ib-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
-                <input id="ib-color-auto" type="checkbox">
-                <label for="ib-color-auto">Auto</label>
+                <div class="menu-title">Infobox</div>
+                <div class="row">
+                    <input id="ib-color-custom" type="checkbox">
+                    <label for="ib-color-custom">Custom</label>
+                    <input id="ib-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffffff">
+                    <input id="ib-color-1" class="jscolor" data-jscolor="{hash: true}" value="#000000">
+                    <input id="ib-color-auto" type="checkbox">
+                    <label for="ib-color-auto">Auto</label>
+                </div>
+                <div class="row">
+                    <input id="ib-file-custom" type="checkbox">
+                    <label for="ib-file-custom">Custom</label>
+                    <input id="ib-file" type="file" accept="image/*">
+                    (4:9) <a id="ib-template" href="img/Colonna.png" download>Template</a>
+                </div>
             </div>
-            <div class="row">
-                <input id="ib-file-custom" type="checkbox">
-                <label for="ib-file-custom">Custom</label>
-                <input id="ib-file" type="file" accept="image/*">
-                (4:9) <a id="ib-template" href="img/Colonna.png" download>Template</a>
-            </div>
+            <div>
+                <div class="menu-title">Card Art</div>
+                <div class="row">
+                    <input id="art-file" type="file" accept="image/*">
+                    <input id="art-pixel" type="checkbox">
+                    <label for="art-pixel">Pixelated</label>
+                </div>
+                <div class="row">
+                    <input id="art-position" type="radio" name="art-transform">
+                    <label for="art-position">Position</label>
+                    X <input id="art-x" class="jsscrub" type="number" value="378" step="2">
+                    Y <input id="art-y" class="jsscrub" type="number" value="567" step="2">
+                </div>
+                <div class="row">
+                    <input id="art-width" type="radio" name="art-transform">
+                    <label for="art-width">Width</label>
+                    <input id="art-w" class="jsscrub" type="number" value="756" min="1" step="2"> px
+                </div>
+                <div class="row">
+                    <input id="art-angle" type="radio" name="art-transform">
+                    <label for="art-angle">Angle</label>
+                    <input id="art-a" class="jsscrub" data-jsscrub="continuous" type="number" value="0" min="-180" max="180"> °
+                </div>
 
-            <div class="menu-title">Card Art</div>
-            <div class="row">
-                <input id="art-file" type="file" accept="image/*">
-                <input id="art-pixel" type="checkbox">
-                <label for="art-pixel">Pixelated</label>
-            </div>
-            <div class="row">
-                <input id="art-position" type="radio" name="art-transform">
-                <label for="art-position">Position</label>
-                X <input id="art-x" class="jsscrub" type="number" value="378" step="2">
-                Y <input id="art-y" class="jsscrub" type="number" value="567" step="2">
-            </div>
-            <div class="row">
-                <input id="art-width" type="radio" name="art-transform">
-                <label for="art-width">Width</label>
-                <input id="art-w" class="jsscrub" type="number" value="756" min="1" step="2"> px
-            </div>
-            <div class="row">
-                <input id="art-angle" type="radio" name="art-transform">
-                <label for="art-angle">Angle</label>
-                <input id="art-a" class="jsscrub" data-jsscrub="continuous" type="number" value="0" min="-180" max="180"> °
-            </div>
-
-            <div class="menu-title">Export</div>
-            <div class="row">
-                <input id="export-png" type="button" value="PNG">
-                <input id="export-pdf" type="button" value="PDF">
-                <input id="export-json" type="button" value="JSON">
+                <div class="menu-title">Export</div>
+                <div class="row">
+                    <input id="export-png" type="button" value="PNG">
+                    <input id="export-pdf" type="button" value="PDF">
+                    <input id="export-json" type="button" value="JSON">
+                </div>
+                <div id="loading" class="hidden">LOADING</div>
             </div>
         </div>
     </div>
@@ -205,8 +209,8 @@
             <div class="symbol"><img src="image/dragon/B_Ultra Durezza.png"></div>
         </div>
     </div>
-    <div id="card-size">200%</div>
-    <canvas id="card-canvas"></canvas>
+    <canvas id="card-canvas" class="hidden"></canvas>
     <img id="card-render">
+    <div id="card-size">200%</div>
 </body>
 </html>
