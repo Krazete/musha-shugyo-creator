@@ -213,8 +213,10 @@ function initFileInput(file, update) {
                     update(this.result);
                 });
                 reader.readAsDataURL(fp);
+                return;
             }
         }
+        update("");
     }
 
     file.addEventListener("change", onInputFile);
@@ -325,6 +327,9 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
             cardImageData[code + "Upload"] = context.getImageData(0, 0, canvas.width, canvas.height);
             cardImage[code + "Upload"] = img;
+            updateCanvas();
+        }).catch(function (img) {
+            console.warn("Unable to load image.", img);
             updateCanvas();
         });
     }
