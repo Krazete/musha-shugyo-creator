@@ -2,7 +2,7 @@ var pq = 0.1; /* preview quality */
 var rq = 2; /* render quality */
 var m = 1; /* magnification */
 
-var card;
+var card, art;
 var cardType;
 var cardImageSize = {
     "bg": {"width": 756, "height": 1134},
@@ -19,8 +19,7 @@ var cardImage = {
     "ibDefaultChar": undefined,
     "ibDefaultArmor": undefined,
     "ibDefaultAgon": undefined,
-    "ibUpload": undefined,
-    "art": undefined
+    "ibUpload": undefined
 };
 var cardGradientData = {
     "bg": undefined,
@@ -495,7 +494,6 @@ function getScaledRect(element) {
 
 function initArt() {
     var artController = document.getElementById("card-art-controller");
-    var art = document.getElementById("card-art");
     var circle = document.createElement("div");
     var style = document.createElement("style");
     var artFile = document.getElementById("art-file");
@@ -508,19 +506,6 @@ function initArt() {
     var artW = document.getElementById("art-w");
     var artA = document.getElementById("art-a");
     var mode, artRect0, e0, x0, y0, w0, a0;
-
-    function onInputPixel() {
-        if (artPixel.checked) {
-            art.classList.add("pixel");
-        }
-        else {
-            art.classList.remove("pixel");
-        }
-    }
-
-    function onInputTransform() {
-        mode = this.id.split("-")[1];
-    }
 
     function bound(input, n) {
         return Math.max(input.min, Math.min(n, input.max));
@@ -538,9 +523,21 @@ function initArt() {
         artY.dispatchEvent(new InputEvent("input"));
     }
 
-    function onInputArt(dataURL) {
-        art.addEventListener("load", updateBounds);
+    function onInputArtFile(dataURL) {
         art.src = dataURL;
+    }
+
+    function onInputPixel() {
+        if (artPixel.checked) {
+            art.classList.add("pixel");
+        }
+        else {
+            art.classList.remove("pixel");
+        }
+    }
+
+    function onInputTransform() {
+        mode = this.id.split("-")[1];
     }
 
     function onInputArtX() {
@@ -665,7 +662,8 @@ function initArt() {
     circle.id = "circle";
     style.innerHTML = "html {cursor: move;} body {pointer-events: none;}";
 
-    initFileInput(artFile, onInputArt);
+    art.addEventListener("load", updateBounds);
+    initFileInput(artFile, onInputArtFile);
     artPixel.addEventListener("input", onInputPixel);
 
     artPosition.addEventListener("input", onInputTransform);
@@ -687,8 +685,6 @@ function initArt() {
     artY.dispatchEvent(new InputEvent("input"));
     artW.dispatchEvent(new InputEvent("input"));
     artA.dispatchEvent(new InputEvent("input"));
-
-    cardImage.art = art;
 }
 
 function initStats() {
@@ -826,7 +822,7 @@ function renderCard() {
 
     function renderArt() {
         var pattern = /-?\d+(\.\d+)?(e-?\d+)?(px|%)?/g;
-        var style = getComputedStyle(cardImage.art);
+        var style = getComputedStyle(art);
         var matrix = style.transform.match(pattern) || [
             1, 0, 0,
             1, 0, 0
@@ -851,7 +847,7 @@ function renderCard() {
         context.translate(x0, y0);
         context.transform(a, b, c, d, e, f);
         context.translate(-x0, -y0);
-        renderImage(cardImage.art, cardImage.art);
+        renderImage(art, art);
         context.restore();
     }
 
@@ -997,6 +993,7 @@ function init() {
     }
 
     card = document.getElementById("card");
+    art = document.getElementById("card-art");
 
     initRecolorers();
     initName();
