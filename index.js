@@ -1,48 +1,73 @@
+var pq = 0.1; /* preview quality */
+var rq = 2; /* render quality */
+var m = 1; /* magnification */
+
 var card;
 var cardType;
-var cardData = {
-    "bgDefault": undefined,
-    "bgDefaultDragon": undefined,
-    "bgUpload": undefined,
-    "bg": undefined,
-    "npDefault": undefined,
-    "npDefaultDragon": undefined,
-    "npUpload": undefined,
-    "np": undefined,
-    "ibDefaultChar": undefined,
-    "ibDefaultArmor": undefined,
-    "ibDefaultAgon": undefined,
-    "ibUpload": undefined,
-    "ib": undefined
+var cardImageSize = {
+    "bg": {"width": 756, "height": 1134},
+    "np": {"width": 720, "height": 120},
+    "ib": {"width": 436, "height": 981}
 };
 var cardImage = {
     "bgDefault": undefined,
     "bgDefaultDragon": undefined,
     "bgUpload": undefined,
-    "bg": undefined,
     "npDefault": undefined,
     "npDefaultDragon": undefined,
     "npUpload": undefined,
-    "np": undefined,
     "ibDefaultChar": undefined,
     "ibDefaultArmor": undefined,
     "ibDefaultAgon": undefined,
     "ibUpload": undefined,
-    "ib": undefined,
-    "art": undefined,
-    "name": undefined
+    "art": undefined
 };
-var cardUpdater = {
+var cardGradientData = {
+    "bg": undefined,
+    "np": undefined,
+    "ib": undefined
+};
+var cardImageData = {
+    "bgDefault": undefined,
+    "bgDefaultDragon": undefined,
+    "bgUpload": undefined,
+    "npDefault": undefined,
+    "npDefaultDragon": undefined,
+    "npUpload": undefined,
+    "ibDefault": undefined,
+    "ibDefaultArmor": undefined,
+    "ibDefaultAgon": undefined,
+    "ibUpload": undefined
+};
+var cardCanvasUpdater = {
     "bg": undefined,
     "np": undefined,
     "ib": undefined
 };
 
-var pq = 0.1; /* preview quality */
-var rq = 2; /* render quality */
-var m = 1; /* magnification */
+/* General Functions */
 
-/* Generic Functions */
+function newImage(url) {
+    return new Promise(function (resolve, reject) {
+        var img = new Image();
+        img.addEventListener("load", function () {
+            resolve(img);
+        });
+        img.addEventListener("error", function () {
+            reject(img);
+        });
+        img.src = url;
+    });
+}
+
+function newCanvas(width, height) {
+    var canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
+}
+
+/* Menu (mostly) */
 
 var deeperHex = function () {
     function deeperHexSlice(hexslice, depth) {
@@ -69,77 +94,6 @@ var deeperHex = function () {
         return "#" + r + g + b + a;
     };
 }();
-
-function dataLoop(data, f) { /* for ImageData objects */
-    for (var y = 0; y < data.height; y++) {
-        for (var x = 0; x < data.width; x++) {
-            var i = 4 * (y * data.width + x);
-            var r = data.data[i];
-            var g = data.data[i + 1];
-            var b = data.data[i + 2];
-            var a = data.data[i + 3];
-            f(i, r, g, b, a);
-        }
-    }
-}
-
-function newCanvas(width, height) {
-    var canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    return canvas;
-}
-
-function newImage(url) {
-    return new Promise(function (resolve, reject) {
-        var img = new Image();
-        img.addEventListener("load", function () {
-            resolve(img);
-        });
-        img.addEventListener("error", function () {
-            reject(img);
-        });
-        img.src = url;
-    });
-}
-
-function getMouse(e) {
-    e.preventDefault();
-    if (e.touches) {
-        return {
-            "x": e.touches[0].clientX,
-            "y": e.touches[0].clientY
-        };
-    }
-    return e;
-}
-
-function getScaledMouse(e) {
-    e = getMouse(e);
-    return {
-        "x": e.x / m,
-        "y": e.y / m
-    };
-}
-
-function getScaledRect(element) {
-    var rect = element.getBoundingClientRect();
-    var scaled = {};
-    for (var id in rect) {
-        scaled[id] = rect[id] / m;
-    }
-    return scaled;
-}
-
-function matchFont(element, context) {
-    var style = getComputedStyle(element);
-    var fontSize = style.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
-    context.font = rq * fontSize[1] + fontSize[2] + " " + style.fontFamily;
-    context.textAlign = style.textAlign;
-    context.textBaseline = "middle";
-}
-
-/**/
 
 function initColorInput(color0, color1, colorAuto, colorAutoChecked, depth, update) {
     var gradientCanvas = newCanvas(256, 1);
@@ -199,6 +153,14 @@ function initCustomButton(custom, inputs, onUncheck, onCheck) {
 
     custom.checked = false;
     custom.dispatchEvent(new InputEvent("input"));
+}
+
+function matchFont(element, context) {
+    var style = getComputedStyle(element);
+    var fontSize = style.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
+    context.font = rq * fontSize[1] + fontSize[2] + " " + style.fontFamily;
+    context.textAlign = style.textAlign;
+    context.textBaseline = "middle";
 }
 
 function initName() {
@@ -273,9 +235,6 @@ function getDataID(code) {
         if ((code == "bg" || code == "np") && cardType == "dragon") {
             id += "Dragon";
         }
-        else if (code == "ib" && (cardType == "char" || cardType == "dragon")) {
-            id += "Char";
-        }
         else if (code == "ib" && cardType == "armor") {
             id += "Armor";
         }
@@ -287,18 +246,25 @@ function getDataID(code) {
     return id;
 }
 
-var cardGradient = {
-    "bg": undefined,
-    "np": undefined,
-    "ib": undefined
-};
+function dataLoop(imageData, f) { /* for ImageData objects */
+    for (var y = 0; y < imageData.height; y++) {
+        for (var x = 0; x < imageData.width; x++) {
+            var i = 4 * (y * imageData.width + x);
+            var r = imageData.data[i];
+            var g = imageData.data[i + 1];
+            var b = imageData.data[i + 2];
+            var a = imageData.data[i + 3];
+            f(i, r, g, b, a);
+        }
+    }
+}
 
-function applyGradient(data, gradientData) {
-    var newData = new ImageData(data.width, data.height);
+function applyGradient(imageData, gradientData) {
+    var newData = new ImageData(imageData.width, imageData.height);
     var dataMin = 255;
     var dataMax = 0;
 
-    dataLoop(data, function (i, r, g, b, a) { /* to maximize contrast */
+    dataLoop(imageData, function (i, r, g, b, a) { /* to maximize contrast */
         var intensity = Math.floor((r + g + b) / 3);
         dataMin = Math.min(dataMin, intensity - 1);
         dataMax = Math.max(dataMax, intensity + 1);
@@ -306,7 +272,7 @@ function applyGradient(data, gradientData) {
     dataMin = Math.max(0, dataMin);
     dataMax = Math.min(255, dataMax);
 
-    dataLoop(data, function (i, r, g, b, a) {
+    dataLoop(imageData, function (i, r, g, b, a) {
         var intensity = Math.floor(((r + g + b) / 3 - dataMin) * 255 / (dataMax - dataMin));
         newData.data[i] = gradientData.data[4 * intensity];
         newData.data[i + 1] = gradientData.data[4 * intensity + 1];
@@ -330,29 +296,23 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         gradientContext.fillStyle = lg;
         gradientContext.fillRect(0, 0, 256, 1);
         gradientData = gradientContext.getImageData(0, 0, 256, 1);
-        cardGradient[code] = gradientData;
+        cardGradientData[code] = gradientData;
     }
 
     function updateCanvas() {
-        var id = getDataID(code);
+        var data, id = getDataID(code);
 
-        if (!cardData[id]) {
+        if (!cardImageData[id]) {
             return;
         }
 
+        context.clearRect(0, 0, canvas.width, canvas.height);
         if (colorCustom.checked) {
-            cardData[code] = applyGradient(cardData[id], gradientData);
+            context.putImageData(applyGradient(cardImageData[id], gradientData), 0, 0);
         }
         else {
-            cardData[code] = cardData[id];
-            cardImage[code] = cardImage[id];
+            context.putImageData(cardImageData[id], 0, 0);
         }
-
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.putImageData(cardData[code], 0, 0);
-        newImage(canvas.toDataURL()).then(function (img) {
-            cardImage[code] = img;
-        });
     }
 
     function updateBackground(color0, color1) {
@@ -364,7 +324,7 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
         newImage(dataURL).then(function (img) {
             context.clearRect(0, 0, canvas.width, canvas.height);
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
-            cardData[code + "Upload"] = context.getImageData(0, 0, canvas.width, canvas.height);
+            cardImageData[code + "Upload"] = context.getImageData(0, 0, canvas.width, canvas.height);
             cardImage[code + "Upload"] = img;
             updateCanvas();
         });
@@ -379,14 +339,8 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
     initCustomButton(fileCustom, [file], updateCanvas, updateCanvas);
     initCustomButton(colorCustom, [color0, color1, colorAuto], onInputColorCustom, onInputColorCustom);
 
-    cardUpdater[code] = updateCanvas;
+    cardCanvasUpdater[code] = updateCanvas;
 }
-
-var elementSize = {
-    "bg": {"width": 756, "height": 1134},
-    "np": {"width": 720, "height": 120},
-    "ib": {"width": 436, "height": 981}
-};
 
 function initRecolorers() {
     var bg = document.getElementById("card-bg");
@@ -417,24 +371,24 @@ function initRecolorers() {
             var canvasCopy = newCanvas(canvas.width, canvas.height);
             var context = canvasCopy.getContext("2d");
             context.drawImage(img, 0, 0, canvasCopy.width, canvasCopy.height);
-            cardData[id] = context.getImageData(0, 0, canvasCopy.width, canvasCopy.height);
+            cardImageData[id] = context.getImageData(0, 0, canvasCopy.width, canvasCopy.height);
             cardImage[id] = img;
-            cardUpdater[code]();
+            cardCanvasUpdater[code]();
         });
     }
 
-    bg.width = pq * elementSize.bg.width;
-    bg.height = pq * elementSize.bg.height;
-    np.width = pq * elementSize.np.width;
-    np.height = pq * elementSize.np.height;
-    ib.width = pq * elementSize.ib.width;
-    ib.height = pq * elementSize.ib.height;
+    bg.width = pq * cardImageSize.bg.width;
+    bg.height = pq * cardImageSize.bg.height;
+    np.width = pq * cardImageSize.np.width;
+    np.height = pq * cardImageSize.np.height;
+    ib.width = pq * cardImageSize.ib.width;
+    ib.height = pq * cardImageSize.ib.height;
 
     initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
     initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_10.jpg");
     initCardData(np, "npDefault", "img/Nome.png");
     initCardData(np, "npDefaultDragon", "img/NomeDragon.png");
-    initCardData(ib, "ibDefaultChar", "img/Colonna.png");
+    initCardData(ib, "ibDefault", "img/Colonna.png");
     initCardData(ib, "ibDefaultArmor", "img/Armor.png");
     initCardData(ib, "ibDefaultAgon", "img/Agon.png");
 
@@ -442,6 +396,8 @@ function initRecolorers() {
     initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor1, npColorAuto, npColorCustom);
     initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor1, ibColorAuto, ibColorCustom);
 }
+
+/* Card (mostly) */
 
 function initTypes() {
     var types = document.getElementById("types");
@@ -459,14 +415,25 @@ function initTypes() {
             card.className = e.target.value;
             cardType = e.target.value;
             ibTemplate.href = ibTemplateURLs[e.target.value];
-            cardUpdater.bg();
-            cardUpdater.np();
-            cardUpdater.ib();
+            cardCanvasUpdater.bg();
+            cardCanvasUpdater.np();
+            cardCanvasUpdater.ib();
         }
     }
 
     types.addEventListener("click", onClickTypes);
     defaultType.click();
+}
+
+function getMouse(e) {
+    e.preventDefault();
+    if (e.touches) {
+        return {
+            "x": e.touches[0].clientX,
+            "y": e.touches[0].clientY
+        };
+    }
+    return e;
 }
 
 function initHandle() {
@@ -507,6 +474,23 @@ function initHandle() {
 
     handle.addEventListener("mousedown", onHandleStart);
     handle.addEventListener("touchstart", onHandleStart);
+}
+
+function getScaledMouse(e) {
+    e = getMouse(e);
+    return {
+        "x": e.x / m,
+        "y": e.y / m
+    };
+}
+
+function getScaledRect(element) {
+    var rect = element.getBoundingClientRect();
+    var scaled = {};
+    for (var id in rect) {
+        scaled[id] = rect[id] / m;
+    }
+    return scaled;
 }
 
 function initArt() {
@@ -790,6 +774,16 @@ function initInfo() {
     initTexts();
 }
 
+/* Exporting */
+
+function isVisible(element) {
+    if (element == card) {
+        return true;
+    }
+    var style = getComputedStyle(element);
+    return style.display != "none" && style.visibility != "hidden" && isVisible(element.parentElement);
+}
+
 function renderCard() {
     var cardRect = getScaledRect(card);
     var infobox = document.getElementById("card-info");
@@ -817,13 +811,13 @@ function renderCard() {
 
         var id = getDataID(code);
 
-        var subcanvas = newCanvas(rq * elementSize[code].width, rq * elementSize[code].height);
+        var subcanvas = newCanvas(rq * cardImageSize[code].width, rq * cardImageSize[code].height);
         var subcontext = subcanvas.getContext("2d");
         subcontext.drawImage(cardImage[id], 0, 0, subcanvas.width, subcanvas.height);
 
         if (colorCustom.checked) {
             var subdata = subcontext.getImageData(0, 0, subcanvas.width, subcanvas.height);
-            var dyed = applyGradient(subdata, cardGradient[code]);
+            var dyed = applyGradient(subdata, cardGradientData[code]);
             subcontext.putImageData(dyed, 0, 0);
         }
 
@@ -952,14 +946,6 @@ function renderCard() {
     });
 }
 
-function isVisible(element) {
-    if (element == card) {
-        return true;
-    }
-    var style = getComputedStyle(element);
-    return style.display != "none" && style.visibility != "hidden" && isVisible(element.parentElement);
-}
-
 function initExport() {
     var exportPNG = document.getElementById("export-png");
     var exportPDF = document.getElementById("export-pdf");
@@ -975,7 +961,7 @@ function initExport() {
     }
 
     function createPDF() {
-        createPNG();
+        renderCard();
     }
 
     function createJSON() {
@@ -1000,12 +986,6 @@ function initExport() {
     exportJSON.addEventListener("click", createJSON);
 }
 
-function warn(e) {
-    e.preventDefault();
-    e.returnValue = "Changes you made may not be saved.";
-    return e.returnValue;
-}
-
 function init() {
     var pqMatch = location.search.match(/[\?&]pq=(\d+(?:\.\d+)?)/);
     var rqMatch = location.search.match(/[\?&]rq=(\d+(?:\.\d+)?)/);
@@ -1028,6 +1008,12 @@ function init() {
     initInfo();
 
     initExport();
+}
+
+function warn(e) {
+    e.preventDefault();
+    e.returnValue = "Changes you made may not be saved.";
+    return e.returnValue;
 }
 
 window.addEventListener("load", init);
