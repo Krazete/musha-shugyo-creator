@@ -407,7 +407,7 @@ function initTypes() {
     var types = document.getElementById("types");
     var defaultType = document.getElementById("type-char");
     var ibTemplate = document.getElementById("ib-template");
-    var ibTemplateURLs = { /* todo: make templates */
+    var ibTemplateURLs = {
         "dragon": "template/Colonna.png",
         "char": "template/Colonna.png",
         "armor": "template/Armor.png",
@@ -969,7 +969,7 @@ function initExport() {
     function createPDF() {
         renderCard().then(function (url) {
             renderPNG.src = url;
-            var pdf = new jsPDF({"unit": "cm"}); /* todo: detect format based on location */
+            var pdf = new jsPDF({"unit": "cm"});
             pdf.addImage(url, 'PNG', 1, 1, 10, 15);
             pdf.save("msrpg_" + getTimestamp() + ".pdf");
         });
@@ -991,10 +991,10 @@ function init() {
     var pqMatch = location.search.match(/[\?&]pq=(\d+(?:\.\d+)?)/);
     var rqMatch = location.search.match(/[\?&]rq=(\d+(?:\.\d+)?)/);
     if (pqMatch) {
-        pq = Math.max(0.0625, Math.min(parseFloat(pqMatch[1]), 4)); /* todo: lower */
+        pq = Math.max(0.0625, Math.min(parseFloat(pqMatch[1]), 1));
     }
     if (rqMatch) {
-        rq = Math.max(0.0625, Math.min(parseFloat(rqMatch[1]), 4)); /* todo: raise */
+        rq = Math.max(1, Math.min(parseFloat(rqMatch[1]), 4));
     }
 
     card = document.getElementById("card");
