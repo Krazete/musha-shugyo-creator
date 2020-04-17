@@ -1,4 +1,4 @@
-var pq = 0.1; /* preview quality */
+var pq = 0.75; /* preview quality */
 var rq = 2; /* render quality */
 var m = 1; /* magnification */
 
@@ -793,7 +793,6 @@ function renderCard() {
 
     var canvas = document.getElementById("card-canvas");
     var context = canvas.getContext("2d");
-    var render = document.getElementById("card-render");
     var loading = document.getElementById("loading");
 
     function renderImage(img, element) {
@@ -940,10 +939,9 @@ function renderCard() {
             }
         }
 
-        render.src = canvas.toDataURL();
         loading.classList.add("hidden");
 
-        return render;
+        return canvas.toDataURL();
     });
 }
 
@@ -951,40 +949,39 @@ function initExport() {
     var exportPNG = document.getElementById("export-png");
     var exportPDF = document.getElementById("export-pdf");
     var exportJSON = document.getElementById("export-json");
+    var renderPNG = document.getElementById("card-render");
+    var renderPrint = document.getElementById("card-render-print");
 
     function createPNG() {
-        renderCard().then(function (img) {
+        renderCard().then(function (url) {
+            renderPNG.src = url;
             var a = document.createElement("a");
-            a.href = img.src;
+            a.href = url;
             a.setAttribute("download", "download.png");
             a.click();
         });
     }
 
     function createPDF() {
-        renderCard();
+        renderCard().then(function (url) {
+            renderPNG.src = url;
+            // var a = document.createElement("a");
+            // a.href = url;
+            // a.setAttribute("download", "download.png");
+            // a.click();
+        });
     }
 
-    function createJSON() {
-        var inputData = [];
-        var inputs = document.getElementsByTagName("input");
-        for (var i = 0; i < inputs.length; i++) {
-            if (inputs[i].type == "radio" || inputs[i].type == "checkbox") {
-                inputData.push(inputs[i].checked);
-            }
-            else if (inputs[i].type == "text" || inputs[i].type == "number") {
-                inputData.push(inputs[i].value);
-            }
-            else {
-                inputData.push(undefined);
-            }
-        }
-        console.log(JSON.stringify(inputData));
+    function createPrint() {
+        renderCard().then(function (url) {
+            renderPNG.src = url;
+            renderPrint.src = url;
+        });
     }
 
     exportPNG.addEventListener("click", createPNG);
     exportPDF.addEventListener("click", createPDF);
-    exportJSON.addEventListener("click", createJSON);
+    window.addEventListener("beforeprint", createPrint);
 }
 
 function init() {
@@ -1019,5 +1016,4 @@ function warn(e) {
 }
 
 window.addEventListener("load", init);
-window.addEventListener("beforeprint", renderCard);
 // window.addEventListener("beforeunload", warn);
