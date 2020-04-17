@@ -694,6 +694,30 @@ function initArt() {
 
 function initSymbols() {
     var symbols = document.getElementById("symbols");
+    var target;
+
+    function toggleSymbols(e) {
+        if (e.target.id == "info-sp" || e.target.className == "move-icons") {
+            symbols.classList.remove("hidden");
+            var symbolRect = symbols.getBoundingClientRect();
+            var rect = e.target.getBoundingClientRect();
+            console.log(symbolRect);
+            symbols.style.left = rect.left + "px";
+            symbols.style.top = rect.top - symbolRect.height - 10 + scrollY + "px"; /* -10 for shadow */
+            target = e.target;
+        }
+        else if (e.target == symbols) {
+        }
+        else {
+            symbols.classList.add("hidden");
+        }
+    }
+
+    function selectSymbol() {
+    }
+
+    window.addEventListener("mousedown", toggleSymbols);
+    symbols.addEventListener("click", selectSymbol);
 }
 
 function initStats() {
@@ -974,7 +998,7 @@ function initExport() {
     function createPDF() {
         renderCard().then(function (url) {
             renderPNG.src = url;
-            var pdf = new jsPDF({"unit": "cm"});
+            var pdf = new jsPDF({"unit": "cm"}); /* todo: add letter format option? */
             pdf.addImage(url, 'PNG', 1, 1, 10, 15);
             pdf.save("msrpg_" + getTimestamp() + ".pdf");
         });

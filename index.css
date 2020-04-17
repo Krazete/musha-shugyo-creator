@@ -159,7 +159,6 @@ input[type='radio'], input[type='checkbox'], .hidden {
 
 #card-info {
     position: absolute;
-	width: 288px;
 }
 .char #card-info,
 .dragon #card-info {
@@ -167,7 +166,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	top: 265px;
 }
 .armor #card-info {
-	right: 60px;
+	left: 408px;
 	top: 238px;
 }
 .agon #card-info {
@@ -176,7 +175,6 @@ input[type='radio'], input[type='checkbox'], .hidden {
 }
 
 #card-info input[type='text'] {
-	float: left;
 	font-size: 22px;
 }
 
@@ -262,66 +260,11 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	}
 }
 
-/* Infobox Symbols */
-
-#info-sp {
-	background: #808080;
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	margin: 5px;
-}
-.char #info-sp,
-.dragon #info-sp {
-	left: 204px;
-}
-.armor #info-sp {
-	display: none;
-}
-.agon #info-sp {
-	left: 226px;
-}
-
-#symbols {
-	background: black;
-	box-shadow: 0 0 5px 5px black;
-	position: absolute;
-	display: block;
-	padding: 3px;
-	border: 5px solid white;
-	border-radius: 10px;
-}
-
-.symbol {
-	float: left;
-	background: white;
-	box-shadow: inset 0 0 5px white;
-	width: 30px;
-	height: 30px;
-	padding: 5px;
-	border: 1px solid white;
-	border-radius: 10px;
-	margin: 2px;
-	cursor: pointer;
-}
-.symbol:first-child {
-	clear: left;
-}
-.symbol:hover {
-	background: black;
-}
-.symbol img {
-	max-width: 100%;
-	max-height: 100%;
-}
-.symbol img {
-	filter: drop-shadow(0 0 1px white);
-}
-
 /* Infobox Moves */
 
 #info-moves {
 	position: relative;
+	white-space: nowrap;
 }
 .char #info-moves,
 .dragon #info-moves {
@@ -335,9 +278,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 }
 
 #info-moves > div {
-	width: 288px;
 	margin-bottom: 8px;
-	overflow: hidden;
 }
 .char #info-moves > div,
 .dragon #info-moves > div {
@@ -362,28 +303,77 @@ input[type='radio'], input[type='checkbox'], .hidden {
 .move-name {
 	font-family: 'Regular';
 	width: 288px;
+	display: block;
 }
 
 .move-pa {
+	clear: left;
 	width: 52px;
 	font-family: 'Rodeo';
-}
-
-.move-pa:after {
-	content: 'PA';
-}
-
-.move-icons {
-	float: left;
-	background: #808080;
-	width: 20px;
-	height: 20px;
-	margin: 5px;
 }
 
 .move-bonus {
 	font-family: 'Rodeo';
 }
+
+/* Infobox Symbols */
+
+.move-icons {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	outline: 1px dashed gray;
+	margin: 5px;
+	cursor: pointer;
+}
+
+#info-sp {
+	position: absolute;
+}
+.char #info-sp,
+.dragon #info-sp {
+	left: 204px;
+}
+.armor #info-sp {
+	display: none;
+}
+.agon #info-sp {
+	left: 226px;
+}
+
+#symbols {
+	background: black;
+	box-shadow: 0 0 5px 5px black;
+	position: absolute;
+	padding: 3px;
+	border: 5px solid white;
+	border-radius: 10px;
+	z-index: 1;
+}
+
+.symbol {
+	float: left;
+	background: black;
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+	border: 1px solid white;
+	border-radius: 10px;
+	margin: 2px;
+	cursor: pointer;
+}
+.symbol:first-child {
+	clear: left;
+}
+.symbol:hover {
+	background: white;
+}
+.symbol img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* Card Resizer */
 
 #handle {
 	position: absolute;
@@ -392,8 +382,6 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	height: 100%;
 	cursor: ew-resize;
 }
-
-/* Card Resizer */
 
 #handle:hover {
 	background: linear-gradient(black, gray, black);

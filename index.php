@@ -42,7 +42,7 @@
                     </div>
 <?php } ?>
                 </div>
-                <div id="info-sp"></div>
+                <div id="info-sp" class="move-icons"></div>
                 <div id="info-stat-armor">
 <?php foreach (array("st", "da") as $id) { ?>
                     <div id="<?php echo $id; ?>">
@@ -65,27 +65,13 @@
             </div>
             <div id="handle"></div>
         </div>
-        <div id="symbols">
+        <div id="symbols" class="hidden">
             <div class="stdsp">
                 <div class="symbol"><img src="image/simboliSTD/SP/Difesa.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/SP/Combo.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/SP/Danni.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/SP/Ferite.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/SP/PA.png"></div>
-            </div>
-            <div class="stdtc">
-                <div class="symbol"><img src="image/simboliSTD/TC/Ultra Durezza.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Ultra agility.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/SaltoOK.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Scaglia.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Schianta.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Trasla.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Possente.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Riflette.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Combo.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Distanza.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Allontana.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Cade.png"></div>
             </div>
             <div class="drgtc">
                 <div class="symbol"><img src="image/dragon/B_Allontana.png"></div>
@@ -100,6 +86,20 @@
                 <div class="symbol"><img src="image/dragon/B_Trasla.png"></div>
                 <div class="symbol"><img src="image/dragon/B_Ultra agility.png"></div>
                 <div class="symbol"><img src="image/dragon/B_Ultra Durezza.png"></div>
+            </div>
+            <div class="stdtc">
+                <div class="symbol"><img src="image/simboliSTD/TC/Ultra Durezza.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Ultra agility.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/SaltoOK.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Scaglia.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Schianta.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Trasla.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Possente.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Riflette.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Combo.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Distanza.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Allontana.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Cade.png"></div>
             </div>
             <div class="advtc">
                 <div class="symbol"><img src="image/simboliADV/TC/Assorbimento.png"></div>
