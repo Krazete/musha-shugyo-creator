@@ -952,12 +952,16 @@ function initExport() {
     var renderPNG = document.getElementById("card-render");
     var renderPrint = document.getElementById("card-render-print");
 
+    function getTimestamp() {
+        return Date.now().toString(36);
+    }
+
     function createPNG() {
         renderCard().then(function (url) {
             renderPNG.src = url;
             var a = document.createElement("a");
             a.href = url;
-            a.setAttribute("download", "download.png");
+            a.setAttribute("download", "msrpg_" + getTimestamp() + ".png");
             a.click();
         });
     }
