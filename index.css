@@ -235,6 +235,9 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	padding: 6px 2px 6px 2px;
 	cursor: pointer;
 }
+#card-info .bubble:first-child {
+	clear: left;
+}
 #card-info .bubble:after {
 	content: '';
 	display: block;
@@ -279,36 +282,40 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	left: 226px;
 }
 
-.symbol {
-	background: white;
-	box-shadow: inset 0 0 10px black;
-	width: 40px;
-	height: 40px;
-	display: inline-block;
-	padding: 10px;
-	border: 1px solid black;
+#symbols {
+	background: black;
+	box-shadow: 0 0 5px 5px black;
+	position: absolute;
+	display: block;
+	padding: 3px;
+	border: 5px solid white;
 	border-radius: 10px;
+}
+
+.symbol {
+	float: left;
+	background: white;
+	box-shadow: inset 0 0 5px white;
+	width: 30px;
+	height: 30px;
+	padding: 5px;
+	border: 1px solid white;
+	border-radius: 10px;
+	margin: 2px;
 	cursor: pointer;
 }
+.symbol:first-child {
+	clear: left;
+}
 .symbol:hover {
-	background: gray;
+	background: black;
 }
 .symbol img {
 	max-width: 100%;
 	max-height: 100%;
 }
-.symbol:hover img {
-	filter: drop-shadow(0 0 5px white);
-}
-
-#symbols > div {
-	display: none;
-}
-#symbols.stdsp .stdsp,
-#symbols.stdtc .stdtc,
-#symbols.advtc .advtc,
-#symbols.drgtc .drgtc {
-	display: block;
+.symbol img {
+	filter: drop-shadow(0 0 1px white);
 }
 
 /* Infobox Moves */

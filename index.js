@@ -692,6 +692,10 @@ function initArt() {
     artA.dispatchEvent(new InputEvent("input"));
 }
 
+function initSymbols() {
+    var symbols = document.getElementById("symbols");
+}
+
 function initStats() {
     var stat = document.getElementById("info-stat");
     var statArmor = document.getElementById("info-stat-armor");
@@ -771,6 +775,7 @@ function initTexts() {
 }
 
 function initInfo() {
+    initSymbols();
     initStats();
     initTexts();
 }
