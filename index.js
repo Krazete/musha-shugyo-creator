@@ -969,10 +969,9 @@ function initExport() {
     function createPDF() {
         renderCard().then(function (url) {
             renderPNG.src = url;
-            // var a = document.createElement("a");
-            // a.href = url;
-            // a.setAttribute("download", "download.png");
-            // a.click();
+            var pdf = new jsPDF({"unit": "cm"}); /* todo: detect format based on location */
+            pdf.addImage(url, 'PNG', 1, 1, 10, 15);
+            pdf.save("msrpg_" + getTimestamp() + ".pdf");
         });
     }
 

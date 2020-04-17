@@ -468,6 +468,10 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	width: 80px;
 }
 
+.menu input[type='button'] {
+	cursor: pointer;
+}
+
 /* Export Helpers */
 
 #loading {
