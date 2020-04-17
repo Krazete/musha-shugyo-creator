@@ -28,7 +28,7 @@
                 <img id="card-art">
             </div>
             <canvas id="card-name-bg" width="720" height="120"></canvas>
-            <input id="card-name" type="text" placeholder="Card Name" autocomplete="off" spellcheck="false"><!-- todo -->
+            <input id="card-name" type="text" placeholder="Card Name" autocomplete="off" spellcheck="false">
             <canvas id="card-name-canvas"></canvas>
             <canvas id="card-info-bg" width="436" height="981"></canvas>
             <div id="card-info">
@@ -55,10 +55,10 @@
                 <div id="info-moves">
 <?php for ($i = 0; $i < 8; $i++) { ?>
                     <div id="move-<?php echo $i; ?>">
-                        <input class="move-name" type="text" placeholder="Nome tecnica">
-                        <input class="move-pa" type="text" placeholder="PA">
+                        <input class="move-name" type="text" placeholder="Nome tecnica" autocomplete="off" spellcheck="false">
+                        <input class="move-pa" type="text" placeholder="PA" autocomplete="off" spellcheck="false">
                         <div class="move-icons"></div>
-                        <input class="move-bonus" type="text" placeholder="Bonus">
+                        <input class="move-bonus" type="text" placeholder="Bonus" autocomplete="off" spellcheck="false">
                     </div>
 <?php } ?>
                 </div>

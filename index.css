@@ -176,7 +176,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 }
 
 #card-info input[type='text'] {
-	float: left; /* todo */
+	float: left;
 	font-size: 22px;
 }
 
@@ -318,18 +318,19 @@ input[type='radio'], input[type='checkbox'], .hidden {
 }
 .char #info-moves,
 .dragon #info-moves {
-	margin-top: 182px;
+	margin-top: 186px;
 }
 .armor #info-moves {
-	margin-top: 310px; /* todo: change to 308 after middling */
+	margin-top: 311px;
 }
 .agon #info-moves {
-	margin-top: 229px; /* todo: change to 308 after middling */
+	margin-top: 230px;
 }
 
 #info-moves > div {
 	width: 288px;
 	margin-bottom: 8px;
+	overflow: hidden;
 }
 .char #info-moves > div,
 .dragon #info-moves > div {
