@@ -702,15 +702,17 @@ function initSymbols() {
     var target;
 
     function toggleSymbols(e) {
-        if (!e.target) {
+        if (!e.target) { /* bubbled to top, found no trigger */
             symbols.classList.add("hidden");
-            target.classList.remove("target");
-            target = undefined;
+            if (target) {
+                target.classList.remove("target");
+                target = undefined;
+            }
         }
-        else if (target && e.target.parentElement == target) {
+        else if (target && target == e.target.parentElement) { /* img in .move-icons.target */
             e.target.remove();
         }
-        else if (e.target.classList.contains("move-icons")) {
+        else if (e.target.classList.contains("move-icons")) { /* .move-icons */
             if (e.target.id == "info-sp") {
                 stdsp.classList.remove("hidden");
                 drgtc.classList.add("hidden");
@@ -735,10 +737,13 @@ function initSymbols() {
             var rect = e.target.getBoundingClientRect();
             symbols.style.left = rect.left + "px";
             symbols.style.top = rect.top - symbolRect.height - 10 + scrollY + "px"; /* -10 for shadow */
+            if (target && target != e.target) {
+                target.classList.remove("target");
+            }
             target = e.target;
             target.classList.add("target");
         }
-        else if (e.target != symbols) {
+        else if (e.target != symbols) { /* bubble up */
             toggleSymbols({"target": e.target.parentElement});
         }
     }
@@ -841,8 +846,9 @@ function initTexts() {
         var style = getComputedStyle(this);
         context.font = style.fontSize + " " + style.fontFamily;
 
+        var placeholderSize = context.measureText(this.placeholder);
         var textSize = context.measureText(this.value);
-        this.style.width = Math.max(50, textSize.width + 10) + "px";
+        this.style.width = Math.max(placeholderSize.width, textSize.width) + "px";
     }
 
     for (var i = 0; i < pas.length; i++) {

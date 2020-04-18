@@ -435,6 +435,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	float: left;
 	position: relative;
 	padding: 10px;
+	white-space: nowrap;
 }
 
 .menu-title {
