@@ -530,11 +530,14 @@ input[type='radio'], input[type='checkbox'], .hidden {
 		margin: 0;
 	}
 
-	#creator, #card { /* keep in dom to prevent height calculation issues (safari) */
+	#creator { /* keep in dom to prevent height calculation issues (safari) */
 		width: 0;
 		height: 0;
-		visibility: hidden;
+		opacity: 0; /* because rendering ignores elements with visibility: hidden */
 		overflow: hidden;
+	}
+	#card {
+		opacity: 0;
 	}
 	#types, #symbols, #card-size, .menu, body > div:last-child { /* last-child for jscolor */
 		display: none;

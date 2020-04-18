@@ -55,7 +55,7 @@
                 <div id="info-moves">
 <?php for ($i = 0; $i < 8; $i++) { ?>
                     <div id="move-<?php echo $i; ?>">
-                        <input class="move-name" type="text" placeholder="Nome tecnica" autocomplete="off" spellcheck="false">
+                        <input class="move-name" type="text" placeholder="Skill Name" autocomplete="off" spellcheck="false">
                         <input class="move-pa" type="text" placeholder="PA" autocomplete="off" spellcheck="false">
                         <div class="move-icons"></div>
                         <input class="move-bonus" type="text" placeholder="Bonus" autocomplete="off" spellcheck="false">
