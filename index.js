@@ -1045,7 +1045,6 @@ function initRenderer() {
                 }
             }
             for (var i = 0; i < icons.length; i++) {
-                console.log(icons[i]);
                 if (isVisible(icons[i])) {
                     renderIcon(icons[i]);
                 }
