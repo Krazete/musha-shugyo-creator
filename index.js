@@ -43,6 +43,7 @@ var cardCanvasUpdater = {
     "np": undefined,
     "ib": undefined
 };
+var renderCard;
 
 /* General Functions */
 
@@ -701,8 +702,15 @@ function initSymbols() {
     var target;
 
     function toggleSymbols(e) {
-        console.log(e.target);
-        if (e.target.className == "move-icons") {
+        if (!e.target) {
+            symbols.classList.add("hidden");
+            target.classList.remove("target");
+            target = undefined;
+        }
+        else if (target && e.target.parentElement == target) {
+            e.target.remove();
+        }
+        else if (e.target.classList.contains("move-icons")) {
             if (e.target.id == "info-sp") {
                 stdsp.classList.remove("hidden");
                 drgtc.classList.add("hidden");
@@ -728,25 +736,35 @@ function initSymbols() {
             symbols.style.left = rect.left + "px";
             symbols.style.top = rect.top - symbolRect.height - 10 + scrollY + "px"; /* -10 for shadow */
             target = e.target;
+            target.classList.add("target");
         }
-        else if (e.target == symbols || e.target.className == "symbol") {
-        }
-        else if (e.target != document.body) {
+        else if (e.target != symbols) {
             toggleSymbols({"target": e.target.parentElement});
-        }
-        else {
-            symbols.classList.add("hidden");
         }
     }
 
-    function selectSP() {
+    function selectSP(e) {
+        if (e.target.classList.contains("symbol")) {
+            var icon = e.target.getElementsByTagName("img")[0];
+            newImage(icon.src).then(function (img) {
+                target.innerHTML = "";
+                target.appendChild(img);
+            });
+        }
+        else if (e.target != target) {
+            selectSP({"target": e.target.parentElement});
+        }
     }
 
     function selectSymbol(e) {
-        if (e.target.tagName == "IMG") {
-            var img = new Image();
-            img.src = this.children[0].src;
-            target.appendChild(img);
+        if (e.target.classList.contains("symbol")) {
+            var icon = e.target.getElementsByTagName("img")[0];
+            newImage(icon.src).then(function (img) {
+                target.appendChild(img);
+            });
+        }
+        else if (e.target != target) {
+            selectSymbol({"target": e.target.parentElement});
         }
     }
 
@@ -851,8 +869,7 @@ function isVisible(element) {
     return style.display != "none" && style.visibility != "hidden" && isVisible(element.parentElement);
 }
 
-function renderCard() {
-    var cardRect = getScaledRect(card);
+function initRenderer() {
     var infobox = document.getElementById("card-info");
     var bubbles = infobox.getElementsByClassName("bubble");
     var inputs = infobox.getElementsByTagName("input");
@@ -947,6 +964,7 @@ function renderCard() {
     }
 
     function renderBubble(element) {
+        var cardRect = getScaledRect(card);
         var rect = getScaledRect(element);
 
         context.save();
@@ -967,6 +985,7 @@ function renderCard() {
     }
 
     function renderText(element) {
+        var cardRect = getScaledRect(card);
         var rect = getScaledRect(element);
 
         context.save();
@@ -979,43 +998,59 @@ function renderCard() {
         context.restore();
     }
 
-    loading.classList.remove("hidden");
+    function renderIcon(img) {
+        var cardRect = getScaledRect(card);
+        var rect = getScaledRect(img);
 
-    canvas.width = rq * 756;
-    canvas.height = rq * 1134;
+        context.drawImage(
+            img,
+            rq * (rect.left - cardRect.left - 10),
+            rq * (rect.top - cardRect.top - 10),
+            rq * rect.width,
+            rq * rect.height
+        );
+    }
 
-    return Promise.all([
-        renderBG("bg"),
-        renderBG("np"),
-        renderBG("ib")
-    ]).then(function (imgs) {
-        renderImage(imgs[0], document.getElementById("card-bg"));
-        renderArt();
-        renderImage(imgs[1], document.getElementById("card-name-bg"));
-        renderImage(imgs[2], document.getElementById("card-info-bg"));
-        renderName();
+    renderCard = function () {
+        loading.classList.remove("hidden");
 
-        for (var i = 0; i < bubbles.length; i++) {
-            if (isVisible(bubbles[i])) {
-                renderBubble(bubbles[i]);
+        canvas.width = rq * 756;
+        canvas.height = rq * 1134;
+
+        return Promise.all([
+            renderBG("bg"),
+            renderBG("np"),
+            renderBG("ib")
+        ]).then(function (imgs) {
+            renderImage(imgs[0], document.getElementById("card-bg"));
+            renderArt();
+            renderImage(imgs[1], document.getElementById("card-name-bg"));
+            renderImage(imgs[2], document.getElementById("card-info-bg"));
+            renderName();
+
+            for (var i = 0; i < bubbles.length; i++) {
+                if (isVisible(bubbles[i])) {
+                    renderBubble(bubbles[i]);
+                }
             }
-        }
-        for (var i = 0; i < inputs.length; i++) {
-            if (inputs[i].type == "text" && isVisible(inputs[i])) {
-                renderText(inputs[i]);
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == "text" && isVisible(inputs[i])) {
+                    renderText(inputs[i]);
+                }
             }
-        }
-        for (var i = 0; i < icons.length; i++) {
-            if (isVisible(icons[i])) {
-                renderImage(icons[i], icons[i]);
+            for (var i = 0; i < icons.length; i++) {
+                console.log(icons[i]);
+                if (isVisible(icons[i])) {
+                    renderIcon(icons[i]);
+                }
             }
-        }
 
-        loading.classList.add("hidden");
+            loading.classList.add("hidden");
 
-        return canvas.toDataURL();
-    });
-}
+            return canvas.toDataURL();
+        });
+    }
+};
 
 function initExport() {
     var exportPNG = document.getElementById("export-png");
@@ -1054,6 +1089,8 @@ function initExport() {
         });
     }
 
+    initRenderer();
+
     exportPNG.addEventListener("click", createPNG);
     exportPDF.addEventListener("click", createPDF);
     window.addEventListener("beforeprint", createPrint);
@@ -1075,12 +1112,9 @@ function init() {
     initRecolorers();
     initName();
     initTypes();
-
     initHandle();
     initArt();
-
     initInfo();
-
     initExport();
 }
 
