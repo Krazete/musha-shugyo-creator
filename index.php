@@ -66,14 +66,14 @@
             <div id="handle"></div>
         </div>
         <div id="symbols" class="hidden">
-            <div class="stdsp">
-                <div class="symbol"><img src="image/simboliSTD/SP/Difesa.png"></div>
+            <div id="stdsp">
                 <div class="symbol"><img src="image/simboliSTD/SP/Combo.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/SP/Danni.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/SP/Difesa.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/SP/Ferite.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/SP/PA.png"></div>
             </div>
-            <div class="drgtc">
+            <div id="drgtc">
                 <div class="symbol"><img src="image/dragon/B_Allontana.png"></div>
                 <div class="symbol"><img src="image/dragon/B_Cade.png"></div>
                 <div class="symbol"><img src="image/dragon/B_ComboTC.png"></div>
@@ -84,35 +84,35 @@
                 <div class="symbol"><img src="image/dragon/B_Scaglia.png"></div>
                 <div class="symbol"><img src="image/dragon/B_Schianta.png"></div>
                 <div class="symbol"><img src="image/dragon/B_Trasla.png"></div>
-                <div class="symbol"><img src="image/dragon/B_Ultra agility.png"></div>
                 <div class="symbol"><img src="image/dragon/B_Ultra Durezza.png"></div>
+                <div class="symbol"><img src="image/dragon/B_Ultra agility.png"></div>
             </div>
-            <div class="stdtc">
-                <div class="symbol"><img src="image/simboliSTD/TC/Ultra Durezza.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Ultra agility.png"></div>
+            <div id="stdtc">
+                <div class="symbol"><img src="image/simboliSTD/TC/Allontana.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Cade.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Combo.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Distanza.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Possente.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Riflette.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/TC/SaltoOK.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/TC/Scaglia.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/TC/Schianta.png"></div>
                 <div class="symbol"><img src="image/simboliSTD/TC/Trasla.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Possente.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Riflette.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Combo.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Distanza.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Allontana.png"></div>
-                <div class="symbol"><img src="image/simboliSTD/TC/Cade.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Ultra Durezza.png"></div>
+                <div class="symbol"><img src="image/simboliSTD/TC/Ultra agility.png"></div>
             </div>
-            <div class="advtc">
+            <div id="advtc">
                 <div class="symbol"><img src="image/simboliADV/TC/Assorbimento.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/Blitz2.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/Cadi.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/Conclusiva.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/Congela.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/Crawling 02.png"></div>
+                <div class="symbol"><img src="image/simboliADV/TC/Stordente.png"></div>
+                <div class="symbol"><img src="image/simboliADV/TC/Tutto per tutto.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/danno continuato.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/dano_relativo.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/sforzo estremo.png"></div>
-                <div class="symbol"><img src="image/simboliADV/TC/Stordente.png"></div>
-                <div class="symbol"><img src="image/simboliADV/TC/Tutto per tutto.png"></div>
                 <div class="symbol"><img src="image/simboliADV/TC/vampirico mini.png"></div>
             </div>
         </div>
@@ -176,7 +176,7 @@
                 (4:9) <a id="ib-template" href="img/Colonna.png" download>Template</a>
             </div>
         </div>
-        <div class="menu print">
+        <div class="menu">
             <div class="menu-title">Card Art</div>
             <div class="row">
                 <input id="art-file" type="file" accept="image/*">

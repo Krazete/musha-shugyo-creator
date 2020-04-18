@@ -694,30 +694,67 @@ function initArt() {
 
 function initSymbols() {
     var symbols = document.getElementById("symbols");
+    var stdsp = document.getElementById("stdsp");
+    var drgtc = document.getElementById("drgtc");
+    var stdtc = document.getElementById("stdtc");
+    var advtc = document.getElementById("advtc");
     var target;
 
     function toggleSymbols(e) {
-        if (e.target.id == "info-sp" || e.target.className == "move-icons") {
+        console.log(e.target);
+        if (e.target.className == "move-icons") {
+            if (e.target.id == "info-sp") {
+                stdsp.classList.remove("hidden");
+                drgtc.classList.add("hidden");
+                stdtc.classList.add("hidden");
+                advtc.classList.add("hidden");
+            }
+            else {
+                stdsp.classList.add("hidden");
+                if (cardType == "dragon") {
+                    drgtc.classList.remove("hidden");
+                    stdtc.classList.add("hidden");
+                }
+                else {
+                    drgtc.classList.add("hidden");
+                    stdtc.classList.remove("hidden");
+                }
+                advtc.classList.remove("hidden");
+            }
             symbols.classList.remove("hidden");
+
             var symbolRect = symbols.getBoundingClientRect();
             var rect = e.target.getBoundingClientRect();
-            console.log(symbolRect);
             symbols.style.left = rect.left + "px";
             symbols.style.top = rect.top - symbolRect.height - 10 + scrollY + "px"; /* -10 for shadow */
             target = e.target;
         }
-        else if (e.target == symbols) {
+        else if (e.target == symbols || e.target.className == "symbol") {
+        }
+        else if (e.target != document.body) {
+            toggleSymbols({"target": e.target.parentElement});
         }
         else {
             symbols.classList.add("hidden");
         }
     }
 
-    function selectSymbol() {
+    function selectSP() {
+    }
+
+    function selectSymbol(e) {
+        if (e.target.tagName == "IMG") {
+            var img = new Image();
+            img.src = this.children[0].src;
+            target.appendChild(img);
+        }
     }
 
     window.addEventListener("mousedown", toggleSymbols);
-    symbols.addEventListener("click", selectSymbol);
+    stdsp.addEventListener("click", selectSP);
+    drgtc.addEventListener("click", selectSymbol);
+    stdtc.addEventListener("click", selectSymbol);
+    advtc.addEventListener("click", selectSymbol);
 }
 
 function initStats() {
@@ -817,8 +854,9 @@ function isVisible(element) {
 function renderCard() {
     var cardRect = getScaledRect(card);
     var infobox = document.getElementById("card-info");
-    var inputs = infobox.getElementsByTagName("input");
     var bubbles = infobox.getElementsByClassName("bubble");
+    var inputs = infobox.getElementsByTagName("input");
+    var icons = infobox.getElementsByTagName("img");
 
     var canvas = document.getElementById("card-canvas");
     var context = canvas.getContext("2d");
@@ -908,19 +946,6 @@ function renderCard() {
         context.restore();
     }
 
-    function renderText(element) {
-        var rect = getScaledRect(element);
-
-        context.save();
-        matchFont(element, context);
-        context.fillText(
-            element.value,
-            rq * (rect.left - cardRect.left - 10),
-            rq * (rect.top + rect.height / 2 - cardRect.top - 10)
-        );
-        context.restore();
-    }
-
     function renderBubble(element) {
         var rect = getScaledRect(element);
 
@@ -941,6 +966,19 @@ function renderCard() {
         context.restore();
     }
 
+    function renderText(element) {
+        var rect = getScaledRect(element);
+
+        context.save();
+        matchFont(element, context);
+        context.fillText(
+            element.value,
+            rq * (rect.left - cardRect.left - 10),
+            rq * (rect.top + rect.height / 2 - cardRect.top - 10)
+        );
+        context.restore();
+    }
+
     loading.classList.remove("hidden");
 
     canvas.width = rq * 756;
@@ -957,14 +995,19 @@ function renderCard() {
         renderImage(imgs[2], document.getElementById("card-info-bg"));
         renderName();
 
+        for (var i = 0; i < bubbles.length; i++) {
+            if (isVisible(bubbles[i])) {
+                renderBubble(bubbles[i]);
+            }
+        }
         for (var i = 0; i < inputs.length; i++) {
             if (inputs[i].type == "text" && isVisible(inputs[i])) {
                 renderText(inputs[i]);
             }
         }
-        for (var i = 0; i < bubbles.length; i++) {
-            if (isVisible(bubbles[i])) {
-                renderBubble(bubbles[i]);
+        for (var i = 0; i < icons.length; i++) {
+            if (isVisible(icons[i])) {
+                renderImage(icons[i], icons[i]);
             }
         }
 

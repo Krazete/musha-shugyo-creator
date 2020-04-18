@@ -365,12 +365,18 @@ input[type='radio'], input[type='checkbox'], .hidden {
 .symbol:first-child {
 	clear: left;
 }
-.symbol:hover {
-	background: white;
-}
 .symbol img {
 	max-width: 100%;
 	max-height: 100%;
+	filter: drop-shadow(0 0 1px white);
+}
+@media (pointer: fine) {
+	.symbol:hover {
+		background: white;
+	}
+	.symbol:hover img {
+		filter: drop-shadow(0 0 1px black);
+	}
 }
 
 /* Card Resizer */
