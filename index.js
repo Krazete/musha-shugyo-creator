@@ -1088,9 +1088,13 @@ function initExport() {
     }
 
     function createPrint() {
-        renderCard().then(function (url) {
+        return renderCard().then(function (url) {
             renderPNG.src = url;
-            renderPrint.src = url;
+            return new Promise(function (resolve, reject) {
+                renderPrint.addEventListener("load", resolve);
+                renderPrint.addEventListener("error", reject);
+                renderPrint.src = url;
+            });
         });
     }
 
