@@ -1060,6 +1060,7 @@ function initRenderer() {
 function initExport() {
     var exportPNG = document.getElementById("export-png");
     var exportPDF = document.getElementById("export-pdf");
+    var exportPrint = document.getElementById("export-print");
     var exportJSON = document.getElementById("export-json");
     var renderPNG = document.getElementById("card-render");
     var renderPrint = document.getElementById("card-render-print");
@@ -1087,14 +1088,20 @@ function initExport() {
         });
     }
 
-    function createPrint() {
-        return renderCard().then(function (url) {
+    function printOnce() {
+        print();
+        this.removeEventListener("load", printOnce);
+        window.addEventListener("beforeprint", createPrint);
+    }
+
+    function createPrint(e) {
+        renderCard().then(function (url) {
             renderPNG.src = url;
-            return new Promise(function (resolve, reject) {
-                renderPrint.addEventListener("load", resolve);
-                renderPrint.addEventListener("error", reject);
-                renderPrint.src = url;
-            });
+            if (e.type == "click") {
+                renderPrint.addEventListener("load", printOnce);
+                window.removeEventListener("beforeprint", createPrint);
+            }
+            renderPrint.src = url;
         });
     }
 
@@ -1102,6 +1109,7 @@ function initExport() {
 
     exportPNG.addEventListener("click", createPNG);
     exportPDF.addEventListener("click", createPDF);
+    exportPrint.addEventListener("click", createPrint);
     window.addEventListener("beforeprint", createPrint);
 }
 

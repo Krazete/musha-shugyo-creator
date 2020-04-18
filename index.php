@@ -204,6 +204,7 @@
             <div class="row">
                 <input id="export-png" type="button" value="PNG">
                 <input id="export-pdf" type="button" value="PDF">
+                <input id="export-print" type="button" value="Print">
             </div>
             <div id="loading" class="hidden">LOADING</div>
             <canvas id="card-canvas" class="hidden"></canvas>
