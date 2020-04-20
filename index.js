@@ -391,7 +391,7 @@ function initRecolorers() {
     ib.height = pq * cardImageSize.ib.height;
 
     initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
-    initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_10.jpg");
+    initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_01.jpg");
     initCardData(np, "npDefault", "img/Nome.png");
     initCardData(np, "npDefaultDragon", "img/NomeDragon.png");
     initCardData(ib, "ibDefault", "img/Colonna.png");
