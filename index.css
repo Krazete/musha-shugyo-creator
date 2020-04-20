@@ -182,6 +182,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 
 #info-type {
 	font-family: 'Regular';
+	color: red;
 	position: absolute;
 	left: 64px;
 }
@@ -317,6 +318,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 
 .move-bonus {
 	font-family: 'Rodeo';
+	color: red;
 }
 
 /* Infobox Symbols */

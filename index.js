@@ -159,6 +159,7 @@ function matchFont(element, context) {
     var style = getComputedStyle(element);
     var fontSize = style.fontSize.match(/(\d+(?:\.\d+)?)(\w+)/);
     context.font = rq * fontSize[1] + fontSize[2] + " " + style.fontFamily;
+    context.fillStyle = style.color;
     context.textAlign = style.textAlign;
     context.textBaseline = "middle";
 }
