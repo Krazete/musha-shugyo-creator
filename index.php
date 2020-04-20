@@ -121,6 +121,12 @@
         <div id="card-size">200%</div>
         <div class="menu">
             <div class="menu-title">Background</div>
+            <div id="swatches" class="row">
+<?php for ($i = 1; $i < 11; $i++) { ?>
+                <input id="swatch-<?php echo $i; ?>" type="radio" name="swatch" value="<?php echo $i; ?>">
+                <label for="swatch-<?php echo $i; ?>"></label>
+<?php } ?>
+            </div>
             <div class="row">
                 <input id="bg-color-custom" type="checkbox">
                 <label for="bg-color-custom">Custom</label>

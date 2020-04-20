@@ -403,6 +403,23 @@ function initRecolorers() {
     initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor1, ibColorAuto, ibColorCustom);
 }
 
+/* Swatches */
+
+function initSwatches() {
+    var swatches = document.getElementById("swatches");
+    var inputs = swatches.getElementsByTagName("input");
+
+    function onClickSwatches() {
+        if (e.target.tagName == "LABEL") {
+
+        }
+    }
+
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener("click", onClickSwatches);
+    }
+}
+
 /* Card (mostly) */
 
 function initTypes() {

@@ -125,7 +125,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	font-size: 56px;
     text-align: center;
     position: absolute;
-    top: 68px;
+    top: 66px;
     width: 100%;
 }
 #card-name:focus {
@@ -134,7 +134,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 
 #card-name-canvas {
 	position: absolute;
-	top: 68px;
+	top: 66px;
 	width: 100%;
 	pointer-events: none;
 }
@@ -503,6 +503,24 @@ input[type='radio'], input[type='checkbox'], .hidden {
 .menu input[type='button'] {
 	cursor: pointer;
 }
+
+#swatches label {
+	box-shadow: inset 0 0 10px black;
+	width: 20px;
+	height: 10px;
+	display: inline-block;
+	border-radius: 10px;
+}
+#swatch-1 + label {background: gray;}
+#swatch-2 + label {background: brown;}
+#swatch-3 + label {background: yellow;}
+#swatch-4 + label {background: green;}
+#swatch-5 + label {background: aqua;}
+#swatch-6 + label {background: blue;}
+#swatch-7 + label {background: purple;}
+#swatch-8 + label {background: magenta;}
+#swatch-9 + label {background: red;}
+#swatch-10 + label {background: chocolate;}
 
 /* Export Helpers */
 
