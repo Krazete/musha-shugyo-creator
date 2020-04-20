@@ -407,7 +407,7 @@ function initRecolorers() {
 
 function initTypes() {
     var types = document.getElementById("types");
-    var defaultType = document.getElementById("type-char");
+    var defaultType = document.getElementById("type-dragon");
     var ibTemplate = document.getElementById("ib-template");
     var ibTemplateURLs = {
         "dragon": "template/Colonna.png",
