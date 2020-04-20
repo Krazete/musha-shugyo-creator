@@ -210,7 +210,7 @@ function initFileInput(file, update) {
             var fp = this.files[0];
             if (/image\//.test(fp.type)) {
                 var reader = new FileReader();
-                reader.addEventListener("load", function() {
+                reader.addEventListener("load", function () {
                     update(this.result);
                 });
                 reader.readAsDataURL(fp);
@@ -1142,4 +1142,4 @@ function warn(e) {
 }
 
 window.addEventListener("load", init);
-// window.addEventListener("beforeunload", warn);
+window.addEventListener("beforeunload", warn);
