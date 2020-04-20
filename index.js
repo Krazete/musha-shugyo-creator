@@ -356,6 +356,8 @@ function initRecolorers() {
     var bgColor1 = document.getElementById("bg-color-1");
     var bgColorAuto = document.getElementById("bg-color-auto");
     var bgColorCustom = document.getElementById("bg-color-custom");
+    var swatches = document.getElementById("swatches").getElementsByTagName("input");
+
     var np = document.getElementById("card-name-bg");
     var npFile = document.getElementById("np-file");
     var npFileCustom = document.getElementById("np-file-custom");
@@ -363,6 +365,7 @@ function initRecolorers() {
     var npColor1 = document.getElementById("np-color-1");
     var npColorAuto = document.getElementById("np-color-auto");
     var npColorCustom = document.getElementById("np-color-custom");
+
     var ib = document.getElementById("card-info-bg");
     var ibFile = document.getElementById("ib-file");
     var ibFileCustom = document.getElementById("ib-file-custom");
@@ -383,12 +386,29 @@ function initRecolorers() {
         });
     }
 
+    function onInputSwatch() {
+        var n = this.value.padStart(2, 0);
+        if (bgFileCustom.checked) {
+            bgFileCustom.click();
+        }
+        if (bgColorCustom.checked) {
+            bgColorCustom.click();
+        }
+        initCardData(bg, "bgDefault", "img/bg/large/Background_" + n + ".jpg");
+        initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_" + n + ".jpg");
+    }
+
     bg.width = pq * cardImageSize.bg.width;
     bg.height = pq * cardImageSize.bg.height;
     np.width = pq * cardImageSize.np.width;
     np.height = pq * cardImageSize.np.height;
     ib.width = pq * cardImageSize.ib.width;
     ib.height = pq * cardImageSize.ib.height;
+
+    swatches[0].checked = true;
+    for (var i = 0; i < swatches.length; i++) {
+        swatches[i].addEventListener("input", onInputSwatch);
+    }
 
     initCardData(bg, "bgDefault", "img/bg/large/Background_01.jpg");
     initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_01.jpg");
@@ -401,23 +421,6 @@ function initRecolorers() {
     initRecolorer(bg, "bg", bgFile, bgFileCustom, bgColor0, bgColor1, bgColorAuto, bgColorCustom);
     initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor1, npColorAuto, npColorCustom);
     initRecolorer(ib, "ib", ibFile, ibFileCustom, ibColor0, ibColor1, ibColorAuto, ibColorCustom);
-}
-
-/* Swatches */
-
-function initSwatches() {
-    var swatches = document.getElementById("swatches");
-    var inputs = swatches.getElementsByTagName("input");
-
-    function onClickSwatches() {
-        if (e.target.tagName == "LABEL") {
-
-        }
-    }
-
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener("click", onClickSwatches);
-    }
 }
 
 /* Card (mostly) */
