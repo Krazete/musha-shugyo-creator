@@ -218,6 +218,7 @@
             <canvas id="card-canvas" class="hidden"></canvas>
             <img id="card-render">
         </div>
+        <img id="logo" src="img/Logo Dragon Fighters Advanced Musha Shugyo.png">
     </div>
     <img id="card-render-print">
 </body>
