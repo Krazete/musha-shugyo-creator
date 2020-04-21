@@ -553,7 +553,6 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	width: 140px;
 	height: 210px;
 	display: block;
-	margin: auto;
 }
 
 #card-render-print {
@@ -566,7 +565,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	position: fixed;
 	right: 10px;
 	bottom: 10px;
-	width: 200px;
+	width: 225px;
 	pointer-events: none;
 }
 
