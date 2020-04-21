@@ -142,6 +142,16 @@
                 (2:3) <a href="template/Background.png" download>Template</a>
             </div>
 
+            <div class="menu-title">Name</div>
+            <div class="row">
+                <input id="name-color-custom" type="checkbox">
+                <label for="name-color-custom">Custom</label>
+                <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
+                <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
+                <input id="name-color-auto" type="checkbox">
+                <label for="name-color-auto">Auto</label>
+            </div>
+
             <div class="menu-title">Nameplate</div>
             <div class="row">
                 <input id="np-color-custom" type="checkbox">
@@ -156,16 +166,6 @@
                 <label for="np-file-custom">Custom</label>
                 <input id="np-file" type="file" accept="image/*">
                 (1:6) <a href="template/Nome.png" download>Template</a>
-            </div>
-
-            <div class="menu-title">Name</div>
-            <div class="row">
-                <input id="name-color-custom" type="checkbox">
-                <label for="name-color-custom">Custom</label>
-                <input id="name-color-0" class="jscolor" data-jscolor="{hash: true}" value="#ffca1a">
-                <input id="name-color-1" class="jscolor" data-jscolor="{hash: true}" value="#fe6207">
-                <input id="name-color-auto" type="checkbox">
-                <label for="name-color-auto">Auto</label>
             </div>
 
             <div class="menu-title">Infobox</div>
