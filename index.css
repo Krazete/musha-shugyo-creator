@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'Regular';
-	src: url('font/DISTInking-Regular.otf');
+	src: url('font/DISTInking-Regular.otf') format('opentype');
 }
 
 @font-face {
 	font-family: 'Rodeo';
-	src: url('font/RODEK___.TTF');
+	src: url('font/RODEK___.TTF') format('truetype');
 }
 
 body {
@@ -49,6 +49,8 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	transform-origin: left top;
 	border: 10px solid black;
 	border-radius: 10px;
+	-ms-user-select: none;
+	-moz-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;
 }
@@ -467,7 +469,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	background: white;
 	width: 240px;
 }
-.menu input.jscolor {
+.menu .jscolor {
 	width: 80px;
 }
 

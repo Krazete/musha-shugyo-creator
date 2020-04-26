@@ -78,7 +78,7 @@ var deeperHex = function () {
 
     return function (hex, depth) {
         if (hex.length == 4 || hex.length == 5) {
-            shortHex = hex;
+            var shortHex = hex;
             hex = "";
             for (var i = 0; i < shortHex.length; i++) {
                 hex += shortHex.slice(i, i + 2);
@@ -96,9 +96,6 @@ var deeperHex = function () {
 }();
 
 function initColorInput(color0, color1, colorAuto, colorAutoChecked, depth, update) {
-    var gradientCanvas = newCanvas(256, 1);
-    var gradientContext = gradientCanvas.getContext("2d");
-
     function onChangeColor() {
         if (color0.value.length == 4 || color0.value.length == 7) {
             if (colorAuto.checked && depth) {
@@ -303,7 +300,7 @@ function initRecolorer(canvas, code, file, fileCustom, color0, color1, colorAuto
     }
 
     function updateCanvas() {
-        var data, id = getDataID(code);
+        var id = getDataID(code);
 
         if (!cardImageData[id]) {
             return;
@@ -467,7 +464,6 @@ function initHandle() {
     var handle = document.getElementById("handle");
     var cardRect = card.getBoundingClientRect();
     var style = document.createElement("style");
-    var e0, m1;
 
     function onHandleEnd(e) {
         style.remove();
@@ -479,7 +475,7 @@ function initHandle() {
 
     function onHandle(e) {
         e = getMouse(e);
-        n = (e.x - cardRect.left - m * 15) / 756; /* +m*15 for border */
+        var n = (e.x - cardRect.left - m * 15) / 756; /* +m*15 for border */
         m = Math.max(0.5, Math.min(n, 1));
 
         card.style.transform = "scale(" + m + ")";
@@ -532,7 +528,7 @@ function initArt() {
     var artY = document.getElementById("art-y");
     var artW = document.getElementById("art-w");
     var artA = document.getElementById("art-a");
-    var mode, artRect0, e0, x0, y0, w0, a0;
+    var mode, artRect0, artCenter, e0, x0, y0, w0, a0;
 
     function bound(input, n) {
         return Math.max(input.min, Math.min(n, input.max));
@@ -624,7 +620,7 @@ function initArt() {
     }
 
     function onControl(e) {
-        e1 = getScaledMouse(e);
+        var e1 = getScaledMouse(e);
         if (mode == "position") {
             var dx = e1.x - e0.x;
             var dy = e1.y - e0.y;
@@ -651,7 +647,7 @@ function initArt() {
 
             var min = Number(artA.min);
             var max = Number(artA.max);
-            var dm = artA.max - artA.min;
+            var dm = max - min;
             artA.value = ((a0 + dt - min) % dm + dm) % dm + min;
 
             artA.dispatchEvent(new InputEvent("input"));
@@ -757,7 +753,7 @@ function initSymbols() {
             var symbolRect = symbols.getBoundingClientRect();
             var rect = e.target.getBoundingClientRect();
             symbols.style.left = rect.left + "px";
-            symbols.style.top = rect.top - symbolRect.height - 10 + scrollY + "px"; /* -10 for shadow */
+            symbols.style.top = rect.top - symbolRect.height - 10 + window.scrollY + "px"; /* -10 for shadow */
             if (target && target != e.target) {
                 target.classList.remove("target");
             }
@@ -807,9 +803,10 @@ function initStats() {
 
     function onOverStat(e) {
         if (e.target.classList.contains("bubble")) {
-            for (var sibling of e.target.parentElement.children) {
-                sibling.classList.add("prospective");
-                if (sibling == e.target) {
+            var siblings = e.target.parentElement.children;
+            for (var i = 0; i < siblings.length; i++) {
+                siblings[i].classList.add("prospective");
+                if (siblings[i] == e.target) {
                     break;
                 }
             }
@@ -818,9 +815,10 @@ function initStats() {
 
     function onOutStat(e) {
         if (e.target.classList.contains("bubble")) {
-            for (var sibling of e.target.parentElement.children) {
-                sibling.classList.remove("prospective");
-                if (sibling == e.target) {
+            var siblings = e.target.parentElement.children;
+            for (var i = 0; i < siblings.length; i++) {
+                siblings[i].classList.remove("prospective");
+                if (siblings[i] == e.target) {
                     break;
                 }
             }
@@ -830,17 +828,18 @@ function initStats() {
     function onClickStat(e) {
         if (e.target.classList.contains("bubble")) {
             var check = !e.target.classList.contains("chosen");
-            for (var sibling of e.target.parentElement.children) {
+            var siblings = e.target.parentElement.children;
+            for (var i = 0; i < siblings.length; i++) {
                 if (check) {
-                    sibling.classList.add("checked");
+                    siblings[i].classList.add("checked");
                 }
                 else {
-                    sibling.classList.remove("checked");
+                    siblings[i].classList.remove("checked");
                 }
-                sibling.classList.remove("chosen");
-                if (sibling == e.target) {
+                siblings[i].classList.remove("chosen");
+                if (siblings[i] == e.target) {
                     if (check) {
-                        sibling.classList.add("chosen");
+                        siblings[i].classList.add("chosen");
                     }
                     check = false;
                 }
@@ -1075,14 +1074,13 @@ function initRenderer() {
 
             return canvas.toDataURL();
         });
-    }
-};
+    };
+}
 
 function initExport() {
     var exportPNG = document.getElementById("export-png");
     var exportPDF = document.getElementById("export-pdf");
     var exportPrint = document.getElementById("export-print");
-    var exportJSON = document.getElementById("export-json");
     var renderPNG = document.getElementById("card-render");
     var renderPrint = document.getElementById("card-render-print");
 
