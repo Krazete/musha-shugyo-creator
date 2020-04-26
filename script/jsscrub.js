@@ -20,19 +20,23 @@ function convertToScrubber(input) {
     }
 
     function onMouseMove(e) {
+        var ex = 0;
         if (e.touches) {
             e.preventDefault();
-            e = {"x": e.touches[0].clientX, "y": e.touches[0].clientY};
+            ex = e.touches[0].clientX;
         }
-        var x1 = e.x;
+        else {
+            ex = e.clientX;
+        }
+        var x1 = ex;
         var dx = (x1 - x0);
         if (input.step) {
             dx *= nonNaN(input.step);
         }
         var i1 = i0 + dx;
         if ("jsscrub" in input.dataset && input.dataset.jsscrub.includes("continuous")) {
-            min = nonNaN(input.min);
-            max = nonNaN(input.max);
+            var min = nonNaN(input.min);
+            var max = nonNaN(input.max);
             var dm = max - min;
             i1 = ((i1 - min) % dm + dm) % dm + min;
         }
@@ -47,12 +51,16 @@ function convertToScrubber(input) {
     }
 
     function onMouseDown(e) {
+        var ex = 0;
         if (e.touches) {
             e.preventDefault();
-            e = {"x": e.touches[0].clientX, "y": e.touches[0].clientY};
+            ex = e.touches[0].clientX;
+        }
+        else {
+            ex = e.clientX;
         }
         i0 = nonNaN(input.value);
-        x0 = e.x;
+        x0 = ex;
         document.body.appendChild(style);
         window.addEventListener("mousemove", onMouseMove);
         window.addEventListener("mouseup", onMouseUp);
