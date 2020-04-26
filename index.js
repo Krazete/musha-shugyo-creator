@@ -456,7 +456,10 @@ function getMouse(e) {
             "y": e.touches[0].clientY
         };
     }
-    return e;
+    return {
+        "x": e.clientX,
+        "y": e.clientY
+    };
 }
 
 function initHandle() {
