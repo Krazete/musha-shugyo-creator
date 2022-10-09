@@ -18,7 +18,7 @@
             <input id="type-dragon" type="radio" name="type" value="dragon">
             <label for="type-dragon">Dragon</label>
             <input id="type-char" type="radio" name="type" value="char">
-            <label for="type-char">Character</label>
+            <label for="type-char">Musha Shugyo</label>
             <input id="type-armor" type="radio" name="type" value="armor">
             <label for="type-armor">Armor</label>
             <input id="type-agon" type="radio" name="type" value="agon">
