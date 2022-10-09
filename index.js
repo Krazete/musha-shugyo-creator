@@ -5,9 +5,9 @@ var m = 1; /* magnification */
 var card, art;
 var cardType;
 var cardImageSize = {
-    "bg": {"width": 756, "height": 1134},
-    "np": {"width": 720, "height": 120},
-    "ib": {"width": 436, "height": 981}
+    "bg": {"width": 756, "height": 1134}, /* background */
+    "np": {"width": 720, "height": 120}, /* nameplate */
+    "ib": {"width": 436, "height": 981} /* infobox */
 };
 var cardImage = {
     "bgDefault": undefined,
@@ -16,9 +16,9 @@ var cardImage = {
     "npDefault": undefined,
     "npDefaultDragon": undefined,
     "npUpload": undefined,
+    "ibDefault": undefined,
     "ibDefaultChar": undefined,
     "ibDefaultArmor": undefined,
-    "ibDefaultAgon": undefined,
     "ibUpload": undefined
 };
 var cardGradientData = {
@@ -34,8 +34,8 @@ var cardImageData = {
     "npDefaultDragon": undefined,
     "npUpload": undefined,
     "ibDefault": undefined,
+    "ibDefaultChar": undefined,
     "ibDefaultArmor": undefined,
-    "ibDefaultAgon": undefined,
     "ibUpload": undefined
 };
 var cardCanvasUpdater = {
@@ -235,11 +235,11 @@ function getDataID(code) {
         if ((code == "bg" || code == "np") && cardType == "dragon") {
             id += "Dragon";
         }
+        else if (code == "ib" && cardType == "char") {
+            id += "Char";
+        }
         else if (code == "ib" && cardType == "armor") {
             id += "Armor";
-        }
-        else if (code == "ib" && cardType == "agon") {
-            id += "Agon";
         }
     }
 
@@ -411,9 +411,9 @@ function initRecolorers() {
     initCardData(bg, "bgDefaultDragon", "img/bg/dragon/Background_01.jpg");
     initCardData(np, "npDefault", "img/Nome.png");
     initCardData(np, "npDefaultDragon", "img/NomeDragon.png");
-    initCardData(ib, "ibDefault", "img/Colonna.png");
+    initCardData(ib, "ibDefault", "img/Agon.png");
+    initCardData(ib, "ibDefaultChar", "img/Colonna.png");
     initCardData(ib, "ibDefaultArmor", "img/Armor.png");
-    initCardData(ib, "ibDefaultAgon", "img/Agon.png");
 
     initRecolorer(bg, "bg", bgFile, bgFileCustom, bgColor0, bgColor1, bgColorAuto, bgColorCustom);
     initRecolorer(np, "np", npFile, npFileCustom, npColor0, npColor1, npColorAuto, npColorCustom);
@@ -427,7 +427,7 @@ function initTypes() {
     var defaultType = document.getElementById("type-dragon");
     var ibTemplate = document.getElementById("ib-template");
     var ibTemplateURLs = {
-        "dragon": "template/Colonna.png",
+        "dragon": "template/Agon.png",
         "char": "template/Colonna.png",
         "armor": "template/Armor.png",
         "agon": "template/Agon.png"

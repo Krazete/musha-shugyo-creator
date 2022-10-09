@@ -162,8 +162,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 #card-info {
     position: absolute;
 }
-.char #card-info,
-.dragon #card-info {
+.char #card-info {
 	left: 92px;
 	top: 265px;
 }
@@ -171,6 +170,7 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	left: 408px;
 	top: 238px;
 }
+.dragon #card-info,
 .agon #card-info {
 	left: 80px;
 	top: 241px;
@@ -199,21 +199,19 @@ input[type='radio'], input[type='checkbox'], .hidden {
 #info-stat {
     position: absolute;
 }
-.char #info-stat,
-.dragon #info-stat {
+.char #info-stat {
 	left: 34px;
 }
 .armor #info-stat {
 	left: 45px;
 	top: 56px;
 }
+.dragon #info-stat,
 .agon #info-stat {
 	left: 35px;
 }
 .char #info-stat > div:nth-last-child(2),
 .char #info-stat > div:last-child,
-.dragon #info-stat > div:nth-last-child(2),
-.dragon #info-stat > div:last-child,
 .armor #info-stat > div:nth-last-child(2),
 .armor #info-stat > div:last-child {
 	display: none;
@@ -272,13 +270,13 @@ input[type='radio'], input[type='checkbox'], .hidden {
 	position: relative;
 	white-space: nowrap;
 }
-.char #info-moves,
-.dragon #info-moves {
+.char #info-moves {
 	margin-top: 186px;
 }
 .armor #info-moves {
 	margin-top: 311px;
 }
+.dragon #info-moves,
 .agon #info-moves {
 	margin-top: 230px;
 }
@@ -286,13 +284,13 @@ input[type='radio'], input[type='checkbox'], .hidden {
 #info-moves > div {
 	margin-bottom: 8px;
 }
-.char #info-moves > div,
-.dragon #info-moves > div {
+.char #info-moves > div {
 	height: 65px;
 }
 .armor #info-moves > div {
 	height: 68px;
 }
+.dragon #info-moves > div,
 .agon #info-moves > div {
 	height: 67px;
 }
@@ -349,13 +347,13 @@ input[type='radio'], input[type='checkbox'], .hidden {
 #info-sp {
 	position: absolute;
 }
-.char #info-sp,
-.dragon #info-sp {
+.char #info-sp {
 	left: 204px;
 }
 .armor #info-sp {
 	display: none;
 }
+.dragon #info-sp,
 .agon #info-sp {
 	left: 226px;
 }
